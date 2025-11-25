@@ -4,10 +4,10 @@ import com.trendy.cbs.enums.Gender;
 import com.trendy.cbs.enums.MaritalStatus;
 import com.trendy.cbs.enums.UserStatus;
 import jakarta.validation.constraints.*;
+import lombok.Data;
 
+@Data
 public class UserRequest {
-    @NotNull(message = "Status is required")
-    private UserStatus status;
 
     @NotBlank(message = "First name is required")
     @Size(min = 1, max = 50, message = "First name must be between 1 and 50 characters")
@@ -44,4 +44,6 @@ public class UserRequest {
     @Pattern(regexp = "^(http|https)://[^\\s$.?#].[^\\s]*$", message = "Profile image must be a valid URL")
     @Size(max = 255, message = "Profile image URL must be at most 255 characters")
     private String profileImage;
+
+    private UserStatus status;
 }
