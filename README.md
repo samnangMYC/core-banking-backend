@@ -16,7 +16,7 @@
 
 ---
 
-## 🌟 SEO Description
+## 🌟 Description
 
 **Enterprise Core Banking System** with **Spring Boot** and **API Gateway** for scalable, secure, and modular banking services. Designed for **small to large banks**, supporting **customer management, accounts, transactions, reporting**, and **event-driven microservices**. Ideal for developers, banks, and fintech solutions seeking **production-ready, open-source banking software**.  
 
