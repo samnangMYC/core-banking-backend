@@ -2,11 +2,16 @@ package com.trendy.cbs.payload.request;
 
 import com.trendy.cbs.enums.Gender;
 import com.trendy.cbs.enums.MaritalStatus;
-import com.trendy.cbs.enums.UserStatus;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserRequest {
 
     @NotBlank(message = "First name is required")
@@ -45,5 +50,5 @@ public class UserRequest {
     @Size(max = 255, message = "Profile image URL must be at most 255 characters")
     private String profileImage;
 
-    private UserStatus status;
+    //private UserStatus status;
 }

@@ -7,11 +7,14 @@ import com.trendy.cbs.payload.dto.UserWithProfile;
 import com.trendy.cbs.payload.request.UserRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
+    // UserRequest to User Entity
     User toUser(UserRequest request);
 
     // Map profile fields into UserProfile
@@ -27,6 +30,7 @@ public interface UserMapper {
     @Mapping(source = "user.updatedAt", target = "updatedAt")
     UserDTO toDto(User user, UserProfile profile);
 
+    // convert UserWithProfile to UserDTO
     @Mapping(source = "user.userId", target = "userId")
     @Mapping(source = "user.status", target = "status")
     @Mapping(source = "user.createdAt", target = "createdAt")
@@ -36,4 +40,6 @@ public interface UserMapper {
 
     // convert List of UserProfile to UserDTO
     List<UserDTO> toDtoList(List<UserWithProfile> profiles);
+
+
 }
