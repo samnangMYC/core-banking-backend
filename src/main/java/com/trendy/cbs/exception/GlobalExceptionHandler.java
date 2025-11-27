@@ -29,4 +29,11 @@ public class GlobalExceptionHandler {
                .status(HttpStatus.NOT_FOUND)
                .body(e.getMessage());
     }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException e) {
+        return ResponseEntity
+               .status(HttpStatus.NOT_FOUND)
+               .body(e.getMessage());
+    }
 }
