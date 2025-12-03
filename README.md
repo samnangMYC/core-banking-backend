@@ -18,7 +18,7 @@
 
 ## 🌟 Description
 
-**Enterprise Core Banking System** with **Spring Boot** and **API Gateway** for scalable, secure, and modular banking services. Designed for **small to large banks**, supporting **customer management, accounts, transactions, reporting**, and **event-driven microservices**. Ideal for developers, banks, and fintech solutions seeking **production-ready, open-source banking software**.  
+**Meduim Enterprise Core Banking System** with **Spring Boot** and **API Gateway** for scalable, secure, and modular banking services. Designed for **small to large banks**, supporting **customer management, accounts, transactions, reporting**, and **event-driven microservices**. Ideal for developers, banks, and fintech solutions seeking **production-ready, open-source banking software**.  
 
 **Keywords for SEO:** Core Banking System, Spring Boot Banking App, API Gateway Banking, Scalable Banking Software, Enterprise Banking Solution, Banking Microservices, Digital Banking Platform, Open Source Core Banking, Secure Banking API
 
