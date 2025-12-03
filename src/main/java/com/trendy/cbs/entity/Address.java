@@ -27,7 +27,7 @@ public class Address {
 
     private String country;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id",unique = true)
     private User user;
 

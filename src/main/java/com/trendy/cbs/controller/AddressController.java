@@ -15,7 +15,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/addresses")
+@RequestMapping("/api/v1/users/me/addresses")
 @RequiredArgsConstructor
 public class AddressController {
 
@@ -28,9 +28,11 @@ public class AddressController {
      * @return ResponseEntity containing the created AddressDTO with HTTP status OK
      */
     @PostMapping
-    public ResponseEntity<AddressDTO> createUserAddress(@Valid @RequestBody AddressRequest request) {
+    public ResponseEntity<AddressDTO> createUserAddress(@RequestHeader("X-User-Id") Long userId,
+                                                        @Valid @RequestBody AddressRequest request) {
+
          log.info("Received request to create address : {}", request);
-         return ResponseEntity.ok(addressService.createUserAddress(request));
+         return ResponseEntity.ok(addressService.createUserAddress(userId,request));
     }
 
     /**
@@ -64,7 +66,7 @@ public class AddressController {
      * @return ResponseEntity containing the updated AddressDTO with HTTP status OK
      */
     @PutMapping("{id}")
-    public ResponseEntity<AddressDTO> updateUserAddress(@PathVariable Long id,@Valid @RequestBody UpdateAddressRequest request) {
+    public ResponseEntity<AddressDTO> updateUserAddress(@PathVariable Long id,@Valid @RequestBody AddressRequest request) {
         log.info("Received request to update address : {}", request);
         return ResponseEntity.ok(addressService.updateUserAddress(id,request));
     }
@@ -80,7 +82,6 @@ public class AddressController {
         log.info("Received request to delete address : {}", id);
         return ResponseEntity.ok(addressService.deleteUserAddressById(id));
     }
-
 
 
 }

@@ -1,23 +1,20 @@
-package com.trendy.cbs.service.implementations;
+package com.trendy.cbs.service.impls;
 
 import com.trendy.cbs.entity.User;
 import com.trendy.cbs.entity.UserProfile;
 import com.trendy.cbs.enums.UserStatus;
 import com.trendy.cbs.exception.DuplicationResource;
-import com.trendy.cbs.exception.UserNotFoundException;
+import com.trendy.cbs.exception.ResourceNotFoundException;
 import com.trendy.cbs.mapper.UserMapper;
 import com.trendy.cbs.payload.dto.UserDTO;
 import com.trendy.cbs.payload.dto.UserWithProfile;
 import com.trendy.cbs.payload.request.UserRequest;
 import com.trendy.cbs.payload.request.UserStatusRequest;
 import com.trendy.cbs.repos.UserRepository;
-import com.trendy.cbs.service.UserProfileRepository;
+import com.trendy.cbs.repos.UserProfileRepository;
 import com.trendy.cbs.service.UserService;
-import jakarta.transaction.Transactional;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -105,7 +102,7 @@ public class UserServiceImpl implements UserService {
      *
      * @param id the unique identifier of the user
      * @return {@link Optional} containing {@link UserDTO} if user exists
-     * @throws UserNotFoundException if no user with the given ID exists
+     * @throws ResourceNotFoundException if no user with the given ID exists
      *
      * @implNote
      * - Validates user existence via repository.
@@ -116,7 +113,7 @@ public class UserServiceImpl implements UserService {
     public Optional<UserDTO> getUserById(Long id) {
         // validate ensure user exists
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
+                .orElseThrow(() -> new ResourceNotFoundException("User",id));
 
         // get user profile in user entity
         UserProfile profile = user.getProfile();
@@ -131,21 +128,21 @@ public class UserServiceImpl implements UserService {
      * Updates an existing user with the provided ID using the details from the user request.
      * <p>
      * This method first validates that the user exists by retrieving it from the repository. If the user
-     * is not found, a {@link UserNotFoundException} is thrown. It then fetches or creates the user's profile,
+     * is not found, a {@link ResourceNotFoundException} is thrown. It then fetches or creates the user's profile,
      * copies the properties from the request to the existing profile, saves the updated profile, and
      * returns the updated user details as a {@link UserDTO}.
      *
      * @param id The unique identifier of the user to update.
      * @param userRequest The request object containing the updated user information.
      * @return The updated {@link UserDTO} representing the modified user.
-     * @throws UserNotFoundException if no user is found with the given ID.
+     * @throws ResourceNotFoundException if no user is found with the given ID.
      */
     @Override
     public UserDTO updateUser(Long id, UserRequest userRequest) {
 
         // validate ensure user exists
         User existUser = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
+                .orElseThrow(() -> new ResourceNotFoundException("User",id));
 
         // Fetch existing profile (assuming User has a getProfile() method)
         UserProfile existingProfile = existUser.getProfile();
@@ -176,14 +173,14 @@ public class UserServiceImpl implements UserService {
      * @param id The unique identifier of the user to update.
      * @param userStatusRequest The request object containing the new status.
      * @return The updated UserDTO representing the user after the status change.
-     * @throws UserNotFoundException If no user is found with the given ID.
+     * @throws ResourceNotFoundException If no user is found with the given ID.
      * @Override
      */
     @Override
     public UserDTO updateUserStatus(Long id, UserStatusRequest userStatusRequest) {
         // validate ensure user exists
         User existUser = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
+                .orElseThrow(() -> new ResourceNotFoundException("User",id));
 
         existUser.setStatus(userStatusRequest.getStatus());
 

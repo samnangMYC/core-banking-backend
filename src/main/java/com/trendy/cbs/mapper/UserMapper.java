@@ -7,8 +7,6 @@ import com.trendy.cbs.payload.dto.UserWithProfile;
 import com.trendy.cbs.payload.request.UserRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-
 import java.util.List;
 
 @Mapper(componentModel = "spring")

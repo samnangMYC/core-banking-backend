@@ -81,7 +81,7 @@ public class UserController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<@NonNull UserDTO> updateUser(@PathVariable Long id,@Valid @RequestBody UserRequest userRequest){
-        log.info("Updating user {}", userRequest.toString());
+        log.info("Updating user: {}", userRequest.toString());
         return ResponseEntity.ok(userService.updateUser(id,userRequest));
     }
 
@@ -97,6 +97,7 @@ public class UserController {
      */
     @PatchMapping("{id}")
     public ResponseEntity<@NotNull UserDTO> updateUserStatus(@PathVariable Long id,@Valid @RequestBody UserStatusRequest userStatusRequest){
+        log.info("Updating user status {}", userStatusRequest.toString());
         return ResponseEntity.ok(userService.updateUserStatus(id,userStatusRequest));
     }
 

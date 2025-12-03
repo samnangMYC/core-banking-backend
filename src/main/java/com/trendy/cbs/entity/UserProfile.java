@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
  * @see User
  * @see Gender
  * @Entity
- * @Table(name = "user_profiles") // Assuming a table name; add if needed
+ * @Table(name = "user_profiles")
  */
 @Entity
 @Data
@@ -39,7 +39,7 @@ public class UserProfile {
     private String maritalStatus;
     private String profileImage;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id",unique = true)
     private User user;
 

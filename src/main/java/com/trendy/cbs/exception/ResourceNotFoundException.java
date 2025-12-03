@@ -1,8 +1,10 @@
 package com.trendy.cbs.exception;
 
 
-public class ResourceNotFoundException extends RuntimeException{
-    public ResourceNotFoundException(Long id) {
-        super("Resource not found with id " + id);
+public class ResourceNotFoundException extends RuntimeException {
+
+    public ResourceNotFoundException(String resourceName, Long id) {
+        super(resourceName + " not found with id " + id);
     }
 }
+
