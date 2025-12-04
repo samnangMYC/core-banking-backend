@@ -99,11 +99,10 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public AddressDTO updateUserAddress(Long id, AddressRequest request) {
         // find existed addresses
-        addressRepository.findById(id)
+        Address address = addressRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Addresses",id));
 
-        Address address = addressMapper.toEntity(request);
-        address.setAddressId(id);
+        addressMapper.updateEntityFromRequest(request,address);
 
         return addressMapper.toDTO(addressRepository.save(address));
     }

@@ -5,6 +5,7 @@ import com.trendy.cbs.payload.dto.IdentityDocDTO;
 import com.trendy.cbs.payload.request.IdentityDocRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface IdentityDocMapper {
     IdentityDocDTO toDTO(IdentityDoc identityDoc);
 
     List<IdentityDocDTO> toDTO(List<IdentityDoc> identityDocs);
+
+    void updateEntityFromRequest(IdentityDocRequest request, @MappingTarget IdentityDoc entity);
 }

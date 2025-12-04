@@ -6,12 +6,14 @@ import com.trendy.cbs.exception.ResourceNotFoundException;
 import com.trendy.cbs.mapper.IdentityDocMapper;
 import com.trendy.cbs.payload.dto.IdentityDocDTO;
 import com.trendy.cbs.payload.request.IdentityDocRequest;
+import com.trendy.cbs.payload.request.IdentityDocStatusRequest;
 import com.trendy.cbs.repos.IdentityDocRepository;
 import com.trendy.cbs.repos.UserRepository;
 import com.trendy.cbs.service.IdentityDocService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -85,12 +87,10 @@ public class IdentityDocServiceImpl implements IdentityDocService {
     @Override
     public IdentityDocDTO updateIdentityDoc(Long id, IdentityDocRequest request) {
 
-        identityDocRepository.findById(id)
+        IdentityDoc identityDoc = identityDocRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("IdentityDoc",id));
 
-        IdentityDoc identityDoc = identityDocMapper.toEntity(request);
-        identityDoc.setDocId(id);
-        identityDoc.setDocStatus(DocStatus.ON_REVIEW);
+        identityDocMapper.updateEntityFromRequest(request,identityDoc);
 
         return identityDocMapper.toDTO(identityDocRepository.save(identityDoc));
     }
@@ -111,6 +111,40 @@ public class IdentityDocServiceImpl implements IdentityDocService {
         return "IdentityDoc deleted with id " + id;
     }
 
+    /**
+     * Updates the status of an identity document in the repository.
+     *
+     * This method retrieves the identity document by its ID, throwing a ResourceNotFoundException if not found.
+     * It converts the status from the request to uppercase and parses it into a DocStatus enum value.
+     * Based on the new status, it updates the document's status and, if verified, sets the verified date to the current time.
+     * Finally, it saves the changes to the repository and maps the result to a DTO for return.
+     *
+     * @param id The unique identifier of the identity document to update.
+     * @param request The request object containing the new document status.
+     * @return The updated IdentityDocDTO after saving changes.
+     * @throws ResourceNotFoundException if no identity document is found with the given ID.
+     * @throws IllegalArgumentException if the provided status does not match any DocStatus enum value.
+     */
+    @Override
+    public IdentityDocDTO updateIdentityDocStatus(Long id, IdentityDocStatusRequest request) {
+
+        IdentityDoc identityDoc = identityDocRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("IdentityDoc",id));
+
+        DocStatus docStatus = DocStatus.valueOf(request.getDocStatus().toString().toUpperCase());
+
+        switch (docStatus) {
+            case VERIFIED -> {
+                identityDoc.setDocStatus(DocStatus.VERIFIED);
+                identityDoc.setVerifiedDate(LocalDateTime.now());
+            }
+            case REJECTED -> identityDoc.setDocStatus(DocStatus.REJECTED);
+            case ON_REVIEW -> identityDoc.setDocStatus(DocStatus.ON_REVIEW);
+            case EXPIRED -> identityDoc.setDocStatus(DocStatus.EXPIRED);
+        }
+
+        return identityDocMapper.toDTO(identityDocRepository.save(identityDoc));
+    }
 
 
 }

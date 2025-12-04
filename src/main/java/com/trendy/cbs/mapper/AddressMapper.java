@@ -4,6 +4,7 @@ import com.trendy.cbs.entity.Address;
 import com.trendy.cbs.payload.dto.AddressDTO;
 import com.trendy.cbs.payload.request.AddressRequest;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface AddressMapper {
     AddressDTO toDTO(Address address);
 
     List<AddressDTO> toDTOList(List<Address> address);
+
+    void updateEntityFromRequest(AddressRequest request,@MappingTarget Address address);
 }

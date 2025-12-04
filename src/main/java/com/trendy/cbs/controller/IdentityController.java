@@ -2,6 +2,7 @@ package com.trendy.cbs.controller;
 
 import com.trendy.cbs.payload.dto.IdentityDocDTO;
 import com.trendy.cbs.payload.request.IdentityDocRequest;
+import com.trendy.cbs.payload.request.IdentityDocStatusRequest;
 import com.trendy.cbs.service.IdentityDocService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -82,6 +82,23 @@ public class IdentityController {
         return ResponseEntity.ok(identityDocService.deleteIdentityDoc(id));
     }
 
+    /**
+     * Updates the status of an identity document by its ID using a PATCH request.
+     *
+     * This endpoint allows partial updates to the status of an existing identity document.
+     * It logs the update request and delegates the business logic to the service layer.
+     *
+     * @param id The unique identifier of the identity document to update.
+     * @param request The request body containing the new document status.
+     * @return A ResponseEntity containing the updated IdentityDocDTO with an HTTP 200 OK status.
+     */
+    @PatchMapping("{id}")
+    public ResponseEntity<IdentityDocDTO> updateIdentityDocStatus(@PathVariable Long id,
+                                                                  @Valid @RequestBody IdentityDocStatusRequest request){
+        log.info("Updating status of identity doc{}", request.toString());
+        return ResponseEntity.ok(identityDocService.updateIdentityDocStatus(id,request));
+
+    }
 
 
 }
