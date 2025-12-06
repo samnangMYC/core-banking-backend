@@ -12,7 +12,7 @@
 	<artifactId>core-banking-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>core-banking-backend</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Core Banking System</description>
 	<url/>
 	<licenses>
 		<license/>

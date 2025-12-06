@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
  * @see User
  * @see Gender
  * @Entity
- * @Table(name = "user_profiles")
+ * @Table(name = "user_profile")
  */
 @Entity
 @Data

@@ -6,10 +6,9 @@ import com.trendy.cbs.payload.request.UserRequest;
 import com.trendy.cbs.payload.request.UserStatusRequest;
 import com.trendy.cbs.service.UserService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -96,7 +95,7 @@ public class UserController {
      * @return A ResponseEntity containing the updated UserDTO with an HTTP status of 200 (OK).
      */
     @PatchMapping("{id}")
-    public ResponseEntity<@NotNull UserDTO> updateUserStatus(@PathVariable Long id,@Valid @RequestBody UserStatusRequest userStatusRequest){
+    public ResponseEntity<@NonNull UserDTO> updateUserStatus(@PathVariable Long id, @Valid @RequestBody UserStatusRequest userStatusRequest){
         log.info("Updating user status {}", userStatusRequest.toString());
         return ResponseEntity.ok(userService.updateUserStatus(id,userStatusRequest));
     }

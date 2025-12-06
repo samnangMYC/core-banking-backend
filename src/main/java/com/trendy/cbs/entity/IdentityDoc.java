@@ -4,14 +4,17 @@ import com.trendy.cbs.enums.DocStatus;
 import com.trendy.cbs.enums.IdentityType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
-@Entity(name = "identity_doc")
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "identity_doc")
+@Builder
 public class IdentityDoc {
 
     @Id

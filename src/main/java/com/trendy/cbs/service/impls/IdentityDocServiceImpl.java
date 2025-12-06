@@ -140,7 +140,6 @@ public class IdentityDocServiceImpl implements IdentityDocService {
             }
             case REJECTED -> identityDoc.setDocStatus(DocStatus.REJECTED);
             case ON_REVIEW -> identityDoc.setDocStatus(DocStatus.ON_REVIEW);
-            case EXPIRED -> identityDoc.setDocStatus(DocStatus.EXPIRED);
         }
 
         return identityDocMapper.toDTO(identityDocRepository.save(identityDoc));

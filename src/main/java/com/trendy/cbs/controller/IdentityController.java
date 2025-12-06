@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class IdentityController {
      * @return a ResponseEntity containing the created IdentityDocDTO with HTTP status OK
      */
     @PostMapping
-    public ResponseEntity<IdentityDocDTO> createIdentityDoc(@RequestHeader("X-User-Id") Long userId,
+    public ResponseEntity<@NonNull IdentityDocDTO> createIdentityDoc(@RequestHeader("X-User-Id") Long userId,
                                                             @Valid @RequestBody IdentityDocRequest request){
         log.info("Creating identity doc{}", request.toString());
         return ResponseEntity.ok(identityDocService.createIdentityDoc(userId,request));
@@ -39,7 +40,7 @@ public class IdentityController {
      * @return a ResponseEntity containing a list of all IdentityDocDTOs with HTTP status OK
      */
     @GetMapping
-    public ResponseEntity<List<IdentityDocDTO>> getAllIdentityDoc(){
+    public ResponseEntity<@NonNull List<IdentityDocDTO>> getAllIdentityDoc(){
         log.info("Fetching all identity doc..");
         return ResponseEntity.ok(identityDocService.getAllIdentityDoc());
     }
@@ -51,7 +52,7 @@ public class IdentityController {
      * @return ResponseEntity containing the IdentityDocDTO if found
      */
     @GetMapping("/{id}")
-    public ResponseEntity<IdentityDocDTO> getIdentityDocById(@PathVariable Long id){
+    public ResponseEntity<@NonNull IdentityDocDTO> getIdentityDocById(@PathVariable Long id){
         log.info("Fetching identity doc by id{}", id.toString());
         return ResponseEntity.ok(identityDocService.getIdentityDocById(id));
     }
@@ -64,7 +65,7 @@ public class IdentityController {
      * @return ResponseEntity containing the updated IdentityDocDTO
      */
     @PutMapping("/{id}")
-    public ResponseEntity<IdentityDocDTO> updateIdentityDoc(@PathVariable Long id,
+    public ResponseEntity<@NonNull IdentityDocDTO> updateIdentityDoc(@PathVariable Long id,
                                                             @Valid @RequestBody IdentityDocRequest request){
         log.info("Updating identity doc{}", request.toString());
         return ResponseEntity.ok(identityDocService.updateIdentityDoc(id,request));
@@ -77,7 +78,7 @@ public class IdentityController {
      * @return ResponseEntity containing a confirmation message upon successful deletion
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteIdentityDoc(@PathVariable Long id){
+    public ResponseEntity<@NonNull String> deleteIdentityDoc(@PathVariable Long id){
         log.info("Deleting identity doc{}", id.toString());
         return ResponseEntity.ok(identityDocService.deleteIdentityDoc(id));
     }
@@ -93,7 +94,7 @@ public class IdentityController {
      * @return A ResponseEntity containing the updated IdentityDocDTO with an HTTP 200 OK status.
      */
     @PatchMapping("{id}")
-    public ResponseEntity<IdentityDocDTO> updateIdentityDocStatus(@PathVariable Long id,
+    public ResponseEntity<@NonNull IdentityDocDTO> updateIdentityDocStatus(@PathVariable Long id,
                                                                   @Valid @RequestBody IdentityDocStatusRequest request){
         log.info("Updating status of identity doc{}", request.toString());
         return ResponseEntity.ok(identityDocService.updateIdentityDocStatus(id,request));

@@ -11,6 +11,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -41,5 +43,13 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval = true)
     private IdentityDoc identityDoc;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    private List<Account> accounts = new ArrayList<>();
 
 }

@@ -16,7 +16,7 @@ public interface AddressService {
 
      AddressDTO updateUserAddress(Long id,@Valid AddressRequest request);
 
-    @Nullable String deleteUserAddressById(Long id);
+     String deleteUserAddressById(Long id);
 
-    @Nullable AddressDTO getUserAddressById(Long id);
+     AddressDTO getUserAddressById(Long id);
 }

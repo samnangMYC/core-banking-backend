@@ -9,9 +9,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class UserRequest {
 
     @NotBlank(message = "First name is required")
