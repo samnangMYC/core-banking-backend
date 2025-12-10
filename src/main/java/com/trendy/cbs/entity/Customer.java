@@ -1,7 +1,7 @@
 package com.trendy.cbs.entity;
 
 
-import com.trendy.cbs.enums.UserStatus;
+import com.trendy.cbs.enums.CustomerStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,16 +18,16 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "users")
+@Table(name = "customers")
 @Builder
-public class User {
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long cusId;
 
     @Enumerated(EnumType.STRING)
-    private UserStatus status;
+    private CustomerStatus status;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -35,17 +35,17 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private UserProfile profile;
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private CustomerProfile profile;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private Address address;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL,orphanRemoval = true)
     private IdentityDoc identityDoc;
 
     @OneToMany(
-            mappedBy = "user",
+            mappedBy = "customer",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.LAZY

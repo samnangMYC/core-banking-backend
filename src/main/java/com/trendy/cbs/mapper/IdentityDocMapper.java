@@ -12,7 +12,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface IdentityDocMapper {
 
-    @Mapping(target = "user", ignore = true)
     IdentityDoc toEntity(IdentityDocRequest request);
 
     IdentityDocDTO toDTO(IdentityDoc identityDoc);

@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class UserProfileDTO {
+public class CustomerProfileDTO {
     private String firstName;
     private String lastName;
     private Gender gender;

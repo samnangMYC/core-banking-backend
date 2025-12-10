@@ -9,14 +9,14 @@ import java.util.List;
 
 public interface AddressService {
 
-    AddressDTO createUserAddress(Long userId,@Valid AddressRequest request);
+    AddressDTO createAddress(Long userId,@Valid AddressRequest request);
 
 
-     List<AddressDTO> getAllUserAddress();
+     List<AddressDTO> getAllAddress();
 
-     AddressDTO updateUserAddress(Long id,@Valid AddressRequest request);
+     AddressDTO updateAddress(Long id,@Valid AddressRequest request);
 
-     String deleteUserAddressById(Long id);
+     String deleteAddressById(Long id);
 
-     AddressDTO getUserAddressById(Long id);
+     AddressDTO getAddressById(Long id);
 }

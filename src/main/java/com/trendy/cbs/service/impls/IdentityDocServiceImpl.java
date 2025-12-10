@@ -8,7 +8,7 @@ import com.trendy.cbs.payload.dto.IdentityDocDTO;
 import com.trendy.cbs.payload.request.IdentityDocRequest;
 import com.trendy.cbs.payload.request.IdentityDocStatusRequest;
 import com.trendy.cbs.repos.IdentityDocRepository;
-import com.trendy.cbs.repos.UserRepository;
+import com.trendy.cbs.repos.CustomerRepository;
 import com.trendy.cbs.service.IdentityDocService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import java.util.List;
 public class IdentityDocServiceImpl implements IdentityDocService {
 
     private final IdentityDocRepository identityDocRepository;
-    private final UserRepository userRepository;
+    private final CustomerRepository customerRepository;
     private final IdentityDocMapper identityDocMapper;
 
 
@@ -36,16 +36,16 @@ public class IdentityDocServiceImpl implements IdentityDocService {
      * @throws ResourceNotFoundException() if the user with the specified ID is not found
      */
     @Override
-    public IdentityDocDTO createIdentityDoc(Long userId,IdentityDocRequest request) {
+    public IdentityDocDTO createIdentityDoc(Long customerId,IdentityDocRequest request) {
 
-        userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User",userId));
+        customerRepository.findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("User",customerId));
 
 
         IdentityDoc identityDoc= identityDocMapper.toEntity(request);
 
         identityDoc.setVerifiedDate(null);
-        identityDoc.setDocStatus(DocStatus.ON_REVIEW);
+        identityDoc.setDocStatus(DocStatus.PENDING);
 
         identityDocRepository.save(identityDoc);
 
@@ -139,7 +139,7 @@ public class IdentityDocServiceImpl implements IdentityDocService {
                 identityDoc.setVerifiedDate(LocalDateTime.now());
             }
             case REJECTED -> identityDoc.setDocStatus(DocStatus.REJECTED);
-            case ON_REVIEW -> identityDoc.setDocStatus(DocStatus.ON_REVIEW);
+            case PENDING -> identityDoc.setDocStatus(DocStatus.PENDING);
         }
 
         return identityDocMapper.toDTO(identityDocRepository.save(identityDoc));

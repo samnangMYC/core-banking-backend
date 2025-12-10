@@ -1,18 +1,21 @@
 package com.trendy.cbs.payload.request;
 
-import com.trendy.cbs.enums.UserStatus;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserStatusRequest {
+public class CurrencyRequest {
 
-    @NotNull(message = "User status is required")
-    private UserStatus status;
+    private String code;
+
+    private String name;
+
+    private BigDecimal rate;
 }

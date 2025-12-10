@@ -32,7 +32,7 @@ public class AccountType {
 
     private BigDecimal atmLimitedTranDaily;
 
-    private BigDecimal fee;
+    private BigDecimal feeYearly;
 
     @CreationTimestamp
     private LocalDateTime createdDate;

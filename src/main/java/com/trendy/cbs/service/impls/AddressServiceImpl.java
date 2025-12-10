@@ -1,18 +1,16 @@
 package com.trendy.cbs.service.impls;
 
 import com.trendy.cbs.entity.Address;
-import com.trendy.cbs.entity.User;
+import com.trendy.cbs.entity.Customer;
 import com.trendy.cbs.exception.ResourceNotFoundException;
 import com.trendy.cbs.mapper.AddressMapper;
 import com.trendy.cbs.payload.dto.AddressDTO;
 import com.trendy.cbs.payload.request.AddressRequest;
-import com.trendy.cbs.payload.request.UpdateAddressRequest;
-import com.trendy.cbs.repos.UserRepository;
+import com.trendy.cbs.repos.CustomerRepository;
 import com.trendy.cbs.repos.AddressRepository;
 import com.trendy.cbs.service.AddressService;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,30 +20,30 @@ import java.util.List;
 public class AddressServiceImpl implements AddressService {
 
     private final AddressRepository addressRepository;
-    private final UserRepository userRepository;
+    private final CustomerRepository customerRepository;
     private final AddressMapper addressMapper;
 
     /**
-     * Creates a new user address based on the provided request.
+     * Creates a new customer address based on the provided request.
      *
-     * This method verifies the existence of the user, checks if the user already has an address,
-     * maps the request to an Address entity, associates it with the user, saves it to the repository,
+     * This method verifies the existence of the customer, checks if the customer already has an address,
+     * maps the request to an Address entity, associates it with the customer, saves it to the repository,
      * and returns the corresponding DTO.
      *
-     * @param request the AddressRequest containing the user ID and address details
+     * @param request the AddressRequest containing the customer ID and address details
      * @return the created AddressDTO
-     * @throws ResourceNotFoundException() if no user is found with the provided ID
-     * @throws IllegalArgumentException if the user already has an existing address
+     * @throws ResourceNotFoundException() if no customer is found with the provided ID
+     * @throws IllegalArgumentException if the customer already has an existing address
      */
     @Override
-    public AddressDTO createUserAddress(Long userId,AddressRequest request) {
+    public AddressDTO createAddress(Long customerId,AddressRequest request) {
 
-        // verify user exist
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User", userId) );
+        // verify customer exist
+         Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("", customerId) );
 
-        // check if user already has an address
-        if(user.getAddress() != null){
+        // check if customer already has an address
+        if(customer.getAddress() != null){
             throw new IllegalArgumentException("Address already exists");
         }
 
@@ -58,17 +56,17 @@ public class AddressServiceImpl implements AddressService {
 
 
     /**
-     * Retrieves all user addresses from the repository and maps them to DTOs.
+     * Retrieves all customer addresses from the repository and maps them to DTOs.
      *
-     * @return a list of AddressDTO objects representing all user addresses
+     * @return a list of AddressDTO objects representing all customer addresses
      */
     @Override
-    public List<AddressDTO> getAllUserAddress() {
+    public List<AddressDTO> getAllAddress() {
         return addressMapper.toDTOList(addressRepository.findAll());
     }
 
     /**
-     * Retrieves a user address by its ID.
+     * Retrieves a customer address by its ID.
      *
      * This method fetches the address from the repository using the provided ID.
      * If the address is not found, it throws a ResourceNotFoundException.
@@ -78,17 +76,17 @@ public class AddressServiceImpl implements AddressService {
      * @throws ResourceNotFoundException if no address is found with the provided ID
      */
     @Override
-    public @Nullable AddressDTO getUserAddressById(Long id) {
+    public @Nullable AddressDTO getAddressById(Long id) {
         return addressRepository.findById(id)
                 .map(addressMapper::toDTO)
                 .orElseThrow(() -> new ResourceNotFoundException("Addresses", id));
     }
 
     /**
-     * Updates an existing user address based on the provided ID and request.
+     * Updates an existing customer address based on the provided ID and request.
      *
      * This method fetches the existing address from the repository, copies the updatable properties
-     * from the request to the address entity (excluding addressId and user), saves the changes,
+     * from the request to the address entity (excluding addressId and customer), saves the changes,
      * and returns the updated AddressDTO.
      *
      * @param id the ID of the address to update
@@ -97,7 +95,7 @@ public class AddressServiceImpl implements AddressService {
      * @throws ResourceNotFoundException if no address is found with the provided ID
      */
     @Override
-    public AddressDTO updateUserAddress(Long id, AddressRequest request) {
+    public AddressDTO updateAddress(Long id, AddressRequest request) {
         // find existed addresses
         Address address = addressRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Addresses",id));
@@ -108,7 +106,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     /**
-     * Deletes a user address by its ID.
+     * Deletes a customer address by its ID.
      *
      * This method fetches the address from the repository using the provided ID,
      * deletes it if found, and returns a success message.
@@ -118,7 +116,7 @@ public class AddressServiceImpl implements AddressService {
      * @throws ResourceNotFoundException if no address is found with the provided ID
      */
     @Override
-    public String deleteUserAddressById(Long id) {
+    public String deleteAddressById(Long id) {
         // find existed addresses
         Address address = addressRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Addresses",id));

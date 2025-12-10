@@ -1,5 +1,5 @@
 package com.trendy.cbs.payload.dto;
-import com.trendy.cbs.enums.UserStatus;
+import com.trendy.cbs.enums.CustomerStatus;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,15 +12,15 @@ import java.time.LocalDateTime;
  * <p>This class uses Lombok annotations to generate getters, setters, toString,
  * equals, hashCode, and a builder pattern for immutable object creation.</p>
  *
- * @see UserProfileDTO
- * @see UserStatus
+ * @see CustomerProfileDTO
+ * @see CustomerStatus
  */
 @Data
 @Builder
-public class UserDTO {
-    private Long userId;
-    private UserProfileDTO profile;
-    private UserStatus status;
+public class CustomerDTO {
+    private Long cusId;
+    private CustomerProfileDTO profile;
+    private CustomerStatus status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserRequest {
+public class CustomerRequest {
 
     @NotBlank(message = "First name is required")
     @Size(min = 1, max = 50, message = "First name must be between 1 and 50 characters")
@@ -50,5 +50,5 @@ public class UserRequest {
     @Size(max = 255, message = "Profile image URL must be at most 255 characters")
     private String profileImage;
 
-    //private UserStatus status;
+    //private CustomerStatus status;
 }

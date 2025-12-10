@@ -8,7 +8,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 public interface IdentityDocService {
-    IdentityDocDTO createIdentityDoc(Long userId,@Valid IdentityDocRequest request);
+    IdentityDocDTO createIdentityDoc(Long customerId,@Valid IdentityDocRequest request);
 
     List<IdentityDocDTO> getAllIdentityDoc();
 

@@ -30,7 +30,7 @@ public class Address {
     private String country;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id",unique = true)
-    private User user;
+    @JoinColumn(name = "cus_id",unique = true)
+    private Customer customer;
 
 }
