@@ -27,7 +27,7 @@ public class CustomerProfile {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String phoneNumber;
 
     private String occupation;

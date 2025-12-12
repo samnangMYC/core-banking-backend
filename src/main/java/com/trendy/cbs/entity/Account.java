@@ -15,14 +15,14 @@ import java.time.LocalDateTime;
  * Represents a bank account entity in the system.
  * <p>
  * This entity maps to the {@code accounts} table in the database and contains
- * information about account details, balance, status, account type, associated user, and currency.
+ * information about account details, balance, status, account type, associated customer, and currency.
  * </p>
  *
  * <p>
  * Relationships:
  * <ul>
  *     <li>{@link AccountType} - One-to-One relationship representing the type of the account.</li>
- *     <li>{@link User} - Many-to-One relationship representing the account owner.</li>
+ *     <li>{@link Customer} - Many-to-One relationship representing the account owner.</li>
  *     <li>{@link Currency} - One-to-One relationship representing the currency of the account.</li>
  * </ul>
  * </p>
@@ -55,19 +55,20 @@ public class Account {
     private Long accNumber;
 
     /**
-     * Name of the account holder or account title.
-     */
-    private String name;
-
-    /**
      * Current balance of the account.
      */
-    private BigDecimal balance;
+    @Column(precision = 28, scale = 2)
+    private BigDecimal balance = BigDecimal.ZERO;
+
+
+    @Column(precision = 28, scale = 2)
+    private BigDecimal availableBalance = BigDecimal.ZERO;
 
     /**
      * Amount in lien that cannot be used until released.
      */
-    private BigDecimal lienAmount;
+    @Column(precision = 28, scale = 2)
+    private BigDecimal lienAmount = BigDecimal.ZERO;
 
     /**
      * Current status of the account.
@@ -75,20 +76,6 @@ public class Account {
      */
     @Enumerated(EnumType.STRING)
     private AccountStatus status;
-
-    /**
-     * Timestamp when the account was created.
-     * Managed automatically by Hibernate.
-     */
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    /**
-     * Timestamp when the account was last updated.
-     * Managed automatically by Hibernate.
-     */
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
 
     /**
      * Type of the account.
@@ -114,6 +101,14 @@ public class Account {
     @JoinColumn(name = "currency_id")
     private Currency currency;
 
+    @CreationTimestamp
+    private LocalDateTime openedAt;
+
+
+    private LocalDateTime closedAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
 
 }

@@ -1,7 +1,6 @@
 package com.trendy.cbs.entity;
 
-
-import com.trendy.cbs.enums.CustomerStatus;
+import com.trendy.cbs.enums.CustomerDocStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,7 +26,9 @@ public class Customer {
     private Long cusId;
 
     @Enumerated(EnumType.STRING)
-    private CustomerStatus status;
+    private CustomerDocStatus docStatus;
+
+    private Boolean verified;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

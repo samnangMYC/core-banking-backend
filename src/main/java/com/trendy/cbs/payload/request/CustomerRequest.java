@@ -50,5 +50,5 @@ public class CustomerRequest {
     @Size(max = 255, message = "Profile image URL must be at most 255 characters")
     private String profileImage;
 
-    //private CustomerStatus status;
+    //private CustomerDocStatus status;
 }

@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class AccountTypeController {
      * @return A ResponseEntity containing the created AccountTypeDTO with HTTP status 200 (OK).
      */
     @PostMapping
-    public ResponseEntity<@NonNull AccountTypeDTO> createAccountType(@Valid @RequestBody AccountTypeRequest request){
+    public ResponseEntity<AccountTypeDTO> createAccountType(@Valid @RequestBody AccountTypeRequest request){
         log.info("Received request to create account type : {}", request);
         return ResponseEntity.ok(accountTypeService.createAccountType(request));
 
@@ -41,13 +40,13 @@ public class AccountTypeController {
      * Retrieves all account types.
      *
      * This endpoint handles GET requests to fetch a list of all account types. It logs the request and
-     * delegates the retrieval to the account type service, returning the list of AccountTypeDTOs
+     * delegates the retrieval to the account type service, returning the list of AccountTypeDTO
      * wrapped in a ResponseEntity with HTTP status 200 (OK).
      *
-     * @return A ResponseEntity containing a non-null list of AccountTypeDTOs with HTTP status 200 (OK).
+     * @return A ResponseEntity containing a non-null list of AccountTypeDTO with HTTP status 200 (OK).
      */
     @GetMapping
-    public ResponseEntity<@NonNull List<AccountTypeDTO>> getAllAccountTypes(){
+    public ResponseEntity<List<AccountTypeDTO>> getAllAccountTypes(){
         log.info("Received request to get all account-types");
         return ResponseEntity.ok(accountTypeService.getAllAccountTypes());
     }
@@ -63,7 +62,7 @@ public class AccountTypeController {
      * @return A ResponseEntity containing the non-null AccountTypeDTO with HTTP status 200 (OK).
      */
     @GetMapping("{id}")
-    public ResponseEntity<@NonNull AccountTypeDTO> getAccountTypeById(@PathVariable Long id){
+    public ResponseEntity<AccountTypeDTO> getAccountTypeById(@PathVariable Long id){
         log.info("Received request to get account type by id : {}", id);
         return ResponseEntity.ok(accountTypeService.getAccountTypeById(id));
     }
@@ -80,7 +79,7 @@ public class AccountTypeController {
      * @return A ResponseEntity containing the non-null updated AccountTypeDTO with HTTP status 200 (OK).
      */
     @PutMapping("{id}")
-    public ResponseEntity<@NonNull AccountTypeDTO> updateAccountType(@PathVariable Long id, @RequestBody AccountTypeRequest request){
+    public ResponseEntity<AccountTypeDTO> updateAccountType(@PathVariable Long id, @RequestBody AccountTypeRequest request){
         log.info("Received request to update account type : {}", request);
         return ResponseEntity.ok(accountTypeService.updateAccountType(id,request));
     }
@@ -96,7 +95,7 @@ public class AccountTypeController {
      * @return A ResponseEntity containing a non-null success message with HTTP status 200 (OK).
      */
     @DeleteMapping("{id}")
-    public ResponseEntity<@NonNull String> deleteAccountType(@PathVariable Long id){
+    public ResponseEntity<String> deleteAccountType(@PathVariable Long id){
         log.info("Received request to delete account type by id : {}", id);
         return ResponseEntity.ok(accountTypeService.deleteAccountTypeById(id));
     }

@@ -23,39 +23,39 @@ public class IdentityController {
 
 
     @PostMapping
-    public ResponseEntity<@NonNull IdentityDocDTO> createIdentityDoc(@RequestHeader("X-Customer-Id") Long customerId,
+    public ResponseEntity<IdentityDocDTO> createIdentityDoc(@RequestHeader("X-Customer-Id") Long customerId,
                                                             @Valid @RequestBody IdentityDocRequest request){
         log.info("Creating identity doc{}", request.toString());
         return ResponseEntity.ok(identityDocService.createIdentityDoc(customerId,request));
     }
 
     @GetMapping
-    public ResponseEntity<@NonNull List<IdentityDocDTO>> getAllIdentityDoc(){
+    public ResponseEntity<List<IdentityDocDTO>> getAllIdentityDoc(){
         log.info("Fetching all identity doc..");
         return ResponseEntity.ok(identityDocService.getAllIdentityDoc());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<@NonNull IdentityDocDTO> getIdentityDocById(@PathVariable Long id){
+    public ResponseEntity<IdentityDocDTO> getIdentityDocById(@PathVariable Long id){
         log.info("Fetching identity doc by id{}", id.toString());
         return ResponseEntity.ok(identityDocService.getIdentityDocById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<@NonNull IdentityDocDTO> updateIdentityDoc(@PathVariable Long id,
+    public ResponseEntity<IdentityDocDTO> updateIdentityDoc(@PathVariable Long id,
                                                             @Valid @RequestBody IdentityDocRequest request){
         log.info("Updating identity doc{}", request.toString());
         return ResponseEntity.ok(identityDocService.updateIdentityDoc(id,request));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<@NonNull String> deleteIdentityDoc(@PathVariable Long id){
+    public ResponseEntity<String> deleteIdentityDoc(@PathVariable Long id){
         log.info("Deleting identity doc{}", id.toString());
         return ResponseEntity.ok(identityDocService.deleteIdentityDoc(id));
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<@NonNull IdentityDocDTO> updateIdentityDocStatus(@PathVariable Long id,
+    public ResponseEntity<IdentityDocDTO> updateIdentityDocStatus(@PathVariable Long id,
                                                                   @Valid @RequestBody IdentityDocStatusRequest request){
         log.info("Updating status of identity doc{}", request.toString());
         return ResponseEntity.ok(identityDocService.updateIdentityDocStatus(id,request));

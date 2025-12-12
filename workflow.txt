@@ -1,0 +1,23 @@
++ All user modeling
+    we need to store customer and staff separately
++ User Registration Workflow
+    - requirement
+        customer: customer kyc information and have role customer
+        staff: need to verify before create kyc account and have role follow requirement
+    - description
+        both actor can proceed this step via endpoint
+
+
++ Account Registration Workflow
+    - requirement
+        * actor
+            customer : active and verified customer allow to pass this step
+            staff: active and verified customer and special role also allow to create kyc account
+        * flow
+            account type: choosing saving account or ...
+            currency: and choosing usd or khr
+            default: system also choose to create account by default (Ex: Saving Account and currency USD,KHR)
+
+    - description
+        customer and staff that are meet requirement can create kyc account via api endpoint
+

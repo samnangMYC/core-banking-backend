@@ -23,14 +23,17 @@ public interface CustomerMapper {
     // customer and customer profile to CustomerDTO
     @Mapping(source = "customer.cusId", target = "cusId")
     @Mapping(source = "profile", target = "profile")
-    @Mapping(source = "customer.status", target = "status")
+    @Mapping(source = "customer.verified", target = "verified")
+    @Mapping(source = "customer.docStatus", target = "docStatus")
     @Mapping(source = "customer.createdAt", target = "createdAt")
     @Mapping(source = "customer.updatedAt", target = "updatedAt")
     CustomerDTO toDto(Customer customer, CustomerProfile profile);
 
     // convert CustomerWithProfile to CustomerDTO
+    // usage at toDTOList for mapping
     @Mapping(source = "customer.cusId", target = "cusId")
-    @Mapping(source = "customer.status", target = "status")
+    @Mapping(source = "customer.docStatus", target = "docStatus")
+    @Mapping(source = "customer.verified", target = "verified")
     @Mapping(source = "customer.createdAt", target = "createdAt")
     @Mapping(source = "customer.updatedAt", target = "updatedAt")
     @Mapping(source = "profile", target = "profile")

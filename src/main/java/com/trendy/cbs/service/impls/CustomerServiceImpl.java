@@ -2,7 +2,7 @@ package com.trendy.cbs.service.impls;
 
 import com.trendy.cbs.entity.Customer;
 import com.trendy.cbs.entity.CustomerProfile;
-import com.trendy.cbs.enums.CustomerStatus;
+import com.trendy.cbs.enums.CustomerDocStatus;
 import com.trendy.cbs.exception.DuplicationResource;
 import com.trendy.cbs.exception.ResourceNotFoundException;
 import com.trendy.cbs.mapper.CustomerMapper;
@@ -40,7 +40,8 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerMapper.toCustomer(customerRequest);
 
         // assign active to status
-        customer.setStatus(CustomerStatus.PENDING_VERIFICATION);
+        customer.setDocStatus(CustomerDocStatus.PENDING_VERIFICATION);
+        customer.setVerified(false);
 
         // initialize CustomerProfile by filter from req using mapstruct "toProfile"
         CustomerProfile profile = customerMapper.toProfile(customerRequest);
@@ -123,9 +124,9 @@ public class CustomerServiceImpl implements CustomerService {
         Customer existCustomer = customerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer",id));
 
-        existCustomer.setStatus(customerStatusRequest.getStatus());
+        existCustomer.setDocStatus(customerStatusRequest.getDocStatus());
 
-        System.out.println("Customer status: " + customerStatusRequest.getStatus().toString());
+        System.out.println("Customer status: " + customerStatusRequest.getDocStatus().toString());
 
         // save to db
         customerRepository.save(existCustomer);

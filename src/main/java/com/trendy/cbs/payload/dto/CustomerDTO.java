@@ -1,5 +1,5 @@
 package com.trendy.cbs.payload.dto;
-import com.trendy.cbs.enums.CustomerStatus;
+import com.trendy.cbs.enums.CustomerDocStatus;
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,14 +13,15 @@ import java.time.LocalDateTime;
  * equals, hashCode, and a builder pattern for immutable object creation.</p>
  *
  * @see CustomerProfileDTO
- * @see CustomerStatus
+ * @see CustomerDocStatus
  */
 @Data
 @Builder
 public class CustomerDTO {
     private Long cusId;
+    private Boolean verified;
     private CustomerProfileDTO profile;
-    private CustomerStatus status;
+    private CustomerDocStatus docStatus;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

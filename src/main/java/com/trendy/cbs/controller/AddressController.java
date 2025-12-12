@@ -22,34 +22,33 @@ public class AddressController {
 
 
     @PostMapping
-    public ResponseEntity<@NonNull AddressDTO> createAddress(@RequestHeader("X-User-Id") Long userId,
-                                                                 @Valid @RequestBody AddressRequest request) {
-
+    public ResponseEntity<AddressDTO> createAddress(@RequestHeader("X-Customer-Id") Long userId,
+                                                    @Valid @RequestBody AddressRequest request) {
          log.info("Received request to create address : {}", request);
          return ResponseEntity.ok(addressService.createAddress(userId,request));
     }
 
     @GetMapping
-    public ResponseEntity<@NonNull List<AddressDTO>> getAllAddress() {
+    public ResponseEntity<List<AddressDTO>> getAllAddress() {
         log.info("Received request to get all address...");
         return ResponseEntity.ok(addressService.getAllAddress());
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<@NonNull AddressDTO> getAddressById(@PathVariable Long id) {
+    public ResponseEntity<AddressDTO> getAddressById(@PathVariable Long id) {
         log.info("Received request to get address by id : {}", id);
         return ResponseEntity.ok(addressService.getAddressById(id));
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<@NonNull AddressDTO> updateAddress(@PathVariable Long id,@Valid @RequestBody AddressRequest request) {
+    public ResponseEntity<AddressDTO> updateAddress(@PathVariable Long id,@Valid @RequestBody AddressRequest request) {
         log.info("Received request to update address : {}", request);
         return ResponseEntity.ok(addressService.updateAddress(id,request));
     }
 
 
     @DeleteMapping("{id}")
-    public ResponseEntity<@NonNull String> deleteUserAddress(@PathVariable Long id) {
+    public ResponseEntity<String> deleteUserAddress(@PathVariable Long id) {
         log.info("Received request to delete address : {}", id);
         return ResponseEntity.ok(addressService.deleteAddressById(id));
     }

@@ -1,6 +1,6 @@
 package com.trendy.cbs.payload.request;
 
-import com.trendy.cbs.enums.CustomerStatus;
+import com.trendy.cbs.enums.CustomerDocStatus;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,5 +14,5 @@ import lombok.NoArgsConstructor;
 public class CustomerStatusRequest {
 
     @NotNull(message = "User status is required")
-    private CustomerStatus status;
+    private CustomerDocStatus docStatus;
 }
