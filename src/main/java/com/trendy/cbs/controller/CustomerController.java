@@ -1,8 +1,10 @@
 package com.trendy.cbs.controller;
 
+import com.trendy.cbs.enums.CustomerVerification;
 import com.trendy.cbs.payload.dto.CustomerDTO;
 import com.trendy.cbs.payload.request.CustomerRequest;
 import com.trendy.cbs.payload.request.CustomerStatusRequest;
+import com.trendy.cbs.payload.request.CustomerVerificationReq;
 import com.trendy.cbs.service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +22,6 @@ import java.util.Optional;
 public class CustomerController {
 
     private final CustomerService customerService;
-
 
     @PostMapping
     public ResponseEntity<CustomerDTO> createNewCustomer(@Valid @RequestBody CustomerRequest customerRequest){
@@ -46,12 +47,16 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.updateCustomer(id, customerRequest));
     }
 
-    @PatchMapping("{id}")
-    public ResponseEntity<CustomerDTO> updateCustomerDocStatus(@PathVariable Long id, @Valid @RequestBody CustomerStatusRequest customerStatusRequest){
-        log.info("Updating customer status {}", customerStatusRequest.toString());
-        return ResponseEntity.ok(customerService.updateCustomerStatus(id, customerStatusRequest));
+    @PatchMapping("/{id}")
+    public ResponseEntity<CustomerDTO> updateCustomerStatus(@PathVariable Long id, @Valid @RequestBody CustomerStatusRequest request){
+        log.info("Updating customer status {}", request.toString());
+        return ResponseEntity.ok(customerService.updateCustomerStatus(id, request));
     }
 
-
+    @PatchMapping("/{id}/verify")
+    public ResponseEntity<CustomerDTO> verifyCustomer(@PathVariable Long id, @Valid @RequestBody CustomerVerificationReq req){
+        log.info("Updating customer verification {}", req.toString());
+        return ResponseEntity.ok(customerService.verifyCustomer(id, req));
+    }
 
 }

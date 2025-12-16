@@ -41,4 +41,10 @@ public class BranchController {
         log.info("Updating a branch: {}", request.toString());
         return ResponseEntity.ok(branchService.updateBranch(id,request));
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteBranch(@PathVariable String id) {
+        log.info("Deleting a branch: {}", id);
+        return ResponseEntity.ok(branchService.deleteBranchById(id));
+    }
 }

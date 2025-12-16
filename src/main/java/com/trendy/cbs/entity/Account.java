@@ -51,8 +51,8 @@ public class Account {
     /**
      * Account number assigned to this account.
      */
-    @Column(unique = true)
-    private Long accNumber;
+    @Column(unique = true, nullable = false, length = 50)
+    private String accNumber;
 
     /**
      * Current balance of the account.
@@ -60,9 +60,6 @@ public class Account {
     @Column(precision = 28, scale = 2)
     private BigDecimal balance = BigDecimal.ZERO;
 
-
-    @Column(precision = 28, scale = 2)
-    private BigDecimal availableBalance = BigDecimal.ZERO;
 
     /**
      * Amount in lien that cannot be used until released.
@@ -77,12 +74,22 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private AccountStatus status;
 
+
+    @CreationTimestamp
+    private LocalDateTime openedAt;
+
+
+    private LocalDateTime closedAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
     /**
      * Type of the account.
      * <p>One-to-One relationship with {@link AccountType}.</p>
      */
-    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @JoinColumn(name = "account_type_id", unique = true)
+    @ManyToOne
+    @JoinColumn(name = "account_type_id")
     private AccountType accountType;
 
     /**
@@ -97,18 +104,13 @@ public class Account {
      * Currency of the account.
      * <p>One-to-One relationship with {@link Currency}.</p>
      */
-    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinColumn(name = "currency_id")
     private Currency currency;
 
-    @CreationTimestamp
-    private LocalDateTime openedAt;
 
-
-    private LocalDateTime closedAt;
-
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
-
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinColumn(name = "branch_id")
+    private Branch branch;
 
 }

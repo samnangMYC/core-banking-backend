@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -25,7 +26,7 @@ public class IdentityDocRequest {
 
     @NotNull(message = "Expiry date is required")
     @Future(message = "Expiry date must be in the future")
-    private LocalDateTime expDate;
+    private LocalDate expDate;
 
     @NotBlank(message = "Document image is required")
     @Size(max = 5_000_000, message = "Document image is too large") // Max ~5MB

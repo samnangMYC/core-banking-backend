@@ -9,6 +9,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -40,7 +42,7 @@ public class AccountType {
     @UpdateTimestamp
     private LocalDateTime updatedDate;
 
-    @OneToOne(mappedBy = "accountType")
-    private Account account;
+    @OneToMany(mappedBy = "accountType", cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    private List<Account> account = new ArrayList<>();
 
 }

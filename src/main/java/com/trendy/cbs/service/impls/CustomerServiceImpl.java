@@ -2,7 +2,8 @@ package com.trendy.cbs.service.impls;
 
 import com.trendy.cbs.entity.Customer;
 import com.trendy.cbs.entity.CustomerProfile;
-import com.trendy.cbs.enums.CustomerDocStatus;
+import com.trendy.cbs.enums.CustomerStatus;
+import com.trendy.cbs.enums.CustomerVerification;
 import com.trendy.cbs.exception.DuplicationResource;
 import com.trendy.cbs.exception.ResourceNotFoundException;
 import com.trendy.cbs.mapper.CustomerMapper;
@@ -10,6 +11,7 @@ import com.trendy.cbs.payload.dto.CustomerDTO;
 import com.trendy.cbs.payload.dto.CustomerWithProfile;
 import com.trendy.cbs.payload.request.CustomerRequest;
 import com.trendy.cbs.payload.request.CustomerStatusRequest;
+import com.trendy.cbs.payload.request.CustomerVerificationReq;
 import com.trendy.cbs.repos.CustomerProfileRepository;
 import com.trendy.cbs.repos.CustomerRepository;
 import com.trendy.cbs.service.CustomerService;
@@ -40,10 +42,10 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerMapper.toCustomer(customerRequest);
 
         // assign active to status
-        customer.setDocStatus(CustomerDocStatus.PENDING_VERIFICATION);
-        customer.setVerified(false);
+        customer.setStatus(CustomerStatus.ACTIVE);
+        customer.setVerification(CustomerVerification.UNVERIFIED);
 
-        // initialize CustomerProfile by filter from req using mapstruct "toProfile"
+        // initialize CustomerProfile by filter from req using MapStruct "toProfile"
         CustomerProfile profile = customerMapper.toProfile(customerRequest);
         customer.setProfile(profile);
         profile.setCustomer(customer);
@@ -71,7 +73,7 @@ public class CustomerServiceImpl implements CustomerService {
                 })
                 .toList();
 
-        // map to CustomerDTO List by mapstruct "toDtoList"
+        // map to CustomerDTO List by MapStruct "toDtoList"
         return customerMapper.toDtoList(customerWithProfile);
     }
 
@@ -119,16 +121,25 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDTO updateCustomerStatus(Long id, CustomerStatusRequest customerStatusRequest) {
-        // validate ensure customer exists
+    public CustomerDTO verifyCustomer(Long id, CustomerVerificationReq customerVerificationReq) {
+
         Customer existCustomer = customerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer",id));
 
-        existCustomer.setDocStatus(customerStatusRequest.getDocStatus());
+        existCustomer.setVerification(customerVerificationReq.getVerification());
 
-        System.out.println("Customer status: " + customerStatusRequest.getDocStatus().toString());
+        customerRepository.save(existCustomer);
 
-        // save to db
+        return customerMapper.toDto(existCustomer, existCustomer.getProfile());
+    }
+
+    @Override
+    public CustomerDTO updateCustomerStatus(Long id, CustomerStatusRequest customerStatusRequest) {
+        Customer existCustomer = customerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer",id));
+
+        existCustomer.setStatus(customerStatusRequest.getStatus());
+
         customerRepository.save(existCustomer);
 
         return customerMapper.toDto(existCustomer, existCustomer.getProfile());

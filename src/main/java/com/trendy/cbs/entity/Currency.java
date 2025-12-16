@@ -10,6 +10,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -35,7 +37,7 @@ public class Currency {
     @UpdateTimestamp
     private LocalDateTime updatedDate;
 
-    @OneToOne(mappedBy = "currency")
-    private Account account;
+    @OneToMany(mappedBy = "currency")
+    private List<Account> account = new ArrayList<>();
 
 }

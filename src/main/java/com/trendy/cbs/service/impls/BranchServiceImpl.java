@@ -64,6 +64,14 @@ public class BranchServiceImpl implements BranchService {
         return branchMapper.toDTO(branchRepository.save(branch));
     }
 
+    @Override
+    public String deleteBranchById(String id) {
+        Long branchId = Long.parseLong(id);
+        branchRepository.findById(branchId)
+                .orElseThrow(() -> new ResourceNotFoundException("Branch",branchId));
+        return "Deleted branch with id " + branchId;
+    }
+
     private String generateBranchCode(String branchName) {
         // Clean branch name for code (uppercase, no spaces/special chars)
         String prefix = branchName.toUpperCase().replaceAll("[^A-Z0-9]", "");

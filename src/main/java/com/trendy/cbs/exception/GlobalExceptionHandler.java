@@ -69,4 +69,18 @@ public class GlobalExceptionHandler {
                .status(HttpStatus.NOT_FOUND)
                .body(e.getMessage());
     }
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<?> handleBusinessException(BusinessException ex) {
+
+        Map<String, Object> body = Map.of(
+                "timestamp", System.currentTimeMillis(),
+                "status", ex.getStatusCode(),
+                "error", ex.getErrorCode(),
+                "message", ex.getMessage()
+        );
+
+        return new ResponseEntity<>(body, HttpStatus.valueOf(ex.getStatusCode()));
+    }
+
 }

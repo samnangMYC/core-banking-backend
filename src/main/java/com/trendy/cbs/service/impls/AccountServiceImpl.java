@@ -1,8 +1,180 @@
 package com.trendy.cbs.service.impls;
 
+import com.trendy.cbs.entity.*;
+import com.trendy.cbs.enums.AccountStatus;
+import com.trendy.cbs.enums.CustomerStatus;
+import com.trendy.cbs.enums.CustomerVerification;
+import com.trendy.cbs.enums.DocStatus;
+import com.trendy.cbs.exception.BusinessException;
+import com.trendy.cbs.exception.DuplicationResource;
+import com.trendy.cbs.exception.ResourceNotFoundException;
+import com.trendy.cbs.mapper.AccountMapper;
+import com.trendy.cbs.mapper.AccountTypeMapper;
+import com.trendy.cbs.mapper.CurrencyMapper;
+import com.trendy.cbs.mapper.CustomerMapper;
+import com.trendy.cbs.payload.dto.AccountDTO;
+import com.trendy.cbs.payload.request.AccountRequest;
+import com.trendy.cbs.payload.request.AccountStatusReq;
+import com.trendy.cbs.repos.*;
 import com.trendy.cbs.service.AccountService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
+@RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
+
+    private final AccountRepository accountRepository;
+    private final AccountMapper accountMapper;
+    private final CustomerRepository customerRepository;
+    private final AccountTypeRepository accountTypeRepository;
+    private final CurrencyRepository currencyRepository;
+    private final BranchRepository branchRepository;
+
+    @Override
+    public AccountDTO createNewAccount(Long customerId,AccountRequest request) {
+
+        // Fetch customer
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer", customerId));
+
+        Branch branch = branchRepository.findById(request.getBranchId())
+                .orElseThrow(() -> new ResourceNotFoundException("Branch", request.getBranchId()));
+
+
+        // customer verification (purpose: make sure customer verify their kyc information and identity document)
+        //      in our case customer need to be verified @Customer (verified == true)
+        //      and they identity document need to be verified too @IdentityDoc (DocStatus == VERIFIED)
+
+        IdentityDoc identityDoc = customer.getIdentityDoc();
+
+        if( CustomerVerification.UNVERIFIED.equals(customer.getVerification())) {
+            throw new BusinessException(
+                    "Customer is not verified",
+                    "CUSTOMER_NOT_VERIFIED",
+                    HttpStatus.NOT_FOUND.value()
+            );
+        }
+
+        if(CustomerStatus.INACTIVE.equals(customer.getStatus())) {
+            throw new BusinessException(
+                    "Customer is not active",
+                    "CUSTOMER_NOT_ACTIVE",
+                    HttpStatus.CONFLICT.value()
+            );
+        }
+
+        if (identityDoc != null &&
+                (DocStatus.REJECTED.equals(identityDoc.getDocStatus()) ||
+                        DocStatus.PENDING.equals(identityDoc.getDocStatus()))) {
+
+            throw new BusinessException(
+                    "Identity document is active",
+                    "DOC_ACTIVE",
+                    HttpStatus.BAD_REQUEST.value()
+            );
+        }
+
+
+        // ---------- Process 1: Automatic account creation ----------
+        Boolean customerHasAccounts = accountRepository.existsByCustomer(customer);
+       // System.out.println("customerHasAccounts = " + customerHasAccounts);
+
+        Account account;
+        if (!customerHasAccounts) {
+
+            // No accounts yet → create default account (Saving, USD)
+            AccountType defaultType = accountTypeRepository.findByCode("SAV001")
+                    .orElseThrow(() -> new ResourceNotFoundException("AccountType", "SAV001"));
+
+            Currency usdCurrency = currencyRepository.findByCode("USD")
+                    .orElseThrow(() -> new ResourceNotFoundException("Currency", "USD"));
+
+            account = new Account();
+            account.setCustomer(customer);
+            account.setAccountType(defaultType);
+            account.setCurrency(usdCurrency);
+            account.setBranch(branch);
+            account.setStatus(AccountStatus.ACTIVE);
+            account.setAccNumber(customer.getProfile().getPhoneNumber());
+            account.setClosedAt(null);
+
+            accountRepository.save(account);
+        } else {
+            // ---------- Process 2: Manual account creation ----------
+            // Fetch requested account type, currency, and branch
+            AccountType requestedType = accountTypeRepository.findById(request.getAccountTypeId())
+                    .orElseThrow(() -> new ResourceNotFoundException("AccountType", request.getAccountTypeId()));
+
+            Currency requestedCurrency = currencyRepository.findById(request.getCurrencyId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Currency", request.getCurrencyId()));
+
+            account = new Account();
+            account.setCustomer(customer);
+            account.setAccountType(requestedType);
+            account.setCurrency(requestedCurrency);
+            account.setBranch(branch);
+            account.setStatus(AccountStatus.ACTIVE);
+            account.setAccNumber(generateUniqueAccountNumber());
+            account.setClosedAt(null);
+
+            accountRepository.save(account);
+        }
+
+        return accountMapper.toDTO(accountRepository.save(account));
+
+    }
+
+    @Override
+    public List<AccountDTO> getAllAccounts() {
+        return accountMapper.toDTO(accountRepository.findAll());
+    }
+
+    @Override
+    public AccountDTO getAccountById(Long id) {
+        return accountRepository.findById(id)
+                .map(accountMapper::toDTO)
+                .orElseThrow(() -> new ResourceNotFoundException("Accounts",id));
+    }
+
+    // ACTIVE, DORMANT, CLOSED, FROZEN
+    @Override
+    public AccountDTO updateAccountStatus(Long id, AccountStatusReq request) {
+        Account account = accountRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Account",id));
+        switch (request.getStatus()) {
+            case ACTIVE:
+                account.setStatus(AccountStatus.ACTIVE);
+                account.setClosedAt(null);
+                break;
+
+            case DORMANT:
+                account.setStatus(AccountStatus.DORMANT);
+                account.setClosedAt(null);
+                break;
+
+            case CLOSED:
+                account.setStatus(AccountStatus.CLOSED);
+                account.setClosedAt(LocalDateTime.now());
+                break;
+
+            default:
+                throw new IllegalArgumentException("Unsupported status: " + request.getStatus());
+        }
+
+        return accountMapper.toDTO(accountRepository.save(account));
+    }
+
+    // Generate unique account number for manual accounts
+    private String generateUniqueAccountNumber() {
+            return UUID.randomUUID().toString();
+    }
+
 }

@@ -33,5 +33,5 @@ public class AccountTypeDTO {
 
     private BigDecimal atmLimitedTranDaily;
 
-    private BigDecimal fee;
+    private BigDecimal feeYearly;
 }

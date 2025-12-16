@@ -14,4 +14,6 @@ public interface BranchService {
     BranchDTO getBranchById(Long id);
 
     BranchDTO updateBranch(Long id, @Valid BranchRequest request);
+
+    String deleteBranchById(String id);
 }

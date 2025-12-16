@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 /**
  * Represents an identity document associated with a user.
@@ -38,7 +40,7 @@ public class IdentityDoc {
      * The expiration date of the document.
      */
     @Column(nullable = false)
-    private LocalDateTime expDate;
+    private LocalDate expDate;
 
     /**
      * The date when the document was verified.

@@ -6,6 +6,8 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Builder;
 import lombok.Data;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -19,7 +21,7 @@ public class IdentityDocDTO {
 
     private String number;
 
-    private LocalDateTime expDate;
+    private LocalDate expDate;
 
     private LocalDateTime verifiedDate;
 

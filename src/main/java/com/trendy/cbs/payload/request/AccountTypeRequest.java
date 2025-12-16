@@ -40,5 +40,5 @@ public class AccountTypeRequest {
 
     @NotNull(message = "Fee is required")
     @DecimalMin(value = "0.0", inclusive = true, message = "Fee cannot be negative")
-    private BigDecimal fee;
+    private BigDecimal feeYearly;
 }

@@ -21,4 +21,7 @@
     - description
         customer and staff that are meet requirement can create kyc account via api endpoint
 
-    k
+            // Process 1: automatic create account by system if account doesn't exist
+            // 1. check if customer have account exist before
+            //      yes: Process 2  no: create new account by using phone number (Saving,USD)
+            // Process 2: manual create account

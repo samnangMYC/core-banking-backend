@@ -3,6 +3,7 @@ package com.trendy.cbs.service;
 import com.trendy.cbs.payload.dto.CustomerDTO;
 import com.trendy.cbs.payload.request.CustomerRequest;
 import com.trendy.cbs.payload.request.CustomerStatusRequest;
+import com.trendy.cbs.payload.request.CustomerVerificationReq;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -16,6 +17,8 @@ public interface CustomerService {
     Optional<CustomerDTO> getCustomerById(Long id);
 
     CustomerDTO updateCustomer(Long id, @Valid CustomerRequest customerRequest);
+
+    CustomerDTO verifyCustomer(Long id, @Valid CustomerVerificationReq customerStatusRequest);
 
     CustomerDTO updateCustomerStatus(Long id, @Valid CustomerStatusRequest customerStatusRequest);
 }
