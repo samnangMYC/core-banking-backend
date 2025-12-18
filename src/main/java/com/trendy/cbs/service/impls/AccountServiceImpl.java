@@ -1,13 +1,11 @@
 package com.trendy.cbs.service.impls;
 
 import com.trendy.cbs.entity.*;
-import com.trendy.cbs.enums.AccountStatus;
-import com.trendy.cbs.enums.CustomerStatus;
-import com.trendy.cbs.enums.CustomerVerification;
-import com.trendy.cbs.enums.DocStatus;
+import com.trendy.cbs.enums.*;
 import com.trendy.cbs.exception.BusinessException;
 import com.trendy.cbs.exception.DuplicationResource;
 import com.trendy.cbs.exception.ResourceNotFoundException;
+import com.trendy.cbs.helper.AccountNumberGenerator;
 import com.trendy.cbs.mapper.AccountMapper;
 import com.trendy.cbs.mapper.AccountTypeMapper;
 import com.trendy.cbs.mapper.CurrencyMapper;
@@ -15,17 +13,21 @@ import com.trendy.cbs.mapper.CustomerMapper;
 import com.trendy.cbs.payload.dto.AccountDTO;
 import com.trendy.cbs.payload.request.AccountRequest;
 import com.trendy.cbs.payload.request.AccountStatusReq;
+import com.trendy.cbs.payload.request.DepositReq;
 import com.trendy.cbs.repos.*;
 import com.trendy.cbs.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.trendy.cbs.helper.AccountNumberGenerator.generateUniqueAccountNumber;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +40,8 @@ public class AccountServiceImpl implements AccountService {
     private final CurrencyRepository currencyRepository;
     private final BranchRepository branchRepository;
 
+    private static final int MAX_ACCOUNTS_PER_CUSTOMER = 15;
+
     @Override
     public AccountDTO createNewAccount(Long customerId,AccountRequest request) {
 
@@ -48,6 +52,15 @@ public class AccountServiceImpl implements AccountService {
         Branch branch = branchRepository.findById(request.getBranchId())
                 .orElseThrow(() -> new ResourceNotFoundException("Branch", request.getBranchId()));
 
+        // Check account limits
+        Integer existAccounts = accountRepository.countByCustomerCusId(customerId);
+        if (existAccounts >= MAX_ACCOUNTS_PER_CUSTOMER) {
+            throw new BusinessException(
+                    "Customer has reached maximum allowed accounts",
+                    ErrorCode.ACCOUNT_LIMIT_REACHED,
+                    HttpStatus.BAD_REQUEST.value()
+            );
+        }
 
         // customer verification (purpose: make sure customer verify their kyc information and identity document)
         //      in our case customer need to be verified @Customer (verified == true)
@@ -58,7 +71,7 @@ public class AccountServiceImpl implements AccountService {
         if( CustomerVerification.UNVERIFIED.equals(customer.getVerification())) {
             throw new BusinessException(
                     "Customer is not verified",
-                    "CUSTOMER_NOT_VERIFIED",
+                    ErrorCode.CUSTOMER_NOT_VERIFIED,
                     HttpStatus.NOT_FOUND.value()
             );
         }
@@ -66,7 +79,7 @@ public class AccountServiceImpl implements AccountService {
         if(CustomerStatus.INACTIVE.equals(customer.getStatus())) {
             throw new BusinessException(
                     "Customer is not active",
-                    "CUSTOMER_NOT_ACTIVE",
+                    ErrorCode.CUSTOMER_NOT_ACTIVE,
                     HttpStatus.CONFLICT.value()
             );
         }
@@ -76,12 +89,11 @@ public class AccountServiceImpl implements AccountService {
                         DocStatus.PENDING.equals(identityDoc.getDocStatus()))) {
 
             throw new BusinessException(
-                    "Identity document is active",
-                    "DOC_ACTIVE",
+                    "Identity document is not verify or get rejected",
+                    ErrorCode.IDENTITY_NOT_COMPLETED,
                     HttpStatus.BAD_REQUEST.value()
             );
         }
-
 
         // ---------- Process 1: Automatic account creation ----------
         Boolean customerHasAccounts = accountRepository.existsByCustomer(customer);
@@ -122,7 +134,7 @@ public class AccountServiceImpl implements AccountService {
             account.setCurrency(requestedCurrency);
             account.setBranch(branch);
             account.setStatus(AccountStatus.ACTIVE);
-            account.setAccNumber(generateUniqueAccountNumber());
+            account.setAccNumber(generateUniqueAccountNumber(accountRepository));
             account.setClosedAt(null);
 
             accountRepository.save(account);
@@ -144,6 +156,54 @@ public class AccountServiceImpl implements AccountService {
                 .orElseThrow(() -> new ResourceNotFoundException("Accounts",id));
     }
 
+    @Override
+    public AccountDTO getAccountByAccountNumber(String accNumber) {
+        return accountRepository.findByAccNumber(accNumber)
+                .map(accountMapper::toDTO)
+                .orElseThrow(() -> new ResourceNotFoundException("Account",accNumber));
+    }
+
+    @Override
+    public BigDecimal getAccountBalance(Long id) {
+        return accountRepository.findById(id)
+                .map(Account::getBalance)
+                .orElseThrow(() -> new ResourceNotFoundException("Account",id));
+    }
+
+    @Override
+    public AccountDTO updateBalance(Long id, DepositReq req) {
+        Account account = accountRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Account",id));
+
+        if (!AccountStatus.ACTIVE.equals(account.getStatus())) {
+            throw new BusinessException(
+                    "Cannot update balance: Account is not active",
+                    ErrorCode.CUSTOMER_NOT_ACTIVE,
+                    HttpStatus.BAD_REQUEST.value()
+            );
+        }
+        if (account.getBalance().compareTo(req.getAmount()) < 0) {
+            throw new BusinessException(
+                    "Deposit amount must be positive",
+                    ErrorCode.INVALID_AMOUNT,
+                    HttpStatus.BAD_REQUEST.value()
+            );
+        }
+        account.setBalance(req.getAmount());
+        return accountMapper.toDTO(accountRepository.save(account));
+    }
+
+    @Override
+    public String deleteAccountById(String id) {
+        Account account = accountRepository.findById(Long.valueOf(id))
+                .orElseThrow(() -> new ResourceNotFoundException("Account",id));
+
+        accountRepository.delete(account);
+
+        return "Delete account by id " + id;
+    }
+
+
     // ACTIVE, DORMANT, CLOSED, FROZEN
     @Override
     public AccountDTO updateAccountStatus(Long id, AccountStatusReq request) {
@@ -152,12 +212,10 @@ public class AccountServiceImpl implements AccountService {
         switch (request.getStatus()) {
             case ACTIVE:
                 account.setStatus(AccountStatus.ACTIVE);
-                account.setClosedAt(null);
                 break;
 
             case DORMANT:
                 account.setStatus(AccountStatus.DORMANT);
-                account.setClosedAt(null);
                 break;
 
             case CLOSED:
@@ -172,9 +230,5 @@ public class AccountServiceImpl implements AccountService {
         return accountMapper.toDTO(accountRepository.save(account));
     }
 
-    // Generate unique account number for manual accounts
-    private String generateUniqueAccountNumber() {
-            return UUID.randomUUID().toString();
-    }
 
 }

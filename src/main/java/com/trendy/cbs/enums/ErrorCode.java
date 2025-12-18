@@ -1,0 +1,8 @@
+package com.trendy.cbs.enums;
+
+public enum ErrorCode {
+    CUSTOMER_NOT_VERIFIED,
+    CUSTOMER_NOT_ACTIVE,
+    IDENTITY_NOT_COMPLETED,
+    ACCOUNT_LIMIT_REACHED, INVALID_AMOUNT
+}

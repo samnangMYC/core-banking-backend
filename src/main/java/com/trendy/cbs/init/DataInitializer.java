@@ -71,7 +71,7 @@ public class DataInitializer {
            branchRequest.setLine2("Suite 400");
            branchRequest.setCity("Metropolis");
            branchRequest.setState("New York");
-           branchRequest.setCity("USA");
+           branchRequest.setCountry("USA");
            branchRequest.setPostalCode("12345");
            branchRequest.setPhoneNumber("1-212-555-1234");
            branchRequest.setEmail("central.branch@example.com");
