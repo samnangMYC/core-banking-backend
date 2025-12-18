@@ -35,7 +35,7 @@ public class CustomerProfile {
     private String maritalStatus;
     private String profileImage;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cus_id",unique = true)
+    @OneToOne
+    @JoinColumn(name = "cus_id",nullable = false)
     private Customer customer;
 }

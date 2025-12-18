@@ -2,6 +2,7 @@ package com.trendy.cbs.mapper;
 
 import com.trendy.cbs.entity.AccountType;
 import com.trendy.cbs.payload.dto.AccountTypeDTO;
+import com.trendy.cbs.payload.dto.AccountTypeSummaryDTO;
 import com.trendy.cbs.payload.request.AccountTypeRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
@@ -17,5 +18,8 @@ public interface AccountTypeMapper {
 
     List<AccountTypeDTO> toListDTO(List<AccountType> accountTypes);
 
-    void updateEntityFromRequest(AccountTypeRequest request,@MappingTarget AccountType accountType);
+    void updateEntityFromRequest(AccountTypeRequest request, @MappingTarget AccountType accountType);
+
+    AccountTypeSummaryDTO toSummaryDTO(AccountType accountType);
+
 }

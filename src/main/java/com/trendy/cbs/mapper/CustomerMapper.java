@@ -3,10 +3,13 @@ package com.trendy.cbs.mapper;
 import com.trendy.cbs.entity.Customer;
 import com.trendy.cbs.entity.CustomerProfile;
 import com.trendy.cbs.payload.dto.CustomerDTO;
+import com.trendy.cbs.payload.dto.CustomerSummaryDTO;
 import com.trendy.cbs.payload.dto.CustomerWithProfile;
 import com.trendy.cbs.payload.request.CustomerRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
+
 import java.util.List;
 
 @Mapper(componentModel = "spring")
@@ -42,5 +45,32 @@ public interface CustomerMapper {
     // convert List of CustomerProfile to CustomerDTO
     List<CustomerDTO> toDtoList(List<CustomerWithProfile> profiles);
 
+    @Mapping(target = "fullName", expression = "java(buildFullName(customer))")
+    @Mapping(target = "phoneNumber", expression = "java(mapPhoneNumber(customer))")
+    @Mapping(target = "status", source = "status")
+    @Mapping(target = "verification", source = "verification")
+    CustomerSummaryDTO toSummaryDTO(Customer customer);
+
+    default String buildFullName(Customer customer) {
+        if (customer == null || customer.getProfile() == null) {
+            return null;
+        }
+
+        String firstName = customer.getProfile().getFirstName();
+        String lastName  = customer.getProfile().getLastName();
+
+        if (firstName == null && lastName == null) {
+            return null;
+        }
+
+        return String.join(" ",
+                firstName != null ? firstName : "",
+                lastName != null ? lastName : ""
+        ).trim();
+    }
+
+    default String mapPhoneNumber(Customer customer) {
+        return customer.getProfile() != null ? String.valueOf(customer.getProfile().getPhoneNumber()) : null;
+    }
 
 }

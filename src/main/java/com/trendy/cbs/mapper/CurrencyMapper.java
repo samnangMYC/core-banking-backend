@@ -2,6 +2,7 @@ package com.trendy.cbs.mapper;
 
 import com.trendy.cbs.entity.Currency;
 import com.trendy.cbs.payload.dto.CurrencyDTO;
+import com.trendy.cbs.payload.dto.CurrencySummaryDTO;
 import com.trendy.cbs.payload.request.CurrencyRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
@@ -18,4 +19,6 @@ public interface CurrencyMapper {
     List<CurrencyDTO> toDtoList(List<Currency> currencies);
 
     void updateEntityFromRequest(CurrencyRequest request, @MappingTarget Currency currency);
+
+    CurrencySummaryDTO toSummaryDto(Currency currency);
 }
