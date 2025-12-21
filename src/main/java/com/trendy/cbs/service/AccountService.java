@@ -4,6 +4,7 @@ import com.trendy.cbs.payload.dto.AccountDTO;
 import com.trendy.cbs.payload.request.AccountRequest;
 import com.trendy.cbs.payload.request.AccountStatusReq;
 import com.trendy.cbs.payload.request.DepositReq;
+import jakarta.validation.Valid;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -21,7 +22,9 @@ public interface AccountService {
 
     BigDecimal getAccountBalance(Long id);
 
-    AccountDTO updateBalance(Long id, DepositReq req);
+    AccountDTO deposit(Long id, DepositReq req);
 
     String deleteAccountById(String id);
+
+    AccountDTO withdraw(Long id, @Valid DepositReq req);
 }

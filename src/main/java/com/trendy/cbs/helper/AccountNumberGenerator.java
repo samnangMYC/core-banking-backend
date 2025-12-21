@@ -26,7 +26,7 @@ public class AccountNumberGenerator {
      */
     public static String generateUniqueAccountNumber(int length, AccountRepository accountRepository) {
         String accountNumber;
-        int maxAttempts = 10; // avoid infinite loops
+        int maxAttempts = 10;
         int attempt = 0;
 
         do {

@@ -69,7 +69,15 @@ public class AccountController {
     public ResponseEntity<AccountDTO> deposit(@PathVariable String id,@Valid @RequestBody DepositReq request){
         log.info("Received request to balance deposit {}", id);
         log.info("Received request to balance deposit {}", request.toString());
-        return ResponseEntity.ok(accountService.updateBalance(Long.valueOf(id),request));
+        return ResponseEntity.ok(accountService.deposit(Long.valueOf(id),request));
+    }
+
+    // UPDATE: withdraw Account Balance By accId
+    @PatchMapping("/{id}/withdraw")
+    public ResponseEntity<AccountDTO> withdraw(@PathVariable String id,@Valid @RequestBody DepositReq request){
+        log.info("Received request to balance withdraw {}", id);
+        log.info("Received request to balance withdraw {}", request.toString());
+        return ResponseEntity.ok(accountService.withdraw(Long.valueOf(id),request));
     }
 
     // DELETE: delete account by accId for admin only

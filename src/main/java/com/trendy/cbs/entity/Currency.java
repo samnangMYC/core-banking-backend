@@ -37,7 +37,14 @@ public class Currency {
     @UpdateTimestamp
     private LocalDateTime updatedDate;
 
-    @OneToMany(mappedBy = "currency")
+    @OneToMany(mappedBy = "currency",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Account> account = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "currency",
+            fetch = FetchType.LAZY,
+            cascade = { CascadeType.PERSIST, CascadeType.MERGE }
+    )
+    private List<FundTransfer> fundTransfers = new ArrayList<>();
 
 }

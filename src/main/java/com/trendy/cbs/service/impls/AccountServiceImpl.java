@@ -6,6 +6,7 @@ import com.trendy.cbs.exception.BusinessException;
 import com.trendy.cbs.exception.DuplicationResource;
 import com.trendy.cbs.exception.ResourceNotFoundException;
 import com.trendy.cbs.helper.AccountNumberGenerator;
+import com.trendy.cbs.helper.TransactionReferenceGenerator;
 import com.trendy.cbs.mapper.AccountMapper;
 import com.trendy.cbs.mapper.AccountTypeMapper;
 import com.trendy.cbs.mapper.CurrencyMapper;
@@ -16,6 +17,7 @@ import com.trendy.cbs.payload.request.AccountStatusReq;
 import com.trendy.cbs.payload.request.DepositReq;
 import com.trendy.cbs.repos.*;
 import com.trendy.cbs.service.AccountService;
+import com.trendy.cbs.service.validation.CustomerValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -39,8 +41,12 @@ public class AccountServiceImpl implements AccountService {
     private final AccountTypeRepository accountTypeRepository;
     private final CurrencyRepository currencyRepository;
     private final BranchRepository branchRepository;
+    private final CustomerValidationService customerValidationService;
+    private final LedgerEntryRepository ledgerEntryRepository;
 
     private static final int MAX_ACCOUNTS_PER_CUSTOMER = 15;
+    private final TransactionReferenceGenerator transactionReferenceGenerator;
+
 
     @Override
     public AccountDTO createNewAccount(Long customerId,AccountRequest request) {
@@ -63,37 +69,10 @@ public class AccountServiceImpl implements AccountService {
         }
 
         // customer verification (purpose: make sure customer verify their kyc information and identity document)
-        //      in our case customer need to be verified @Customer (verified == true)
-        //      and they identity document need to be verified too @IdentityDoc (DocStatus == VERIFIED)
 
         IdentityDoc identityDoc = customer.getIdentityDoc();
 
-        if( CustomerVerification.UNVERIFIED.equals(customer.getVerification())) {
-            throw new BusinessException(
-                    "Customer is not verified",
-                    ErrorCode.CUSTOMER_NOT_VERIFIED,
-                    HttpStatus.NOT_FOUND.value()
-            );
-        }
-
-        if(CustomerStatus.INACTIVE.equals(customer.getStatus())) {
-            throw new BusinessException(
-                    "Customer is not active",
-                    ErrorCode.CUSTOMER_NOT_ACTIVE,
-                    HttpStatus.CONFLICT.value()
-            );
-        }
-
-        if (identityDoc != null &&
-                (DocStatus.REJECTED.equals(identityDoc.getDocStatus()) ||
-                        DocStatus.PENDING.equals(identityDoc.getDocStatus()))) {
-
-            throw new BusinessException(
-                    "Identity document is not verify or get rejected",
-                    ErrorCode.IDENTITY_NOT_COMPLETED,
-                    HttpStatus.BAD_REQUEST.value()
-            );
-        }
+        customerValidationService.validateCustomer(customer, identityDoc);
 
         // ---------- Process 1: Automatic account creation ----------
         Boolean customerHasAccounts = accountRepository.existsByCustomer(customer);
@@ -171,7 +150,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountDTO updateBalance(Long id, DepositReq req) {
+    public AccountDTO deposit(Long id, DepositReq req) {
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Account",id));
 
@@ -182,15 +161,80 @@ public class AccountServiceImpl implements AccountService {
                     HttpStatus.BAD_REQUEST.value()
             );
         }
-        if (account.getBalance().compareTo(req.getAmount()) < 0) {
+        BigDecimal depositBalance = calculateDepositBalance(account,req);
+
+        // Create Ledger Entry (Using Provided Entity - Credit for Deposit)
+        LedgerEntry ledgerEntry = LedgerEntry.builder()
+                .account(account)
+                .transactionReference(transactionReferenceGenerator.generate())
+                .creditAmount(depositBalance)
+                .runningBalance(account.getBalance())
+                .type(LedgerEntryType.CREDIT)
+                .description("")
+                .postedAt(LocalDateTime.now())
+                .glCode(Glcode.CASH)
+                .build();
+
+        ledgerEntryRepository.save(ledgerEntry);
+
+        account.setBalance(depositBalance);
+        Account savedAccount = accountRepository.save(account);
+        return accountMapper.toDTO(savedAccount);
+    }
+
+    private BigDecimal calculateDepositBalance(Account account, DepositReq req) {
+        BigDecimal amount = req.getAmount();
+
+        return account.getBalance().add(amount);
+    }
+
+    @Override
+    public AccountDTO withdraw(Long id, DepositReq req) {
+        Account account = accountRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Account",id));
+
+        if (!AccountStatus.ACTIVE.equals(account.getStatus())) {
             throw new BusinessException(
-                    "Deposit amount must be positive",
+                    "Cannot update balance: Account is not active",
+                    ErrorCode.CUSTOMER_NOT_ACTIVE,
+                    HttpStatus.BAD_REQUEST.value()
+            );
+        }
+        BigDecimal depositBalance = calculateWithdrawBalance(account,req);
+
+        // Create Ledger Entry (Using Provided Entity - Credit for Deposit)
+        LedgerEntry ledgerEntry = LedgerEntry.builder()
+                .account(account)
+                .transactionReference(transactionReferenceGenerator.generate())
+                .creditAmount(depositBalance)
+                .runningBalance(account.getBalance())
+                .type(LedgerEntryType.CREDIT)
+                .description("")
+                .postedAt(LocalDateTime.now())
+                .glCode(Glcode.CASH)
+                .build();
+
+        ledgerEntryRepository.save(ledgerEntry);
+
+        account.setBalance(depositBalance);
+        Account savedAccount = accountRepository.save(account);
+        return accountMapper.toDTO(savedAccount);
+    }
+
+    private BigDecimal calculateWithdrawBalance(Account account, DepositReq req) {
+        BigDecimal balance = account.getBalance();
+        BigDecimal amount = req.getAmount();
+
+        if (balance.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new BusinessException(
+                    "Not enough balance to withdraw",
                     ErrorCode.INVALID_AMOUNT,
                     HttpStatus.BAD_REQUEST.value()
             );
         }
-        account.setBalance(req.getAmount());
-        return accountMapper.toDTO(accountRepository.save(account));
+
+
+        return account.getBalance().subtract(amount);
     }
 
     @Override
@@ -202,7 +246,6 @@ public class AccountServiceImpl implements AccountService {
 
         return "Delete account by id " + id;
     }
-
 
     // ACTIVE, DORMANT, CLOSED, FROZEN
     @Override

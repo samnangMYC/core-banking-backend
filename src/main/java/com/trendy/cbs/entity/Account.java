@@ -11,6 +11,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
+
 /**
  * Represents a bank account entity in the system.
  * <p>
@@ -57,14 +59,14 @@ public class Account {
     /**
      * Current balance of the account.
      */
-    @Column(precision = 28, scale = 2)
+    @Column(precision = 19, scale = 4)
     private BigDecimal balance = BigDecimal.ZERO;
 
 
     /**
      * Amount in lien that cannot be used until released.
      */
-    @Column(precision = 28, scale = 2)
+    @Column(precision = 19, scale = 4)
     private BigDecimal lienAmount = BigDecimal.ZERO;
 
     /**
@@ -112,5 +114,8 @@ public class Account {
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinColumn(name = "branch_id")
     private Branch branch;
+
+    @OneToMany(mappedBy = "account",fetch = FetchType.EAGER)
+    private List<LedgerEntry> ledgerEntries;
 
 }
