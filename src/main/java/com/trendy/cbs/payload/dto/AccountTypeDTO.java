@@ -1,6 +1,7 @@
 package com.trendy.cbs.payload.dto;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.trendy.cbs.enums.PurposeType;
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,10 +14,7 @@ import java.math.BigDecimal;
         "code",
         "name",
         "description",
-        "interestRate",
-        "maxTranBalanceDaily",
-        "atmLimitedTranDaily",
-        "fee"
+        "interestRate"
 })
 public class AccountTypeDTO {
     private Long id;
@@ -27,11 +25,8 @@ public class AccountTypeDTO {
 
     private String description;
 
+    private PurposeType purposeType;
+
     private BigDecimal interestRate;
 
-    private BigDecimal maxTranBalanceDaily;
-
-    private BigDecimal atmLimitedTranDaily;
-
-    private BigDecimal feeYearly;
 }

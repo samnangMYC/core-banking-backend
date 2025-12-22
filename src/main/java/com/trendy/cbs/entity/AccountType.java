@@ -1,5 +1,6 @@
 package com.trendy.cbs.entity;
 
+import com.trendy.cbs.enums.PurposeType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,11 +31,8 @@ public class AccountType {
 
     private BigDecimal interestRate;
 
-    private BigDecimal maxTranBalanceDaily;
-
-    private BigDecimal atmLimitedTranDaily;
-
-    private BigDecimal feeYearly;
+    @Enumerated(EnumType.STRING)
+    private PurposeType purposeType;
 
     @CreationTimestamp
     private LocalDateTime createdDate;

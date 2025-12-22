@@ -1,6 +1,7 @@
 package com.trendy.cbs.controller;
 
 import com.trendy.cbs.payload.dto.AccountDTO;
+import com.trendy.cbs.payload.dto.BalanceDTO;
 import com.trendy.cbs.payload.request.AccountRequest;
 import com.trendy.cbs.payload.request.AccountStatusReq;
 import com.trendy.cbs.payload.request.DepositReq;
@@ -8,10 +9,10 @@ import com.trendy.cbs.service.AccountService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Slf4j
@@ -26,7 +27,9 @@ public class AccountController {
     public ResponseEntity<AccountDTO> createNewAccount( @RequestHeader("X-Customer-Id") Long customerId,
                                                         @Valid @RequestBody AccountRequest request){
         log.info("Received request to create account {}", request);
-        return ResponseEntity.ok(accountService.createNewAccount(customerId,request));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(accountService.createNewAccount(customerId, request));
     }
 
     // LIST: Paginated List of Accounts
@@ -51,7 +54,7 @@ public class AccountController {
 
     // READ: get balance by ID
     @GetMapping("/{id}/balance")
-    public ResponseEntity<BigDecimal> getAccountBalance(@PathVariable String id){
+    public ResponseEntity<BalanceDTO> getAccountBalance(@PathVariable String id){
         log.info("Received request to get account balance {}", id);
         return ResponseEntity.ok(accountService.getAccountBalance(Long.valueOf(id)));
     }
@@ -84,6 +87,8 @@ public class AccountController {
     @DeleteMapping("{id}")
     private ResponseEntity<String> deleteAccountById(@PathVariable String id){
         log.info("Received request to delete account by id {}", id);
-        return ResponseEntity.ok(accountService.deleteAccountById(id));
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .body(accountService.deleteAccountById(id));
     }
 }

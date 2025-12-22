@@ -17,8 +17,8 @@ services:
       - ./init-multi-db.sql:/docker-entrypoint-initdb.d/init.sql
 
   pgadmin:
-    image: dpage/pgadmin4:7
-    container_name: pgadmin7
+    image: dpage/pgadmin4:9.11
+    container_name: pgAdmin4.9
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}

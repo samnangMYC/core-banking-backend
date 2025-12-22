@@ -2,5 +2,6 @@ package com.trendy.cbs.enums;
 
 public enum LedgerEntryType {
     DEBIT,
-    CREDIT
+    CREDIT,
+    REVERSAL
 }

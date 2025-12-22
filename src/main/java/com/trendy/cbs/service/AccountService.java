@@ -1,6 +1,7 @@
 package com.trendy.cbs.service;
 
 import com.trendy.cbs.payload.dto.AccountDTO;
+import com.trendy.cbs.payload.dto.BalanceDTO;
 import com.trendy.cbs.payload.request.AccountRequest;
 import com.trendy.cbs.payload.request.AccountStatusReq;
 import com.trendy.cbs.payload.request.DepositReq;
@@ -8,6 +9,7 @@ import jakarta.validation.Valid;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 public interface AccountService {
     AccountDTO createNewAccount(Long customerId,AccountRequest request);
@@ -20,7 +22,7 @@ public interface AccountService {
 
     AccountDTO getAccountByAccountNumber(String accNumber);
 
-    BigDecimal getAccountBalance(Long id);
+    BalanceDTO getAccountBalance(Long id);
 
     AccountDTO deposit(Long id, DepositReq req);
 

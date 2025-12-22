@@ -1,6 +1,7 @@
 package com.trendy.cbs.entity;
 
 import com.trendy.cbs.enums.AccountStatus;
+import com.trendy.cbs.enums.OwnershipType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -76,6 +77,8 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private AccountStatus status;
 
+    @Enumerated(EnumType.STRING)
+    private OwnershipType ownershipType;
 
     @CreationTimestamp
     private LocalDateTime openedAt;

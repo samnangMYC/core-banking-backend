@@ -3,31 +3,28 @@ package com.trendy.cbs.service.impls;
 import com.trendy.cbs.entity.*;
 import com.trendy.cbs.enums.*;
 import com.trendy.cbs.exception.BusinessException;
-import com.trendy.cbs.exception.DuplicationResource;
 import com.trendy.cbs.exception.ResourceNotFoundException;
-import com.trendy.cbs.helper.AccountNumberGenerator;
+import com.trendy.cbs.helper.LedgerEntryRefGenerator;
 import com.trendy.cbs.helper.TransactionReferenceGenerator;
 import com.trendy.cbs.mapper.AccountMapper;
-import com.trendy.cbs.mapper.AccountTypeMapper;
-import com.trendy.cbs.mapper.CurrencyMapper;
-import com.trendy.cbs.mapper.CustomerMapper;
 import com.trendy.cbs.payload.dto.AccountDTO;
+import com.trendy.cbs.payload.dto.BalanceDTO;
 import com.trendy.cbs.payload.request.AccountRequest;
 import com.trendy.cbs.payload.request.AccountStatusReq;
 import com.trendy.cbs.payload.request.DepositReq;
 import com.trendy.cbs.repos.*;
 import com.trendy.cbs.service.AccountService;
+import com.trendy.cbs.service.factory.LedgerEntryFactory;
+import com.trendy.cbs.service.validation.AccountValidationService;
 import com.trendy.cbs.service.validation.CustomerValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 import static com.trendy.cbs.helper.AccountNumberGenerator.generateUniqueAccountNumber;
 
@@ -43,10 +40,9 @@ public class AccountServiceImpl implements AccountService {
     private final BranchRepository branchRepository;
     private final CustomerValidationService customerValidationService;
     private final LedgerEntryRepository ledgerEntryRepository;
-
+    private final AccountValidationService accountValidationService;
+    private final LedgerEntryFactory ledgerEntryFactory;
     private static final int MAX_ACCOUNTS_PER_CUSTOMER = 15;
-    private final TransactionReferenceGenerator transactionReferenceGenerator;
-
 
     @Override
     public AccountDTO createNewAccount(Long customerId,AccountRequest request) {
@@ -82,8 +78,8 @@ public class AccountServiceImpl implements AccountService {
         if (!customerHasAccounts) {
 
             // No accounts yet → create default account (Saving, USD)
-            AccountType defaultType = accountTypeRepository.findByCode("SAV001")
-                    .orElseThrow(() -> new ResourceNotFoundException("AccountType", "SAV001"));
+            AccountType defaultType = accountTypeRepository.findByPurposeType(PurposeType.SAVINGS)
+                    .orElseThrow(() -> new ResourceNotFoundException("AccountType", "SAVINGS"));
 
             Currency usdCurrency = currencyRepository.findByCode("USD")
                     .orElseThrow(() -> new ResourceNotFoundException("Currency", "USD"));
@@ -91,6 +87,7 @@ public class AccountServiceImpl implements AccountService {
             account = new Account();
             account.setCustomer(customer);
             account.setAccountType(defaultType);
+            account.setOwnershipType(OwnershipType.PERSONAL);
             account.setCurrency(usdCurrency);
             account.setBranch(branch);
             account.setStatus(AccountStatus.ACTIVE);
@@ -111,6 +108,9 @@ public class AccountServiceImpl implements AccountService {
             account.setCustomer(customer);
             account.setAccountType(requestedType);
             account.setCurrency(requestedCurrency);
+            // When system are adding RBAC just accept admin, don't accept customer to create
+            // validateOwnershipPermission
+            account.setOwnershipType(request.getOwnershipType());
             account.setBranch(branch);
             account.setStatus(AccountStatus.ACTIVE);
             account.setAccNumber(generateUniqueAccountNumber(accountRepository));
@@ -143,9 +143,14 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public BigDecimal getAccountBalance(Long id) {
+    public BalanceDTO getAccountBalance(Long id) {
         return accountRepository.findById(id)
-                .map(Account::getBalance)
+                .map(account -> {
+                            BalanceDTO balanceDTO = new BalanceDTO();
+                            balanceDTO.setBalance(account.getBalance());
+                            return balanceDTO;
+                        }
+                )
                 .orElseThrow(() -> new ResourceNotFoundException("Account",id));
     }
 
@@ -154,87 +159,79 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Account",id));
 
-        if (!AccountStatus.ACTIVE.equals(account.getStatus())) {
-            throw new BusinessException(
-                    "Cannot update balance: Account is not active",
-                    ErrorCode.CUSTOMER_NOT_ACTIVE,
-                    HttpStatus.BAD_REQUEST.value()
-            );
-        }
-        BigDecimal depositBalance = calculateDepositBalance(account,req);
+        // ensure account is active
+        accountValidationService.validateAccountStatus(account.getStatus());
 
-        // Create Ledger Entry (Using Provided Entity - Credit for Deposit)
-        LedgerEntry ledgerEntry = LedgerEntry.builder()
-                .account(account)
-                .transactionReference(transactionReferenceGenerator.generate())
-                .creditAmount(depositBalance)
-                .runningBalance(account.getBalance())
-                .type(LedgerEntryType.CREDIT)
-                .description("")
-                .postedAt(LocalDateTime.now())
-                .glCode(Glcode.CASH)
-                .build();
+        BigDecimal newBalance = calculateDepositBalance(account, req);
 
+        LedgerEntry ledgerEntry = ledgerEntryFactory.credit(
+                account,
+                req.getAmount(),
+                newBalance,
+                LedgerEntryType.DEBIT,
+                "Deposit",
+                Glcode.CASH
+        );
         ledgerEntryRepository.save(ledgerEntry);
 
-        account.setBalance(depositBalance);
-        Account savedAccount = accountRepository.save(account);
-        return accountMapper.toDTO(savedAccount);
+        account.setBalance(newBalance);
+        return accountMapper.toDTO(accountRepository.save(account));
     }
 
     private BigDecimal calculateDepositBalance(Account account, DepositReq req) {
         BigDecimal amount = req.getAmount();
-
         return account.getBalance().add(amount);
     }
 
     @Override
+    @Transactional
     public AccountDTO withdraw(Long id, DepositReq req) {
         Account account = accountRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Account",id));
+                .orElseThrow(() -> new ResourceNotFoundException("Account", id));
 
-        if (!AccountStatus.ACTIVE.equals(account.getStatus())) {
-            throw new BusinessException(
-                    "Cannot update balance: Account is not active",
-                    ErrorCode.CUSTOMER_NOT_ACTIVE,
-                    HttpStatus.BAD_REQUEST.value()
-            );
-        }
-        BigDecimal depositBalance = calculateWithdrawBalance(account,req);
+        // ensure account is active
+        accountValidationService.validateAccountStatus(account.getStatus());
 
-        // Create Ledger Entry (Using Provided Entity - Credit for Deposit)
-        LedgerEntry ledgerEntry = LedgerEntry.builder()
-                .account(account)
-                .transactionReference(transactionReferenceGenerator.generate())
-                .creditAmount(depositBalance)
-                .runningBalance(account.getBalance())
-                .type(LedgerEntryType.CREDIT)
-                .description("")
-                .postedAt(LocalDateTime.now())
-                .glCode(Glcode.CASH)
-                .build();
+        BigDecimal newBalance = calculateWithdrawBalance(account, req);
+
+        LedgerEntry ledgerEntry = ledgerEntryFactory.debit(
+                account,
+                req.getAmount(),
+                newBalance,
+                LedgerEntryType.DEBIT,
+                "Withdrawal",
+                Glcode.CASH
+        );
 
         ledgerEntryRepository.save(ledgerEntry);
 
-        account.setBalance(depositBalance);
+        account.setBalance(newBalance);
         Account savedAccount = accountRepository.save(account);
+
         return accountMapper.toDTO(savedAccount);
     }
 
     private BigDecimal calculateWithdrawBalance(Account account, DepositReq req) {
-        BigDecimal balance = account.getBalance();
         BigDecimal amount = req.getAmount();
+        BigDecimal balance = account.getBalance();
 
-        if (balance.compareTo(BigDecimal.ZERO) <= 0) {
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new BusinessException(
-                    "Not enough balance to withdraw",
+                    "Withdrawal amount must be greater than zero",
                     ErrorCode.INVALID_AMOUNT,
                     HttpStatus.BAD_REQUEST.value()
             );
         }
 
+        if (balance.compareTo(amount) < 0) {
+            throw new BusinessException(
+                    "Insufficient balance",
+                    ErrorCode.INVALID_AMOUNT,
+                    HttpStatus.BAD_REQUEST.value()
+            );
+        }
 
-        return account.getBalance().subtract(amount);
+        return balance.subtract(amount);
     }
 
     @Override
@@ -272,6 +269,5 @@ public class AccountServiceImpl implements AccountService {
 
         return accountMapper.toDTO(accountRepository.save(account));
     }
-
 
 }

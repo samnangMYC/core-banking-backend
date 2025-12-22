@@ -11,6 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Entity
 @Data
@@ -36,13 +37,12 @@ public class LedgerEntry {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private LedgerEntryType type;  // DEBIT, CREDIT
+    private LedgerEntryType type;
 
     @Column(length = 255)
     private String description;
 
-    @CreationTimestamp
-    private LocalDateTime postedAt;
+    private OffsetDateTime postedAt;
 
     private Glcode glCode;
 

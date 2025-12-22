@@ -1,6 +1,7 @@
 package com.trendy.cbs.payload.dto;
 
 import com.trendy.cbs.enums.AccountStatus;
+import com.trendy.cbs.enums.OwnershipType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,6 +25,8 @@ public class AccountDTO {
     private BigDecimal lienAmount;
 
     private AccountStatus status;
+
+    private OwnershipType ownershipType;
 
     private AccountTypeSummaryDTO accountType;
 

@@ -1,5 +1,8 @@
 package com.trendy.cbs.payload.request;
 
+import com.trendy.cbs.enums.PurposeType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,20 +28,12 @@ public class AccountTypeRequest {
     @Size(max = 200, message = "Description cannot exceed 200 characters")
     private String description;
 
+    @NotNull(message = "Account purpose is required")
+    private PurposeType purposeType;
+
     @NotNull(message = "Interest rate is required")
     @DecimalMin(value = "0.0", inclusive = true, message = "Interest rate cannot be negative")
     @DecimalMax(value = "100.0", inclusive = true, message = "Interest rate cannot exceed 100%")
     private BigDecimal interestRate;
 
-    @NotNull(message = "Max transaction balance daily is required")
-    @DecimalMin(value = "0.0", inclusive = true, message = "Max transaction balance daily cannot be negative")
-    private BigDecimal maxTranBalanceDaily;
-
-    @NotNull(message = "ATM limited transaction daily is required")
-    @DecimalMin(value = "0.0", inclusive = true, message = "ATM limited transaction daily cannot be negative")
-    private BigDecimal atmLimitedTranDaily;
-
-    @NotNull(message = "Fee is required")
-    @DecimalMin(value = "0.0", inclusive = true, message = "Fee cannot be negative")
-    private BigDecimal feeYearly;
 }

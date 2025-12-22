@@ -92,9 +92,7 @@ public class DataInitializer {
             accountTypeRequest.setName("Savings Account");
             accountTypeRequest.setDescription("A basic savings account with interest.");
             accountTypeRequest.setInterestRate(BigDecimal.valueOf(0.05));
-            accountTypeRequest.setMaxTranBalanceDaily(BigDecimal.valueOf(100000));
-            accountTypeRequest.setAtmLimitedTranDaily(BigDecimal.valueOf(1000));
-            accountTypeRequest.setFeeYearly(BigDecimal.valueOf(10.0));
+            accountTypeRequest.setPurposeType(PurposeType.SAVINGS);
 
             accountTypeService.createAccountType(accountTypeRequest);
         };
