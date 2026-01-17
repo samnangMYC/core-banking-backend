@@ -15,7 +15,10 @@ public class CurrencyRequest {
 
     private String code;
 
+    private String symbol;
+
+    private int decimalPlaces;
+
     private String name;
 
-    private BigDecimal rate;
 }

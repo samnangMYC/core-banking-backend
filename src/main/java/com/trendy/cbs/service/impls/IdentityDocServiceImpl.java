@@ -42,7 +42,7 @@ public class IdentityDocServiceImpl implements IdentityDocService {
                 .orElseThrow(() -> new ResourceNotFoundException("User",customerId));
 
 
-        IdentityDoc identityDoc= identityDocMapper.toEntity(request);
+        IdentityDoc identityDoc = identityDocMapper.toEntity(request);
 
         identityDoc.setVerifiedDate(null);
         identityDoc.setDocStatus(DocStatus.PENDING);

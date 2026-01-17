@@ -14,9 +14,11 @@ public class CurrencyDTO {
 
     private String code;
 
-    private String name;
+    private String symbol;
 
-    private BigDecimal rate;
+    private Integer decimalPlaces;
+
+    private String name;
 
     private LocalDateTime createdDate;
 

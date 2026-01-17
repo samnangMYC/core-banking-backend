@@ -121,4 +121,12 @@ public class Account {
     @OneToMany(mappedBy = "account",fetch = FetchType.EAGER)
     private List<LedgerEntry> ledgerEntries;
 
+    /**
+     * Returns the available balance (balance minus lienAmount).
+     */
+
+    public BigDecimal getAvailableBalance() {
+        return balance.subtract(lienAmount != null ? lienAmount : BigDecimal.ZERO);
+    }
+
 }

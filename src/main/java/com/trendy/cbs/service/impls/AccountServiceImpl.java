@@ -4,8 +4,6 @@ import com.trendy.cbs.entity.*;
 import com.trendy.cbs.enums.*;
 import com.trendy.cbs.exception.BusinessException;
 import com.trendy.cbs.exception.ResourceNotFoundException;
-import com.trendy.cbs.helper.LedgerEntryRefGenerator;
-import com.trendy.cbs.helper.TransactionReferenceGenerator;
 import com.trendy.cbs.mapper.AccountMapper;
 import com.trendy.cbs.payload.dto.AccountDTO;
 import com.trendy.cbs.payload.dto.BalanceDTO;
@@ -160,7 +158,7 @@ public class AccountServiceImpl implements AccountService {
                 .orElseThrow(() -> new ResourceNotFoundException("Account",id));
 
         // ensure account is active
-        accountValidationService.validateAccountStatus(account.getStatus());
+        accountValidationService.validateAccountStatus(account);
 
         BigDecimal newBalance = calculateDepositBalance(account, req);
 
@@ -190,7 +188,7 @@ public class AccountServiceImpl implements AccountService {
                 .orElseThrow(() -> new ResourceNotFoundException("Account", id));
 
         // ensure account is active
-        accountValidationService.validateAccountStatus(account.getStatus());
+        accountValidationService.validateAccountStatus(account);
 
         BigDecimal newBalance = calculateWithdrawBalance(account, req);
 

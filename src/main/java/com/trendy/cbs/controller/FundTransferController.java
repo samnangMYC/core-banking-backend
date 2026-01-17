@@ -1,18 +1,37 @@
 package com.trendy.cbs.controller;
 
+import com.trendy.cbs.payload.dto.FundTransferDTO;
+import com.trendy.cbs.payload.request.FundTransferRequest;
+import com.trendy.cbs.service.FundTransferService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/fund-transfer")
 @RequiredArgsConstructor
 public class FundTransferController {
-    // generate transactionReference
-    // check from and to account (sender,receiver)
-    // get amount and currency_id
-    // get purpose
-    // set TransferType and conditional
+
+    private final FundTransferService fundTransferService;
+
+    @PostMapping
+    public ResponseEntity<FundTransferDTO> createFundTransfer(@Valid @RequestBody FundTransferRequest req) {
+        log.info("Received request to create account {}", req.toString());
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(fundTransferService.createFundTransfer(req));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<FundTransferDTO>> getAllFundTransfer() {
+        log.info("Received request to get all fund transfers");
+        return ResponseEntity.ok(fundTransferService.getAllFundTransfer());
+    }
+
 }

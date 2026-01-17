@@ -1,5 +1,6 @@
 package com.trendy.cbs.entity;
 
+import com.trendy.cbs.enums.FundTransferChannel;
 import com.trendy.cbs.enums.TransferStatus;
 import com.trendy.cbs.enums.TransferType;
 import jakarta.persistence.*;
@@ -10,6 +11,8 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
 @Entity
 @Data
@@ -71,23 +74,28 @@ public class FundTransfer {
     @Column(nullable = false, length = 20)
     private TransferStatus status;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private FundTransferChannel channel;
+
     /**
      Lifecycle Tracking
      */
+
     @Column(name = "initiated_at", nullable = false, updatable = false)
-    private LocalDateTime initiatedAt;
+    private OffsetDateTime initiatedAt;
 
     @Column(name = "processed_at")
-    private LocalDateTime processedAt;
+    private OffsetDateTime processedAt;
 
     @Column(name = "completed_at")
-    private LocalDateTime completedAt;
+    private OffsetDateTime completedAt;
 
     /**
      Reversal Support
      */
     @Column(name = "reversed", nullable = false)
-    private boolean reversed = false;
+    private Boolean reversed = false;
 
     @Column(name = "reversal_reference")
     private String reversalReference;
@@ -97,7 +105,7 @@ public class FundTransfer {
 
     @PrePersist
     protected void onCreate() {
-        this.initiatedAt = LocalDateTime.now();
+        this.initiatedAt = OffsetDateTime.now(ZoneOffset.UTC);
         this.status = TransferStatus.PENDING;
     }
 }

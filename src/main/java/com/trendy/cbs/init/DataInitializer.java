@@ -2,6 +2,7 @@ package com.trendy.cbs.init;
 
 import com.trendy.cbs.entity.Customer;
 import com.trendy.cbs.enums.*;
+import com.trendy.cbs.payload.dto.CustomerDTO;
 import com.trendy.cbs.payload.request.*;
 import com.trendy.cbs.service.*;
 import lombok.RequiredArgsConstructor;
@@ -28,22 +29,49 @@ public class DataInitializer {
     @Order(2)
     public CommandLineRunner initCustomerData() {
         return args -> {
-            CustomerRequest customerRequest = new CustomerRequest();
-            customerRequest.setFirstName("John");
-            customerRequest.setLastName("Doe");
-            customerRequest.setGender(Gender.MALE);
-            customerRequest.setEmail("john.doe@example.com");
-            customerRequest.setPhoneNumber("1234567890");
-            customerRequest.setOccupation("Software Engineer");
-            customerRequest.setNationality("Cambodian");
-            customerRequest.setMaritalStatus(MaritalStatus.SINGLE);
-            customerRequest.setProfileImage("https://example.com/profile.jpg");
+            // -----------------------------
+            // 1️⃣ Create customer John Doe
+            // -----------------------------
+            CustomerRequest johnRequest = new CustomerRequest();
+            johnRequest.setFirstName("John");
+            johnRequest.setLastName("Doe");
+            johnRequest.setGender(Gender.MALE);
+            johnRequest.setEmail("john.doe@example.com");
+            johnRequest.setPhoneNumber("1234567890");
+            johnRequest.setOccupation("Software Engineer");
+            johnRequest.setNationality("Cambodian");
+            johnRequest.setMaritalStatus(MaritalStatus.SINGLE);
+            johnRequest.setProfileImage("https://example.com/profile.jpg");
 
-            customerService.createNewCustomer(customerRequest);
+            // Create customer
+            CustomerDTO johnResponse = customerService.createNewCustomer(johnRequest);
 
-            CustomerVerificationReq request = new CustomerVerificationReq();
-            request.setVerification(CustomerVerification.VERIFIED);
-            customerService.verifyCustomer(1L,request);
+            // -----------------------------
+            // 2️⃣ Verify the customer
+            // -----------------------------
+            CustomerVerificationReq verificationReq = new CustomerVerificationReq();
+            verificationReq.setVerification(CustomerVerification.VERIFIED);
+
+            // Use the ID returned from creation
+            customerService.verifyCustomer(johnResponse.getCusId(), verificationReq);
+
+            // -----------------------------
+            // Optional: Add more customers
+            // -----------------------------
+            CustomerRequest janeRequest = new CustomerRequest();
+            janeRequest.setFirstName("Jane");
+            janeRequest.setLastName("Smith");
+            janeRequest.setGender(Gender.FEMALE);
+            janeRequest.setEmail("jane.smith@example.com");
+            janeRequest.setPhoneNumber("0987654321");
+            janeRequest.setOccupation("Teacher");
+            janeRequest.setNationality("Cambodian");
+            janeRequest.setMaritalStatus(MaritalStatus.MARRIED);
+            janeRequest.setProfileImage("https://example.com/jane.jpg");
+
+            CustomerDTO janeResponse = customerService.createNewCustomer(janeRequest);
+            verificationReq.setVerification(CustomerVerification.VERIFIED);
+            customerService.verifyCustomer(janeResponse.getCusId(), verificationReq);
         };
     }
 
@@ -51,12 +79,21 @@ public class DataInitializer {
     @Order(3)
     public CommandLineRunner initCurrencyData() {
         return args -> {
-            CurrencyRequest currencyRequest = new CurrencyRequest();
-            currencyRequest.setCode("USD");
-            currencyRequest.setName("US Dollar");
-            currencyRequest.setRate(BigDecimal.valueOf(1));
+            // USD
+            CurrencyRequest usdRequest = new CurrencyRequest();
+            usdRequest.setCode("USD");
+            usdRequest.setName("US Dollar");
+            usdRequest.setSymbol("$");
+            usdRequest.setDecimalPlaces(2);
+            currencyService.createCurrency(usdRequest);
 
-            currencyService.createCurrency(currencyRequest);
+            // KHR
+            CurrencyRequest khrRequest = new CurrencyRequest();
+            khrRequest.setCode("KHR");
+            khrRequest.setName("Khmer Riel");
+            khrRequest.setSymbol("៛");
+            khrRequest.setDecimalPlaces(0);
+            currencyService.createCurrency(khrRequest);
         };
     }
 

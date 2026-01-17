@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,9 @@ public class Currency {
 
     private String name;
 
-    private BigDecimal rate;
+    private String symbol;
+
+    private Integer decimalPlaces;
 
     @CreationTimestamp
     private LocalDateTime createdDate;
@@ -46,5 +47,21 @@ public class Currency {
             cascade = { CascadeType.PERSIST, CascadeType.MERGE }
     )
     private List<FundTransfer> fundTransfers = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "fromCurrency",
+            cascade = {CascadeType.ALL},
+            fetch = FetchType.LAZY
+    )
+    private List<ExchangeRate> ratesFrom = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "toCurrency",
+            cascade = {CascadeType.ALL},
+            fetch = FetchType.LAZY
+    )
+    private List<ExchangeRate> ratesTo = new ArrayList<>();
+
+
 
 }
