@@ -29,8 +29,4 @@ public class Address {
 
     private String country;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cus_id",unique = true)
-    private Customer customer;
-
 }

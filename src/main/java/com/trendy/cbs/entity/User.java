@@ -1,5 +1,6 @@
 package com.trendy.cbs.entity;
 
+import com.trendy.cbs.enums.AuthProvider;
 import com.trendy.cbs.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,8 +23,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "keycloak_user_id", unique = true, nullable = false)
-    private String keycloakUserId;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "auth_provider", nullable = false, length = 50)
+    private AuthProvider authProvider;
+
+    @Column(name = "auth_provider_user_id", nullable = false, updatable = false, length = 150)
+    private String authProviderUserId;
 
     @Column(unique = true, nullable = false)
     private String username;
@@ -36,8 +41,12 @@ public class User {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    // Relationship to Customer
+    // Actor Relationship
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Customer customer;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Staff staff;
+
 
 }
