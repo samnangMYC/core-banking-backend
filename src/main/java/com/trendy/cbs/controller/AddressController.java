@@ -20,7 +20,6 @@ public class AddressController {
 
     private final AddressService addressService;
 
-
     @PostMapping
     public ResponseEntity<AddressDTO> createAddress(@RequestHeader("X-Customer-Id") Long userId,
                                                     @Valid @RequestBody AddressRequest request) {

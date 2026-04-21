@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -83,6 +84,7 @@ public class FundTransfer {
      */
 
     @Column(name = "initiated_at", nullable = false, updatable = false)
+    @CreationTimestamp
     private OffsetDateTime initiatedAt;
 
     @Column(name = "processed_at")
@@ -103,9 +105,6 @@ public class FundTransfer {
     @Column(name = "failed_reason", length = 255)
     private String failedReason;
 
-    @PrePersist
-    protected void onCreate() {
-        this.initiatedAt = OffsetDateTime.now(ZoneOffset.UTC);
-        this.status = TransferStatus.PENDING;
-    }
+    private OffsetDateTime revereAt;
+
 }

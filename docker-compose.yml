@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:18
-    container_name: postgres18
+    container_name: banking_postgres
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -18,7 +18,7 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4:9.11
-    container_name: pgAdmin4.9
+    container_name: banking_pgadmin
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
@@ -31,6 +31,25 @@ services:
       - banking
     volumes:
       - pgadmin_data:/var/lib/pgadmin
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.5.2
+    container_name: banking_keycloak
+    command: start-dev
+    environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: postgres
+      KC_DB_URL_DATABASE: ${POSTGRES_DB}
+      KC_DB_USERNAME: ${POSTGRES_USER}
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KEYCLOAK_ADMIN_USERNAME}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+    ports:
+      - "8443:8080"
+    networks:
+      - banking
+    depends_on:
+      - postgres
 
 volumes:
   pgdata:

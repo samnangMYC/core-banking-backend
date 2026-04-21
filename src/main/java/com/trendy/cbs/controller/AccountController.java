@@ -32,7 +32,7 @@ public class AccountController {
                 .body(accountService.createNewAccount(customerId, request));
     }
 
-    // LIST: Paginated List of Accounts
+    // LIST: List of All Accounts
     @GetMapping
     public ResponseEntity<List<AccountDTO>> findAllAccounts(){
         log.info("Received request to find all accounts");

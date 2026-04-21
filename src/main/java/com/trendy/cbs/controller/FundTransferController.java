@@ -2,6 +2,7 @@ package com.trendy.cbs.controller;
 
 import com.trendy.cbs.payload.dto.FundTransferDTO;
 import com.trendy.cbs.payload.request.FundTransferRequest;
+import com.trendy.cbs.payload.request.ReverseFundTransferReq;
 import com.trendy.cbs.service.FundTransferService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -33,5 +34,13 @@ public class FundTransferController {
         log.info("Received request to get all fund transfers");
         return ResponseEntity.ok(fundTransferService.getAllFundTransfer());
     }
+
+    @PostMapping("/reverse")
+    public ResponseEntity<FundTransferDTO> reverseFundTransfer(@Valid @RequestBody ReverseFundTransferReq req){
+        log.info("Received request to reverse fund transfer with {}", req.toString());
+
+        return ResponseEntity.ok(fundTransferService.reverseFundTransfer(req));
+    }
+
 
 }
