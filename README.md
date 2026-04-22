@@ -1,6 +1,6 @@
 <!-- Modern Gradient Header -->
 <h1 align="center">🏦 Enterprise Core Banking System</h1>
-<h3 align="center">Scalable, Production-Ready Banking Platform with Spring Boot (CBS)</h3>
+<h3 align="center">Scalable, Banking Platform with Spring Boot (CBS)</h3>
 
 <p align="center">
   <a href="https://github.com/samnangMYC/core-banking-backend">
