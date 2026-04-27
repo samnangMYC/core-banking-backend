@@ -1,6 +1,6 @@
 package com.trendy.cbs.enums;
 
-public enum StaffRole {
+public enum SystemRole {
     TELLER,
     CUSTOMER_SERVICE,
     LOAN_OFFICER,
@@ -10,5 +10,5 @@ public enum StaffRole {
     MANAGER,
     BRANCH_MANAGER,
     OPERATIONS,
-    ADMIN
+    SYSTEM_ADMIN
 }

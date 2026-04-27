@@ -14,41 +14,43 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CustomerRequest {
 
+    // Personal Info
     @NotBlank(message = "First name is required")
-    @Size(min = 1, max = 50, message = "First name must be between 1 and 50 characters")
-    @Pattern(regexp = "^[a-zA-Z\\s'-]+$", message = "First name can only contain letters, spaces, hyphens, or apostrophes")
+    @Size(max = 100)
     private String firstName;
 
     @NotBlank(message = "Last name is required")
-    @Size(min = 1, max = 50, message = "Last name must be between 1 and 50 characters")
-    @Pattern(regexp = "^[a-zA-Z\\s'-]+$", message = "Last name can only contain letters, spaces, hyphens, or apostrophes")
+    @Size(max = 100)
     private String lastName;
 
     @NotNull(message = "Gender is required")
     private Gender gender;
 
+    // Contact Info
     @Email(message = "Invalid email format")
-    @NotBlank(message = "Email is required")
-    @Size(max = 100, message = "Email must be at most 100 characters")
+    @Size(max = 150)
     private String email;
 
     @NotBlank(message = "Phone number is required")
-    @Pattern(regexp = "\\d{10}", message = "Phone number must be exactly 10 digits")
+    @Pattern(
+            regexp = "^\\+?[0-9]{8,15}$",
+            message = "Invalid phone number format"
+    )
     private String phoneNumber;
 
-    @Size(max = 100, message = "Occupation must be at most 100 characters")
-    @Pattern(regexp = "^[a-zA-Z0-9\\s-]*$", message = "Occupation can only contain alphanumeric characters, spaces, or hyphens")
+    @NotBlank
+    @Size(min = 4, max = 6)
+    private String passcode;
+
+    // Additional Info
+    @Size(max = 100)
     private String occupation;
 
-    @NotNull(message = "Nationality is required")
+    @Size(max = 100)
     private String nationality;
 
-    @NotNull(message = "Marital status is required")
-    private MaritalStatus maritalStatus;
+    @Size(max = 50)
+    private String maritalStatus;
 
-    @Pattern(regexp = "^(http|https)://[^\\s$.?#].[^\\s]*$", message = "Profile image must be a valid URL")
-    @Size(max = 255, message = "Profile image URL must be at most 255 characters")
-    private String profileImage;
 
-    //private CustomerDocStatus status;
 }

@@ -22,7 +22,7 @@ public interface AccountRepository extends JpaRepository<Account,Long> {
     boolean existsByAccNumber(String accountNumber);
 
 
-    Integer countByCustomerCusId(Long customerId);
+    Integer countByCustomerId(Long customerId);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select a from Account a where a.accId = :id")

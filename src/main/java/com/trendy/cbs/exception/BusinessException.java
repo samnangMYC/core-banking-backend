@@ -18,5 +18,24 @@ public class BusinessException extends RuntimeException {
         this.errorCode = errorCode;
         this.statusCode = statusCode;
     }
+    public static BusinessException badRequest(ErrorCode code, String message) {
+        return new BusinessException(message, code, 400);
+    }
+
+    public static BusinessException unauthorized(ErrorCode code, String message) {
+        return new BusinessException(message, code, 401);
+    }
+
+    public static BusinessException forbidden(ErrorCode code, String message) {
+        return new BusinessException(message, code, 403);
+    }
+
+    public static BusinessException notFound(ErrorCode code, String message) {
+        return new BusinessException(message, code, 404);
+    }
+
+    public static BusinessException internal(ErrorCode code, String message) {
+        return new BusinessException(message, code, 500);
+    }
 }
 

@@ -53,7 +53,7 @@ public class AccountServiceImpl implements AccountService {
                 .orElseThrow(() -> new ResourceNotFoundException("Branch", request.getBranchId()));
 
         // Check account limits
-        Integer existAccounts = accountRepository.countByCustomerCusId(customerId);
+        Integer existAccounts = accountRepository.countByCustomerId(customerId);
         if (existAccounts >= MAX_ACCOUNTS_PER_CUSTOMER) {
             throw new BusinessException(
                     "Customer has reached maximum allowed accounts",
@@ -89,7 +89,7 @@ public class AccountServiceImpl implements AccountService {
             account.setCurrency(usdCurrency);
             account.setBranch(branch);
             account.setStatus(AccountStatus.ACTIVE);
-            account.setAccNumber(customer.getProfile().getPhoneNumber());
+            account.setAccNumber(customer.getPhoneNumber());
             account.setClosedAt(null);
 
             accountRepository.save(account);

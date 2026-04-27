@@ -1,7 +1,7 @@
 package com.trendy.cbs.entity;
 
 import com.trendy.cbs.enums.AuthProvider;
-import com.trendy.cbs.enums.UserRole;
+import com.trendy.cbs.enums.UserType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,7 +36,7 @@ public class User {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    private UserRole role; // CUSTOMER, ADMIN, STAFF
+    private UserType userType; // CUSTOMER, STAFF
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -47,6 +47,5 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Staff staff;
-
 
 }

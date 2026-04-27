@@ -29,27 +29,10 @@ public class CustomerValidationService {
      * @throws BusinessException if any validation rule fails
      */
     public void validateCustomer(Customer customer, IdentityDoc identityDoc) {
-        validateCustomerVerification(customer);
         validateCustomerStatus(customer);
         validateIdentityDocument(identityDoc);
     }
 
-    /**
-     * Validates the customer's verification status.
-     *
-     * @param customer the customer entity to be validated
-     *
-     * @throws BusinessException if the customer is not verified
-     */
-    public void validateCustomerVerification(Customer customer) {
-        if (!CustomerVerification.VERIFIED.equals(customer.getVerification())) {
-            throw new BusinessException(
-                    "Customer is not verified",
-                    ErrorCode.CUSTOMER_NOT_VERIFIED,
-                    HttpStatus.NOT_FOUND.value()
-            );
-        }
-    }
 
     /**
      * Validates the customer's status.

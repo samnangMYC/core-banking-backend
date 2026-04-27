@@ -28,7 +28,7 @@ public class IdentityDoc {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long docId;
+    private Long id;
 
     /**
      * The unique number of the identity document (e.g., passport or national ID number).

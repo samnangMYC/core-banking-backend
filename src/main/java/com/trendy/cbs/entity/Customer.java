@@ -27,7 +27,7 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Link to User (Keycloak identity)
+    // Link to User
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
@@ -36,10 +36,6 @@ public class Customer {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CustomerStatus status;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private CustomerVerification verification;
 
     // Personal Info
     @Column(nullable = false)
@@ -50,9 +46,6 @@ public class Customer {
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
-
-    @Column(unique = true, nullable = false)
-    private String email;
 
     @Column(nullable = false, unique = true)
     private String phoneNumber;

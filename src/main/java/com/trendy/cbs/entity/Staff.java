@@ -2,7 +2,7 @@ package com.trendy.cbs.entity;
 
 import com.trendy.cbs.enums.EmploymentStatus;
 import com.trendy.cbs.enums.Gender;
-import com.trendy.cbs.enums.StaffRole;
+import com.trendy.cbs.enums.SystemRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -66,9 +66,6 @@ public class Staff {
     @Column(name = "phone_number", nullable = false, length = 30, unique = true)
     private String phoneNumber;
 
-    @Column(name = "profile_image")
-    private String profileImage;
-
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
@@ -83,7 +80,7 @@ public class Staff {
      */
     @Enumerated(EnumType.STRING)
     @Column(name = "staff_role", nullable = false, length = 50)
-    private StaffRole staffRole;
+    private SystemRole systemRole;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "employment_status", nullable = false, length = 30)
@@ -103,6 +100,9 @@ public class Staff {
 
     @Column(name = "salary", precision = 19, scale = 4)
     private BigDecimal salary;
+
+    @OneToOne(mappedBy = "staff",cascade = CascadeType.ALL)
+    private StaffAddress staffAddress;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)

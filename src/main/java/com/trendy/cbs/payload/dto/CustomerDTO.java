@@ -1,28 +1,35 @@
 package com.trendy.cbs.payload.dto;
 import com.trendy.cbs.enums.CustomerStatus;
 import com.trendy.cbs.enums.CustomerVerification;
+import com.trendy.cbs.enums.Gender;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-/**
- * Data Transfer Object (DTO) for representing a User in API responses.
- * Includes essential user details, profile, status, and timestamps.
- *
- * <p>This class uses Lombok annotations to generate getters, setters, toString,
- * equals, hashCode, and a builder pattern for immutable object creation.</p>
- *
- * @see CustomerProfileDTO
- * @see CustomerStatus
- */
 @Data
 @Builder
 public class CustomerDTO {
-    private Long cusId;
+    private String customerId;
+
+    private String username;
+
+    // Business Status
     private CustomerStatus status;
-    private CustomerVerification verification;
-    private CustomerProfileDTO profile;
+
+    // Personal Info
+    private String firstName;
+    private String lastName;
+    private Gender gender;
+    private String email;
+    private String phoneNumber;
+
+    private String occupation;
+    private String nationality;
+    private String maritalStatus;
+
+    // Audit
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

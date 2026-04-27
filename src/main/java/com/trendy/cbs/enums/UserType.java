@@ -1,7 +1,6 @@
 package com.trendy.cbs.enums;
 
-public enum UserRole {
+public enum UserType {
     CUSTOMER,
-    ADMIN,
     STAFF
 }
