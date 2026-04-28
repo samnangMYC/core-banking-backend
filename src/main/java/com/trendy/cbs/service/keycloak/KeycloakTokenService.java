@@ -17,8 +17,11 @@ public class KeycloakTokenService {
     @Value("${keycloak.realm}")
     private String realm;
 
-    @Value("${keycloak.public-client-id}")
+    @Value("${keycloak.admin-client-id}")
     private String clientId;
+
+    @Value("${keycloak.admin-client-secret}")
+    private String clientSecret;
 
     public AccessTokenResponse login(String username, String password) {
 
@@ -27,6 +30,7 @@ public class KeycloakTokenService {
                 .realm(realm)
                 .clientId(clientId)
                 .grantType(OAuth2Constants.PASSWORD)
+                .clientSecret(clientSecret)
                 .username(username)
                 .password(password)
                 .build()

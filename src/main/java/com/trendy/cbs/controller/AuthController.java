@@ -41,18 +41,17 @@ public class AuthController {
      * Automatically logs in the user after successful registration.
      */
     @PostMapping("/api/v1/customer/auth/sign-up")
-    public ResponseEntity<AuthResponse> customerSignUp(
+    public ResponseEntity<CustomerDTO> customerSignUp(
             @Valid @RequestBody CustomerRequest req) {
 
         log.info("Customer signup attempt phone={}", req.getPhoneNumber());
 
-        AuthResponse res = authService.signUpAsCustomer(req);
+        CustomerDTO res = authService.signUpAsCustomer(req);
 
         log.info("Customer signup success phone={}", req.getPhoneNumber());
 
         return ResponseEntity.ok(res);
     }
-
 
     /**
      * Customer Sign-In

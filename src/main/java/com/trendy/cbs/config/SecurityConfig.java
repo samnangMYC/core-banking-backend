@@ -1,6 +1,7 @@
 package com.trendy.cbs.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,10 +28,15 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth", "/api/v1/auth/**").permitAll()
-                        .requestMatchers("/api/v1/customer/**").hasRole("CUSTOMER")
-                        .requestMatchers("/api/v1/staff/**").hasAnyRole( "TELLER", "BRANCH_MANAGER")
-                        .requestMatchers("/api/v1/admin/**").authenticated()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
+                        .requestMatchers(
+                                "/api/v1/admin/auth/**",
+                                "/api/v1/customer/auth/**"
+                        ).permitAll()
+
+                        .requestMatchers("/api/v1/admin/**").hasRole("SYSTEM_ADMIN")
+
                         .anyRequest().denyAll()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
@@ -40,17 +46,14 @@ public class SecurityConfig {
         return http.build();
     }
 
+
     @Bean
-    public JwtAuthenticationConverter jwtAuthenticationConverter() {
-        JwtGrantedAuthoritiesConverter rolesConverter = new JwtGrantedAuthoritiesConverter();
-        rolesConverter.setAuthorityPrefix("ROLE_");
-        rolesConverter.setAuthoritiesClaimName("roles");
-
+    JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
-        converter.setJwtGrantedAuthoritiesConverter(rolesConverter);
-
+        converter.setJwtGrantedAuthoritiesConverter(new KeycloakRoleConverter());
         return converter;
     }
+
 
 
 

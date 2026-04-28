@@ -29,7 +29,7 @@ public class Branch {
     private Long branchId;
 
     @Column(nullable = false)
-    private String branchCode; // need to generate
+    private String branchCode;
 
     @Column(nullable = false)
     private String branchName;
@@ -74,6 +74,4 @@ public class Branch {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "branch")
-    private List<Account> account = new ArrayList<>();
 }

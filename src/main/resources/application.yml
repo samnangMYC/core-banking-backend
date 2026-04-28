@@ -21,11 +21,14 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8443/realms/trendy-bank
+logging:
+  level:
+    org.springframework.security: DEBUG
 
 keycloak:
   server-url: ${KEYCLOAK_BASE_URL}
   realm: ${KEYCLOAK_REALM_NAME}
-  public-client-id: ${KEYCLOAK_PUBLIC_REALM_NAME}
+  public-client-id: ${KEYCLOAK_PUBLIC_CLIENT_ID}
   admin-realm: ${KEYCLOAK_ADMIN_REALM_NAME}
   admin-client-id: ${KEYCLOAK_ADMIN_CLIENT_ID}
   admin-client-secret: ${KEYCLOAK_ADMIN_CLIENT_SECRET}

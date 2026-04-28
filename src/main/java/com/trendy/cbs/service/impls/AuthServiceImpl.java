@@ -5,6 +5,7 @@ import com.trendy.cbs.entity.User;
 import com.trendy.cbs.enums.*;
 import com.trendy.cbs.exception.BusinessException;
 import com.trendy.cbs.jwt.JwtRoleExtractor;
+import com.trendy.cbs.payload.dto.CustomerDTO;
 import com.trendy.cbs.payload.request.AuthReq;
 import com.trendy.cbs.payload.request.CustomerRequest;
 import com.trendy.cbs.payload.request.CustomerSignInRequest;
@@ -18,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.UserRepresentation;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +42,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public AuthResponse signUpAsCustomer(CustomerRequest req) {
+    public CustomerDTO signUpAsCustomer(CustomerRequest req) {
         validateCustomerSignup(req);
 
         String keycloakUserId = null;
@@ -51,9 +51,22 @@ public class AuthServiceImpl implements AuthService {
             keycloakUserId = createCustomerInKeycloak(req);
 
             User user = saveCustomerUser(req, keycloakUserId);
-            saveCustomer(req, user);
+            Customer customer =  saveCustomer(req, user);
 
-            return login(req.getPhoneNumber(), req.getPasscode());
+            return CustomerDTO.builder()
+                    .customerId(String.valueOf(customer.getId()))
+                    .username(user.getUsername())
+                    .firstName(customer.getFirstName())
+                    .lastName(customer.getLastName())
+                    .gender(customer.getGender())
+                    .email(user.getEmail())
+                    .phoneNumber(customer.getPhoneNumber())
+                    .occupation(customer.getOccupation())
+                    .nationality(customer.getNationality())
+                    .maritalStatus(customer.getMaritalStatus())
+                    .createdAt(customer.getCreatedAt())
+                    .updatedAt(customer.getUpdatedAt())
+                    .build();
 
         } catch (Exception ex) {
             rollbackKeycloakUser(keycloakUserId);

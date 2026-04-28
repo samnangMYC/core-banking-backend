@@ -49,9 +49,6 @@ public class AccountServiceImpl implements AccountService {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer", customerId));
 
-        Branch branch = branchRepository.findById(request.getBranchId())
-                .orElseThrow(() -> new ResourceNotFoundException("Branch", request.getBranchId()));
-
         // Check account limits
         Integer existAccounts = accountRepository.countByCustomerId(customerId);
         if (existAccounts >= MAX_ACCOUNTS_PER_CUSTOMER) {
@@ -87,7 +84,6 @@ public class AccountServiceImpl implements AccountService {
             account.setAccountType(defaultType);
             account.setOwnershipType(OwnershipType.PERSONAL);
             account.setCurrency(usdCurrency);
-            account.setBranch(branch);
             account.setStatus(AccountStatus.ACTIVE);
             account.setAccNumber(customer.getPhoneNumber());
             account.setClosedAt(null);
@@ -109,7 +105,6 @@ public class AccountServiceImpl implements AccountService {
             // When system are adding RBAC just accept admin, don't accept customer to create
             // validateOwnershipPermission
             account.setOwnershipType(request.getOwnershipType());
-            account.setBranch(branch);
             account.setStatus(AccountStatus.ACTIVE);
             account.setAccNumber(generateUniqueAccountNumber(accountRepository));
             account.setClosedAt(null);

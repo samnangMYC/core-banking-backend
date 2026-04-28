@@ -22,9 +22,6 @@ public class AccountRequest {
     @NotNull(message = "Currency is required")
     private Long currencyId;
 
-    @NotNull(message = "Branch is required")
-    private Long branchId;
-
     @NotNull(message = "Ownership is required")
     private OwnershipType ownershipType;
 

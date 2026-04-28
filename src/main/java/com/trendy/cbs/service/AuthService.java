@@ -10,7 +10,7 @@ import jakarta.validation.Valid;
 public interface AuthService {
     AuthResponse signInAsStaff(@Valid AuthReq req);
 
-    AuthResponse signUpAsCustomer(@Valid CustomerRequest request);
+    CustomerDTO signUpAsCustomer(@Valid CustomerRequest request);
 
     AuthResponse signInAsCustomer(@Valid CustomerSignInRequest request);
 }

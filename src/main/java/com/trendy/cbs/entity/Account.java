@@ -114,10 +114,6 @@ public class Account {
     private Currency currency;
 
 
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
-    @JoinColumn(name = "branch_id")
-    private Branch branch;
-
     @OneToMany(mappedBy = "account",fetch = FetchType.EAGER)
     private List<LedgerEntry> ledgerEntries;
 

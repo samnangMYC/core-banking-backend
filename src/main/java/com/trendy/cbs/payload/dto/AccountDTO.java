@@ -34,8 +34,6 @@ public class AccountDTO {
 
     private CurrencySummaryDTO currency;
 
-    private BranchSummaryDTO branch;
-
     private LocalDateTime openedAt;
 
     private LocalDateTime closedAt;
