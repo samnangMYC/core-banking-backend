@@ -1,5 +1,5 @@
 <!-- Modern Gradient Header -->
-<h1 align="center">🏦 Enterprise Core Banking System</h1>
+<h1 align="center">🏦 Core Banking System</h1>
 <h3 align="center">Scalable,Banking Platform with Spring Boot (CBS)</h3>
 
 <p align="center">
@@ -18,23 +18,23 @@
 
 ## 🌟 Description
 
-**Meduim Enterprise Core Banking System** with **Spring Boot** and **API Gateway** for scalable, secure, and modular banking services. Designed for **small to large banks**, supporting **customer management, accounts, transactions, reporting**, and **event-driven microservices**. Ideal for developers, banks, and fintech solutions seeking **production-ready, open-source banking software**.  
+A Core Banking System (CBS) built using Spring Boot following a monolithic architecture. This system is designed for simplicity, maintainability, and enterprise-grade reliability, covering essential banking operations such as customer management, accounts, transactions, and reporting.
 
-**Keywords for SEO:** Core Banking System, Spring Boot Banking App, Scalable Banking Software, Enterprise Banking Solution, Banking Microservices, Digital Banking Platform, Open Source Core Banking, Secure Banking API
+It is suitable for small to medium banks or fintech applications that require a single deployable backend system without microservices complexity.
+
+Keywords for SEO: Core Banking System, Spring Boot Banking App, Monolithic Banking System, Banking Software, Digital Banking Platform, Secure Banking Backend, Open Source Banking System
 
 ---
 
 ## 🚀 Features
-
-- ✅ Customer Management (KYC, onboarding, profile)  
-- ✅ Account Management (Savings, Current, Fixed Deposits)  
-- ✅ Transaction Management (Internal & External Transfers)  
-- ✅ Audit Logging & Reporting
-- ✅ Role-Based Access Control(RBAC)
-- ✅ Microservices-Ready Modular Architecture  
-- ✅ Swagger API Documentation  
-- ✅ Scalable Deployment with Docker & Kubernetes  
-- ✅ Unit & Integration Testing with JUnit & Spring Test  
+✅ Customer Management (KYC, onboarding, profile)
+✅ Account Management (Savings, Current, Fixed Deposits)
+✅ Transaction Management (Deposits, Withdrawals, Transfers)
+✅ Audit Logging & Transaction History
+✅ Role-Based Access Control (RBAC)
+✅ REST API Documentation (Swagger/OpenAPI)
+✅ Secure Authentication & Authorization (Keycloak or Spring Security)
+✅ Unit & Integration Testing (JUnit & Spring Test)
 
 ---
 
