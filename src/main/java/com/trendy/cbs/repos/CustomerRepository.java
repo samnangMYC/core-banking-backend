@@ -16,5 +16,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     Optional<Customer> findByPhoneNumber(@NotBlank @Pattern(regexp = "^\\+?[0-9]{8,15}$") String phoneNumber);
 
-    Optional<CustomerDTO> findByUser_Id(Long userId);
+    Optional<Customer> findByUser_Id(Long userId);
 }

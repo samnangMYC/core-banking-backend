@@ -36,10 +36,15 @@ public class SecurityConfig {
 
                         .requestMatchers(
                                 "/api/v1/admin/auth/**",
-                                "/api/v1/customer/auth/**"
+                                "/api/v1/customer/auth/**",
+                                "/api/v1/customers/request",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/actuator/**"
                         ).permitAll()
 
                         .requestMatchers("/api/v1/admin/**").hasRole("SYSTEM_ADMIN")
+                        .requestMatchers("/api/v1/customers/**").authenticated()
 
                         .anyRequest().denyAll()
                 )

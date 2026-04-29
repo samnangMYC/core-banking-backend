@@ -52,25 +52,6 @@ public class AuthController {
     }
 
     /**
-     * Customer Sign-Up
-     * Description:
-     * Registers a new customer using phone + passcode.
-     * Automatically logs in the user after successful registration.
-     */
-    @PostMapping("/api/v1/customer/auth/signup")
-    public ResponseEntity<CustomerDTO> customerSignUp(
-            @Valid @RequestBody CustomerRegistrationRequest req) {
-
-        log.info("Customer signup attempt phone={}", req.getPhoneNumber());
-
-        CustomerDTO res = authService.signUpAsCustomer(req);
-
-        log.info("Customer signup success phone={}", req.getPhoneNumber());
-
-        return ResponseEntity.ok(res);
-    }
-
-    /**
      * Customer Sign-In
      * Description:
      * Authenticates a customer using phone + passcode.

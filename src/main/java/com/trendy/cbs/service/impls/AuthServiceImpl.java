@@ -49,56 +49,6 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    @Transactional
-    public CustomerDTO signUpAsCustomer(CustomerRegistrationRequest req) {
-
-        validateCustomerSignup(req);
-
-        String keycloakUserId = null;
-
-        try {
-            keycloakUserId = createCustomerInKeycloak(req);
-
-            User user = saveCustomerUser(req, keycloakUserId);
-            Customer customer =  saveCustomer(req, user);
-
-            auditServices.record(
-                    SecurityAuditEvent.builder()
-                            .userId(String.valueOf(user.getId()))
-                            .username(user.getUsername())
-                            .method("POST")
-                            .path("/api/v1/customer/auth/signup")
-                            .statusCode(201)
-                            .action("CREATE_CUSTOMER")
-                            .result("SUCCESS")
-                            .errorMessage(null)
-                            .durationMs(0L)
-                            .occurredAt(Instant.now())
-                            .build()
-            );
-
-            return CustomerDTO.builder()
-                    .customerId(String.valueOf(customer.getId()))
-                    .username(user.getUsername())
-                    .firstName(customer.getFirstName())
-                    .lastName(customer.getLastName())
-                    .gender(customer.getGender())
-                    .email(user.getEmail())
-                    .phoneNumber(customer.getPhoneNumber())
-                    .occupation(customer.getOccupation())
-                    .nationality(customer.getNationality())
-                    .maritalStatus(customer.getMaritalStatus())
-                    .createdAt(customer.getCreatedAt())
-                    .updatedAt(customer.getUpdatedAt())
-                    .build();
-
-        } catch (Exception ex) {
-            rollbackKeycloakUser(keycloakUserId);
-            throw ex;
-        }
-    }
-
-    @Override
     public AuthResponse signInAsCustomer(CustomerSignInRequest req) {
         customerRepository.findByPhoneNumber(req.getPhoneNumber())
                 .orElseThrow(() -> BusinessException.unauthorized(
@@ -185,77 +135,12 @@ public class AuthServiceImpl implements AuthService {
                     .build();
 
         } catch (Exception ex) {
-            log.warn("Login failed username={}", username);
+            log.warn("Login failed username={}", username,ex);
+
             throw BusinessException.unauthorized(
                     ErrorCode.AUTH_ERROR,
                     "Username or password is incorrect"
             );
-        }
-    }
-
-    private String createCustomerInKeycloak(CustomerRegistrationRequest req) {
-        UserRepresentation user = new UserRepresentation();
-        user.setUsername(req.getPhoneNumber());
-        user.setEmail(req.getEmail());
-        user.setFirstName(req.getFirstName());
-        user.setLastName(req.getLastName());
-        user.setEnabled(true);
-        user.setEmailVerified(req.getEmail() != null);
-
-        String userId = keycloakAdminService.createUser(user);
-        keycloakAdminService.setPassword(userId, req.getPasscode());
-        keycloakAdminService.assignRealmRole(userId, SystemRole.CUSTOMER_SERVICE);
-
-        return userId;
-    }
-
-    private User saveCustomerUser(CustomerRegistrationRequest req, String keycloakUserId) {
-        User user = User.builder()
-                .authProvider(AuthProvider.KEYCLOAK)
-                .authProviderUserId(keycloakUserId)
-                .username(req.getPhoneNumber())
-                .email(req.getEmail())
-                .userType(UserType.CUSTOMER)
-                .build();
-
-        return userRepository.save(user);
-    }
-
-    private Customer saveCustomer(CustomerRegistrationRequest req, User user) {
-        Customer customer = Customer.builder()
-                .user(user)
-                .firstName(req.getFirstName())
-                .lastName(req.getLastName())
-                .gender(req.getGender())
-                .phoneNumber(req.getPhoneNumber())
-                .occupation(req.getOccupation())
-                .nationality(req.getNationality())
-                .maritalStatus(req.getMaritalStatus())
-                .status(CustomerStatus.ACTIVE)
-                .build();
-
-        return customerRepository.save(customer);
-    }
-
-    private void validateCustomerSignup(CustomerRegistrationRequest req) {
-        if (customerRepository.existsByPhoneNumber(req.getPhoneNumber())) {
-            throw BusinessException.badRequest(
-                    ErrorCode.CUSTOMER_ALREADY_EXISTS,
-                    "Phone number is already registered"
-            );
-        }
-
-        if (req.getEmail() != null && userRepository.existsByEmail(req.getEmail())) {
-            throw BusinessException.badRequest(
-                    ErrorCode.CUSTOMER_ALREADY_EXISTS,
-                    "Email is already registered"
-            );
-        }
-    }
-
-    private void rollbackKeycloakUser(String keycloakUserId) {
-        if (keycloakUserId != null) {
-            keycloakAdminService.deleteUserQuietly(keycloakUserId);
         }
     }
 

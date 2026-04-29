@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @Builder
 public class CustomerDTO {
-    private String customerId;
+    private String id;
 
     private String username;
 
