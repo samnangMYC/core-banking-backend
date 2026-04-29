@@ -7,7 +7,6 @@ import com.trendy.cbs.repos.SecurityAuditLogRepository;
 import com.trendy.cbs.service.SecurityAuditService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -19,7 +18,6 @@ public class SecurityAuditServiceImpl implements SecurityAuditService {
     private final SecurityAuditMapper mapper;
 
     @Override
-    @Async
     public void record(SecurityAuditEvent event) {
         try {
             SecurityAuditLog entity = mapper.toEntity(event);

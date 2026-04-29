@@ -3,7 +3,7 @@ package com.trendy.cbs.enums;
 public enum ErrorCode {
     CUSTOMER_NOT_VERIFIED,
     CUSTOMER_NOT_ACTIVE,
-    CuSTOMER_NOT_FOUND,
+    CUSTOMER_NOT_FOUND,
     IDENTITY_NOT_COMPLETED,
     ACCOUNT_LIMIT_REACHED,
     INVALID_AMOUNT,

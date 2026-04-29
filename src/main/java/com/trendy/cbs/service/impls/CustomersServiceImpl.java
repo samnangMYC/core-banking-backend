@@ -4,38 +4,43 @@ import com.trendy.cbs.entity.Customer;
 import com.trendy.cbs.entity.User;
 import com.trendy.cbs.enums.*;
 import com.trendy.cbs.exception.BusinessException;
+import com.trendy.cbs.mapper.CustomerMapper;
 import com.trendy.cbs.payload.dto.CustomerDTO;
 import com.trendy.cbs.payload.dto.SecurityAuditEvent;
 import com.trendy.cbs.payload.request.CustomerRegistrationRequest;
+import com.trendy.cbs.payload.request.CustomerStatusRequest;
+import com.trendy.cbs.payload.request.CustomerUpdateRequest;
 import com.trendy.cbs.repos.CustomerRepository;
 import com.trendy.cbs.repos.UserRepository;
-import com.trendy.cbs.security.CurrentUserProvider;
 import com.trendy.cbs.service.CustomerService;
 import com.trendy.cbs.service.KeycloakAdminService;
 import com.trendy.cbs.service.SecurityAuditService;
+import com.trendy.cbs.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CustomerServiceImpl implements CustomerService {
+public class CustomersServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
     private final UserRepository userRepository;
     private final KeycloakAdminService keycloakAdminService;
     private final SecurityAuditService securityAuditService;
-    private final UserServiceImpl userServiceImpl;
+    private final UserService userService;
+    private final CustomerMapper customerMapper;
 
     @Override
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public CustomerDTO createCustomerByMe(CustomerRegistrationRequest req) {
 
         validateRequest(req);
@@ -78,7 +83,7 @@ public class CustomerServiceImpl implements CustomerService {
                             .userId(String.valueOf(user.getId()))
                             .username(user.getUsername())
                             .method("POST")
-                            .path("/api/v1/customer-requests")
+                            .path("/api/v1/customer/requests")
                             .statusCode(201)
                             .action("CREATE_CUSTOMER_REQUEST")
                             .result("SUCCESS")
@@ -88,21 +93,7 @@ public class CustomerServiceImpl implements CustomerService {
                             .build()
             );
 
-            return CustomerDTO.builder()
-                    .customerId(String.valueOf(savedCustomer.getId()))
-                    .username(user.getUsername())
-                    .firstName(savedCustomer.getFirstName())
-                    .lastName(savedCustomer.getLastName())
-                    .gender(savedCustomer.getGender())
-                    .email(user.getEmail())
-                    .phoneNumber(savedCustomer.getPhoneNumber())
-                    .occupation(savedCustomer.getOccupation())
-                    .nationality(savedCustomer.getNationality())
-                    .maritalStatus(savedCustomer.getMaritalStatus())
-                    .status(savedCustomer.getStatus())
-                    .createdAt(savedCustomer.getCreatedAt())
-                    .updatedAt(savedCustomer.getUpdatedAt())
-                    .build();
+            return customerMapper.toDto(customer);
 
         } catch (Exception ex) {
 
@@ -131,11 +122,93 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDTO getCustomerByMe(Jwt jwt) {
-        User user = userServiceImpl.loadUserByJwt(jwt);
-        return customerRepository.findByUser_Id(user.getId())
+        User user = userService.loadUserByJwt(jwt);
+        Customer customer = customerRepository.findByUser_Id(user.getId())
                 .orElseThrow(() -> BusinessException.notFound(
-                        ErrorCode.CuSTOMER_NOT_FOUND,
+                        ErrorCode.CUSTOMER_NOT_FOUND,
                         "Customer not found "
+                ));
+
+        return customerMapper.toDto(customer);
+    }
+
+    @Override
+    @Transactional
+    public CustomerDTO updateCustomerByMe(Jwt jwt, CustomerUpdateRequest request) {
+        User user = userService.loadUserByJwt(jwt);
+
+        Customer customer = customerRepository.findByUser_Id(user.getId())
+                .orElseThrow(() -> BusinessException.notFound(
+                        ErrorCode.CUSTOMER_NOT_FOUND,
+                        "Customer not found"
+                ));
+
+        customer.setFirstName(request.getFirstName());
+        customer.setLastName(request.getLastName());
+        customer.setGender(request.getGender());
+        customer.setOccupation(request.getOccupation());
+        customer.setNationality(request.getNationality());
+        customer.setMaritalStatus(request.getMaritalStatus());
+
+        Customer savedCustomer = customerRepository.save(customer);
+
+        return customerMapper.toDto(savedCustomer);
+    }
+
+    @Override
+    public List<CustomerDTO> getAllCustomer() {
+        return customerMapper.toListDto(customerRepository.findAll());
+    }
+
+    @Override
+    public CustomerDTO approveCustomer(Long customerId) {
+        return customerRepository.findById(customerId)
+                .map(customer -> {
+                    customer.setStatus(CustomerStatus.ACTIVE);
+
+                    return customerMapper.toDto(customer);
+                }).orElseThrow(() -> BusinessException.notFound(
+                        ErrorCode.CUSTOMER_NOT_FOUND,
+                        "Customer not found with id: " + customerId
+                ));
+    }
+
+    @Override
+    public CustomerDTO rejectCustomer(Long customerId) {
+        return customerRepository.findById(customerId)
+                .map(customer -> {
+                    customer.setStatus(CustomerStatus.PENDING);
+
+                    return customerMapper.toDto(customer);
+                }).orElseThrow(() -> BusinessException.notFound(
+                        ErrorCode.CUSTOMER_NOT_FOUND,
+                        "Customer not found with id: " + customerId
+                ));
+    }
+
+    @Override
+    public CustomerDTO suspendCustomer(Long customerId) {
+        return customerRepository.findById(customerId)
+                .map(customer -> {
+                    customer.setStatus(CustomerStatus.SUSPENDED);
+
+                    return customerMapper.toDto(customer);
+                }).orElseThrow(() -> BusinessException.notFound(
+                        ErrorCode.CUSTOMER_NOT_FOUND,
+                        "Customer not found with id: " + customerId
+                ));
+    }
+
+    @Override
+    public CustomerDTO updateCustomerStatus(Long customerId,CustomerStatusRequest request) {
+        return customerRepository.findById(customerId)
+                .map(customer -> {
+                    customer.setStatus(request.getStatus());
+
+                    return customerMapper.toDto(customer);
+                }).orElseThrow(() -> BusinessException.notFound(
+                        ErrorCode.CUSTOMER_NOT_FOUND,
+                        "Customer not found with id: " + customerId
                 ));
     }
 
