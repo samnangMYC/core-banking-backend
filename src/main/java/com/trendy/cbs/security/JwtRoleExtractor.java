@@ -1,4 +1,4 @@
-package com.trendy.cbs.jwt;
+package com.trendy.cbs.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;

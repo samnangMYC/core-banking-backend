@@ -8,17 +8,21 @@ import com.trendy.cbs.enums.ErrorCode;
 import com.trendy.cbs.enums.UserType;
 import com.trendy.cbs.exception.BusinessException;
 import com.trendy.cbs.payload.dto.AdminStaffDTO;
+import com.trendy.cbs.payload.dto.SecurityAuditEvent;
 import com.trendy.cbs.payload.request.AdminStaffReq;
 import com.trendy.cbs.repos.StaffRepository;
 import com.trendy.cbs.repos.UserRepository;
+import com.trendy.cbs.security.CurrentUserProvider;
 import com.trendy.cbs.service.AdminStaffService;
 import com.trendy.cbs.service.KeycloakAdminService;
+import com.trendy.cbs.service.SecurityAuditService;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Service
@@ -28,6 +32,8 @@ public class AdminStaffServiceImpl implements AdminStaffService {
     private final UserRepository userRepository;
     private final StaffRepository staffRepository;
     private final KeycloakAdminService keycloakAdminService;
+    private final SecurityAuditService  securityAuditService;
+    private final CurrentUserProvider currentUserProvider;
 
     @Override
     @Transactional
@@ -78,6 +84,21 @@ public class AdminStaffServiceImpl implements AdminStaffService {
 
             staff = staffRepository.save(staff);
 
+            securityAuditService.record(
+                    SecurityAuditEvent.builder()
+                            .userId(String.valueOf(user.getId()))
+                            .username(user.getUsername())
+                            .method("POST")
+                            .path("/api/v1/admin/staff")
+                            .statusCode(201)
+                            .action("CREATE_STAFF")
+                            .result("SUCCESS")
+                            .errorMessage(null)
+                            .durationMs(0L)
+                            .occurredAt(Instant.now())
+                            .build()
+            );
+
             return AdminStaffDTO.builder()
                     .userId(user.getId())
                     .staffId(staff.getId())
@@ -94,11 +115,27 @@ public class AdminStaffServiceImpl implements AdminStaffService {
                     .createdAt(staff.getCreatedAt())
                     .build();
 
+
         } catch (Exception ex) {
 
             if (keycloakUserId != null) {
                 keycloakAdminService.deleteUserQuietly(keycloakUserId);
             }
+
+            securityAuditService.record(
+                    SecurityAuditEvent.builder()
+                            .userId(currentUserProvider.getCurrentUserId())
+                            .username(currentUserProvider.getCurrentUsername())
+                            .method("POST")
+                            .path("/api/v1/admin/staff")
+                            .statusCode(500)
+                            .action("CREATE_STAFF")
+                            .result("FAILED")
+                            .errorMessage(ex.getMessage())
+                            .durationMs(0L)
+                            .occurredAt(Instant.now())
+                            .build()
+            );
 
             throw ex;
         }

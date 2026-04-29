@@ -4,6 +4,7 @@ import com.trendy.cbs.payload.dto.CustomerDTO;
 import com.trendy.cbs.payload.request.AuthReq;
 import com.trendy.cbs.payload.request.CustomerRequest;
 import com.trendy.cbs.payload.request.CustomerSignInRequest;
+import com.trendy.cbs.payload.request.SignOutRequest;
 import com.trendy.cbs.payload.response.AuthResponse;
 import com.trendy.cbs.service.AuthService;
 import jakarta.validation.Valid;
@@ -24,7 +25,7 @@ public class AuthController {
      * Description:
      * Authenticates an internal user (admin/staff) using username + password.
      */
-    @PostMapping("/api/v1/admin/auth/sign-in")
+    @PostMapping("/api/v1/admin/auth/signin")
     public ResponseEntity<AuthResponse> adminSignIn(
             @Valid @RequestBody AuthReq req) {
         log.info("Admin login attempt username={}", req.getUsername());
@@ -34,13 +35,29 @@ public class AuthController {
         return ResponseEntity.ok(res);
     }
 
+
+    /**
+     * Sign out the currently authenticated user (Admin, Staff, or Customer).
+     *
+     * <p>This endpoint performs a logout by:
+     * <ul>
+     *     <li>Invalidating the session in Keycloak using the provided refresh token</li>
+     *     <li>Clearing the Spring Security context</li>
+     *     <li>Returning a standardized logout response</li>
+     * </ul>
+     */
+    @PostMapping("/api/v1/auth/signout")
+    public ResponseEntity<AuthResponse> SignOut(@RequestBody SignOutRequest request){
+        return ResponseEntity.ok(authService.signOut(request));
+    }
+
     /**
      * Customer Sign-Up
      * Description:
      * Registers a new customer using phone + passcode.
      * Automatically logs in the user after successful registration.
      */
-    @PostMapping("/api/v1/customer/auth/sign-up")
+    @PostMapping("/api/v1/customer/auth/signup")
     public ResponseEntity<CustomerDTO> customerSignUp(
             @Valid @RequestBody CustomerRequest req) {
 
@@ -58,7 +75,7 @@ public class AuthController {
      * Description:
      * Authenticates a customer using phone + passcode.
      */
-    @PostMapping("/api/v1/customer/auth/sign-in")
+    @PostMapping("/api/v1/customer/auth/signin")
     public ResponseEntity<AuthResponse> customerSignIn(
             @Valid @RequestBody CustomerSignInRequest req) {
 

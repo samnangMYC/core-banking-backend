@@ -1,5 +1,6 @@
 package com.trendy.cbs.service.keycloak;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.KeycloakBuilder;
@@ -24,17 +25,9 @@ public class KeycloakTokenService {
     private String clientSecret;
 
     public AccessTokenResponse login(String username, String password) {
+        return null;
+    }
 
-        return KeycloakBuilder.builder()
-                .serverUrl(serverUrl)
-                .realm(realm)
-                .clientId(clientId)
-                .grantType(OAuth2Constants.PASSWORD)
-                .clientSecret(clientSecret)
-                .username(username)
-                .password(password)
-                .build()
-                .tokenManager()
-                .getAccessToken();
+    public void logout(@NotBlank(message = "Refresh token is required") String refreshToken) {
     }
 }
