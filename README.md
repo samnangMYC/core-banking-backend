@@ -17,11 +17,7 @@
 ---
 
 ## 🌟 Description
-
-**Meduim Enterprise Core Banking System** with **Spring Boot** and **API Gateway** for scalable, secure, and modular banking services. Designed for **small to large banks**, supporting **customer management, accounts, transactions, reporting**, and **event-driven microservices**. Ideal for developers, banks, and fintech solutions seeking **production-ready, open-source banking software**.  
-
-**Keywords for SEO:** Core Banking System, Spring Boot Banking App, API Gateway Banking, Scalable Banking Software, Enterprise Banking Solution, Banking Microservices, Digital Banking Platform, Open Source Core Banking, Secure Banking API
-
+A secure, scalable, and modular Core Banking System built using Spring Boot (Monolithic Architecture). This project is designed for small banks and fintech solutions, providing a simplified yet robust foundation for managing core banking operations.
 ---
 
 ## 🚀 Features
@@ -31,8 +27,6 @@
 - ✅ Transaction Management (Internal & External Transfers)  
 - ✅ Audit Logging & Reporting  
 - ✅ Role-Based Access Control (RBAC)  
-- ✅ API Gateway for routing, security & load balancing  
-- ✅ Microservices-Ready Modular Architecture  
 - ✅ Swagger API Documentation  
 - ✅ Scalable Deployment with Docker & Kubernetes  
 - ✅ Unit & Integration Testing with JUnit & Spring Test  
@@ -44,7 +38,6 @@
 | Layer        | Technology |
 |--------------|------------|
 | Backend      | Java 25, Spring Boot 4.0, Spring Data JPA
-| API Gateway  | Spring Cloud Gateway / Zuul |
 | Database     | PostgreSQL, Redis (cache) |
 | API          | REST & GraphQL |
 | DevOps       | Docker, Kubernetes, GitHub Actions |
