@@ -2,7 +2,7 @@ package com.trendy.cbs.enums;
 
 public enum SystemRole {
     TELLER,
-    CUSTOMER_SERVICE,
+    CUSTOMER,
     LOAN_OFFICER,
     ACCOUNTANT,
     AUDITOR,

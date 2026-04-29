@@ -6,7 +6,6 @@ import com.trendy.cbs.service.AddressService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jspecify.annotations.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/customer/me/addresses")
 @RequiredArgsConstructor
-public class AddressController {
+public class CustomerAddressController {
 
     private final AddressService addressService;
 

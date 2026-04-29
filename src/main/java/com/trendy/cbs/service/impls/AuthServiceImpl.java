@@ -6,14 +6,11 @@ import com.trendy.cbs.entity.Customer;
 import com.trendy.cbs.entity.User;
 import com.trendy.cbs.enums.*;
 import com.trendy.cbs.exception.BusinessException;
-import com.trendy.cbs.payload.request.SignOutRequest;
+import com.trendy.cbs.payload.request.*;
 import com.trendy.cbs.security.CurrentUserProvider;
 import com.trendy.cbs.security.JwtRoleExtractor;
 import com.trendy.cbs.payload.dto.CustomerDTO;
 import com.trendy.cbs.payload.dto.SecurityAuditEvent;
-import com.trendy.cbs.payload.request.AuthReq;
-import com.trendy.cbs.payload.request.CustomerRequest;
-import com.trendy.cbs.payload.request.CustomerSignInRequest;
 import com.trendy.cbs.payload.response.AuthResponse;
 import com.trendy.cbs.repos.CustomerRepository;
 import com.trendy.cbs.repos.UserRepository;
@@ -53,7 +50,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public CustomerDTO signUpAsCustomer(CustomerRequest req) {
+    public CustomerDTO signUpAsCustomer(CustomerRegistrationRequest req) {
 
         validateCustomerSignup(req);
 
@@ -196,7 +193,7 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
-    private String createCustomerInKeycloak(CustomerRequest req) {
+    private String createCustomerInKeycloak(CustomerRegistrationRequest req) {
         UserRepresentation user = new UserRepresentation();
         user.setUsername(req.getPhoneNumber());
         user.setEmail(req.getEmail());
@@ -212,7 +209,7 @@ public class AuthServiceImpl implements AuthService {
         return userId;
     }
 
-    private User saveCustomerUser(CustomerRequest req, String keycloakUserId) {
+    private User saveCustomerUser(CustomerRegistrationRequest req, String keycloakUserId) {
         User user = User.builder()
                 .authProvider(AuthProvider.KEYCLOAK)
                 .authProviderUserId(keycloakUserId)
@@ -224,7 +221,7 @@ public class AuthServiceImpl implements AuthService {
         return userRepository.save(user);
     }
 
-    private Customer saveCustomer(CustomerRequest req, User user) {
+    private Customer saveCustomer(CustomerRegistrationRequest req, User user) {
         Customer customer = Customer.builder()
                 .user(user)
                 .firstName(req.getFirstName())
@@ -240,7 +237,7 @@ public class AuthServiceImpl implements AuthService {
         return customerRepository.save(customer);
     }
 
-    private void validateCustomerSignup(CustomerRequest req) {
+    private void validateCustomerSignup(CustomerRegistrationRequest req) {
         if (customerRepository.existsByPhoneNumber(req.getPhoneNumber())) {
             throw BusinessException.badRequest(
                     ErrorCode.CUSTOMER_ALREADY_EXISTS,

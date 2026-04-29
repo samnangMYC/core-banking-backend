@@ -1,7 +1,6 @@
 package com.trendy.cbs.payload.request;
 
 import com.trendy.cbs.enums.Gender;
-import com.trendy.cbs.enums.MaritalStatus;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CustomerRequest {
+public class CustomerRegistrationRequest {
 
     // Personal Info
     @NotBlank(message = "First name is required")

@@ -1,6 +1,7 @@
 package com.trendy.cbs.repos;
 
 import com.trendy.cbs.entity.Customer;
+import com.trendy.cbs.payload.dto.CustomerDTO;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -14,4 +15,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     boolean existsByPhoneNumber(@NotBlank(message = "Phone number is required") @Size(max = 20) String phoneNumber);
 
     Optional<Customer> findByPhoneNumber(@NotBlank @Pattern(regexp = "^\\+?[0-9]{8,15}$") String phoneNumber);
+
+    Optional<CustomerDTO> findByUser_Id(Long userId);
 }

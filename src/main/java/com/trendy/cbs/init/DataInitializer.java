@@ -30,7 +30,7 @@
 //            // -----------------------------
 //            // Create customer John Doe
 //            // -----------------------------
-//            CustomerRequest johnRequest = new CustomerRequest();
+//            CustomerRegistrationRequest johnRequest = new CustomerRegistrationRequest();
 //            johnRequest.setFirstName("John");
 //            johnRequest.setLastName("Doe");
 //            johnRequest.setGender(Gender.MALE);
@@ -56,7 +56,7 @@
 //            // -----------------------------
 //            // Optional: Add more customers
 //            // -----------------------------
-//            CustomerRequest janeRequest = new CustomerRequest();
+//            CustomerRegistrationRequest janeRequest = new CustomerRegistrationRequest();
 //            janeRequest.setFirstName("Jane");
 //            janeRequest.setLastName("Smith");
 //            janeRequest.setGender(Gender.FEMALE);
