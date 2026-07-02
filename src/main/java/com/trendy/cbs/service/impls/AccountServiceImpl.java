@@ -12,11 +12,13 @@ import com.trendy.cbs.payload.request.AccountStatusReq;
 import com.trendy.cbs.payload.request.DepositReq;
 import com.trendy.cbs.repos.*;
 import com.trendy.cbs.service.AccountService;
+import com.trendy.cbs.service.UserService;
 import com.trendy.cbs.service.factory.LedgerEntryFactory;
 import com.trendy.cbs.service.validation.AccountValidationService;
 import com.trendy.cbs.service.validation.CustomerValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,22 +37,28 @@ public class AccountServiceImpl implements AccountService {
     private final CustomerRepository customerRepository;
     private final AccountTypeRepository accountTypeRepository;
     private final CurrencyRepository currencyRepository;
-    private final BranchRepository branchRepository;
     private final CustomerValidationService customerValidationService;
     private final LedgerEntryRepository ledgerEntryRepository;
     private final AccountValidationService accountValidationService;
     private final LedgerEntryFactory ledgerEntryFactory;
     private static final int MAX_ACCOUNTS_PER_CUSTOMER = 15;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Override
-    public AccountDTO createNewAccount(Long customerId,AccountRequest request) {
+    public AccountDTO createSelfAccount(Jwt jwt, AccountRequest request) {
+
+        User user = userService.loadUserByJwt(jwt);
 
         // Fetch customer
-        Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Customer", customerId));
+        Customer customer = customerRepository.findByUser_Id(user.getId())
+                .orElseThrow(() -> BusinessException.notFound(
+                        ErrorCode.CUSTOMER_NOT_FOUND,
+                        "Customer not found with id " + user.getId()
+                ));
 
         // Check account limits
-        Integer existAccounts = accountRepository.countByCustomerId(customerId);
+        Integer existAccounts = accountRepository.countByCustomerId(customer.getId());
         if (existAccounts >= MAX_ACCOUNTS_PER_CUSTOMER) {
             throw new BusinessException(
                     "Customer has reached maximum allowed accounts",
@@ -91,7 +99,7 @@ public class AccountServiceImpl implements AccountService {
             accountRepository.save(account);
         } else {
             // ---------- Process 2: Manual account creation ----------
-            // Fetch requested account type, currency, and branch
+            // Fetch requested account type, currency
             AccountType requestedType = accountTypeRepository.findById(request.getAccountTypeId())
                     .orElseThrow(() -> new ResourceNotFoundException("AccountType", request.getAccountTypeId()));
 

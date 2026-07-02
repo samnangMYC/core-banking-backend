@@ -4,11 +4,12 @@ import com.trendy.cbs.payload.dto.IdentityDocDTO;
 import com.trendy.cbs.payload.request.IdentityDocRequest;
 import com.trendy.cbs.payload.request.IdentityDocStatusRequest;
 import jakarta.validation.Valid;
+import org.springframework.security.oauth2.jwt.Jwt;
 
 import java.util.List;
 
 public interface IdentityDocService {
-    IdentityDocDTO createIdentityDoc(Long customerId,@Valid IdentityDocRequest request);
+    IdentityDocDTO createIdentityDoc(Jwt jwt, @Valid IdentityDocRequest request);
 
     List<IdentityDocDTO> getAllIdentityDoc();
 

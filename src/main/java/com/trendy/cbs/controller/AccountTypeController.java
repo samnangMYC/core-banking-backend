@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class AccountTypeController {
      * @param request The request body containing the details for the new account type. Must be valid and non-null.
      * @return A ResponseEntity containing the created AccountTypeDTO with HTTP status 200 (OK).
      */
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','MANAGER','OPERATIONS')")
     @PostMapping
     public ResponseEntity<AccountTypeDTO> createAccountType(@Valid @RequestBody AccountTypeRequest request){
         log.info("Received request to create account type : {}", request);
@@ -45,6 +47,7 @@ public class AccountTypeController {
      *
      * @return A ResponseEntity containing a non-null list of AccountTypeDTO with HTTP status 200 (OK).
      */
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','MANAGER','OPERATIONS')")
     @GetMapping
     public ResponseEntity<List<AccountTypeDTO>> getAllAccountTypes(){
         log.info("Received request to get all account-types");
@@ -61,6 +64,7 @@ public class AccountTypeController {
      * @param id The ID of the account type to retrieve.
      * @return A ResponseEntity containing the non-null AccountTypeDTO with HTTP status 200 (OK).
      */
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','MANAGER','OPERATIONS')")
     @GetMapping("{id}")
     public ResponseEntity<AccountTypeDTO> getAccountTypeById(@PathVariable Long id){
         log.info("Received request to get account type by id : {}", id);
@@ -78,6 +82,7 @@ public class AccountTypeController {
      * @param request The request body containing the updated details for the account type.
      * @return A ResponseEntity containing the non-null updated AccountTypeDTO with HTTP status 200 (OK).
      */
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','MANAGER','OPERATIONS')")
     @PutMapping("{id}")
     public ResponseEntity<AccountTypeDTO> updateAccountType(@PathVariable Long id, @RequestBody AccountTypeRequest request){
         log.info("Received request to update account type : {}", request);
@@ -94,6 +99,7 @@ public class AccountTypeController {
      * @param id The ID of the account type to delete.
      * @return A ResponseEntity containing a non-null success message with HTTP status 200 (OK).
      */
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMIN')")
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteAccountType(@PathVariable Long id){
         log.info("Received request to delete account type by id : {}", id);
