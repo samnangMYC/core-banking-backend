@@ -205,6 +205,8 @@ public class CustomersServiceImpl implements CustomerService {
                 .map(customer -> {
                     customer.setStatus(request.getStatus());
 
+                    customerRepository.save(customer);
+
                     return customerMapper.toDto(customer);
                 }).orElseThrow(() -> BusinessException.notFound(
                         ErrorCode.CUSTOMER_NOT_FOUND,

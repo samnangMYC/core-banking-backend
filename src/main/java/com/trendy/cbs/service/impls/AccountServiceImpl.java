@@ -7,7 +7,8 @@ import com.trendy.cbs.exception.ResourceNotFoundException;
 import com.trendy.cbs.mapper.AccountMapper;
 import com.trendy.cbs.payload.dto.AccountDTO;
 import com.trendy.cbs.payload.dto.BalanceDTO;
-import com.trendy.cbs.payload.request.AccountRequest;
+import com.trendy.cbs.payload.request.CreateAccountReq;
+import com.trendy.cbs.payload.request.CreateSelfAccountReq;
 import com.trendy.cbs.payload.request.AccountStatusReq;
 import com.trendy.cbs.payload.request.DepositReq;
 import com.trendy.cbs.repos.*;
@@ -46,7 +47,7 @@ public class AccountServiceImpl implements AccountService {
     private final UserService userService;
 
     @Override
-    public AccountDTO createSelfAccount(Jwt jwt, AccountRequest request) {
+    public AccountDTO createSelfAccount(Jwt jwt, CreateSelfAccountReq request) {
 
         User user = userService.loadUserByJwt(jwt);
 
@@ -68,7 +69,6 @@ public class AccountServiceImpl implements AccountService {
         }
 
         // customer verification (purpose: make sure customer verify their kyc information and identity document)
-
         IdentityDoc identityDoc = customer.getIdentityDoc();
 
         customerValidationService.validateCustomer(customer, identityDoc);
@@ -110,9 +110,7 @@ public class AccountServiceImpl implements AccountService {
             account.setCustomer(customer);
             account.setAccountType(requestedType);
             account.setCurrency(requestedCurrency);
-            // When system are adding RBAC just accept admin, don't accept customer to create
-            // validateOwnershipPermission
-            account.setOwnershipType(request.getOwnershipType());
+            account.setOwnershipType(OwnershipType.PERSONAL);
             account.setStatus(AccountStatus.ACTIVE);
             account.setAccNumber(generateUniqueAccountNumber(accountRepository));
             account.setClosedAt(null);
@@ -210,6 +208,23 @@ public class AccountServiceImpl implements AccountService {
         Account savedAccount = accountRepository.save(account);
 
         return accountMapper.toDTO(savedAccount);
+    }
+
+    @Override
+    public AccountDTO createAccountByStaff(CreateAccountReq req) {
+        return null;
+    }
+
+    @Override
+    public AccountDTO getSelfAccountByJwt(Jwt jwt) {
+        User user = userService.loadUserByJwt(jwt);
+
+        Customer customer = user.getCustomer();
+
+        Account account =  accountRepository.findByCustomer_Id(customer.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Account",user.getId()));
+
+        return accountMapper.toDTO(account);
     }
 
     private BigDecimal calculateWithdrawBalance(Account account, DepositReq req) {
