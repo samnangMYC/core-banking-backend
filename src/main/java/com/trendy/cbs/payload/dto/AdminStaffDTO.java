@@ -1,5 +1,6 @@
 package com.trendy.cbs.payload.dto;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.trendy.cbs.enums.EmploymentStatus;
 import com.trendy.cbs.enums.SystemRole;
 import lombok.Builder;
@@ -9,6 +10,21 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
+@JsonPropertyOrder({
+        "staffId",
+        "userId",
+        "keycloakUserId",
+        "staffCode",
+        "username",
+        "email",
+        "firstName",
+        "lastName",
+        "systemRole",
+        "employmentStatus",
+        "department",
+        "jobTitle",
+        "createdAt"
+})
 public class AdminStaffDTO {
     private Long userId;
     private Long staffId;

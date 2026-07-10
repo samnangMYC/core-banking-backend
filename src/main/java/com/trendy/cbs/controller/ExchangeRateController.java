@@ -22,7 +22,7 @@ public class ExchangeRateController {
     private final ExchangeRateService rateService;
 
     @PostMapping
-    public ResponseEntity<ExchangeRateDTO> createExchangeRate(@Valid @RequestBody ExchangeRateRequest req) {
+    public ResponseEntity<ExchangeRateDTO> fetchRate(@Valid @RequestBody ExchangeRateRequest req) {
         log.info("Creating a new rate for currency: {}", req);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(rateService.createNewRate(req));

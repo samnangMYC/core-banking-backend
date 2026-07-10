@@ -49,6 +49,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/currency/**").authenticated()
                         .requestMatchers("/api/v1/accounts/**").authenticated()
                         .requestMatchers("/api/v1/admin/accounts/**").authenticated()
+                        .requestMatchers("/api/v1/admin/staff/**").hasAnyRole("SYSTEM_ADMIN")
+                        .requestMatchers("/api/v1/customer/accounts/**").hasRole("CUSTOMER")
                         .anyRequest().denyAll()
                 )
                 .addFilterAfter(securityAuditFilter, BearerTokenAuthenticationFilter.class)

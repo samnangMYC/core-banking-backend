@@ -255,7 +255,8 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new ResourceNotFoundException("Account",id));
 
-        accountRepository.delete(account);
+        account.setStatus(AccountStatus.DELETED);
+        accountRepository.save(account);
 
         return "Delete account by id " + id;
     }
@@ -272,6 +273,11 @@ public class AccountServiceImpl implements AccountService {
 
             case DORMANT:
                 account.setStatus(AccountStatus.DORMANT);
+                break;
+
+            case DELETED:
+                account.setStatus(AccountStatus.CLOSED);
+                account.setClosedAt(LocalDateTime.now());
                 break;
 
             case CLOSED:

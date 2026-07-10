@@ -1,7 +1,8 @@
-package com.trendy.cbs.controller;
+package com.trendy.cbs.controller.admin;
 
 import com.trendy.cbs.payload.dto.AdminStaffDTO;
 import com.trendy.cbs.payload.request.AdminStaffReq;
+import com.trendy.cbs.payload.request.AdminStaffUpdateReq;
 import com.trendy.cbs.service.AdminStaffService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -28,5 +31,19 @@ public class AdminStaffController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @GetMapping
+    public ResponseEntity<List<AdminStaffDTO>> fetchAll(){
+        log.info("Admin getting all staff");
+
+        return ResponseEntity.ok(adminStaffService.getAllStaff());
+    }
+
+    @PutMapping("/{id}")
+    private ResponseEntity<AdminStaffDTO> update(@PathVariable Long id,@Valid @RequestBody AdminStaffUpdateReq req){
+
+        return ResponseEntity.ok(adminStaffService.updateStaff(id,req));
+    }
+
 
 }

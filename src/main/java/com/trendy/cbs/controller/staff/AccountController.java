@@ -1,4 +1,4 @@
-package com.trendy.cbs.controller;
+package com.trendy.cbs.controller.staff;
 
 import com.trendy.cbs.payload.dto.AccountDTO;
 import com.trendy.cbs.payload.dto.BalanceDTO;
@@ -18,12 +18,13 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/admin/accounts")
+@RequestMapping("/api/v1/accounts")
 @RequiredArgsConstructor
-public class AdminAccountController {
+public class AccountController {
 
     private final AccountService accountService;
 
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','MANAGER','TELLER')")
     @PostMapping
     public ResponseEntity<AccountDTO> createAccounts(@Valid @RequestBody CreateAccountReq req){
         log.info("Received request to Create Accounts for Account");
@@ -150,7 +151,7 @@ public class AdminAccountController {
     }
 
     /**
-     * Deletes an account by its ID.
+     * Deletes an account by its ID.`
      *
      * This endpoint handles DELETE requests to permanently remove an account. It is restricted to
      * system administrators only, as account deletion is a highly destructive operation.
@@ -166,5 +167,7 @@ public class AdminAccountController {
                 .status(HttpStatus.NO_CONTENT)
                 .body(accountService.deleteAccountById(id));
     }
+
+
 
 }

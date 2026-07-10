@@ -33,6 +33,8 @@ public class AuthController {
         AuthResponse res = authService.signInAsStaff(req);
         log.info("Admin login success username={}", req.getUsername());
         return ResponseEntity.ok(res);
+
+
     }
 
     /**

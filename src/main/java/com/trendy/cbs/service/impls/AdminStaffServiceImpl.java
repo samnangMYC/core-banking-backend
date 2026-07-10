@@ -7,9 +7,12 @@ import com.trendy.cbs.enums.EmploymentStatus;
 import com.trendy.cbs.enums.ErrorCode;
 import com.trendy.cbs.enums.UserType;
 import com.trendy.cbs.exception.BusinessException;
+import com.trendy.cbs.exception.ResourceNotFoundException;
+import com.trendy.cbs.mapper.AdminStaffMapper;
 import com.trendy.cbs.payload.dto.AdminStaffDTO;
 import com.trendy.cbs.payload.dto.SecurityAuditEvent;
 import com.trendy.cbs.payload.request.AdminStaffReq;
+import com.trendy.cbs.payload.request.AdminStaffUpdateReq;
 import com.trendy.cbs.repos.StaffRepository;
 import com.trendy.cbs.repos.UserRepository;
 import com.trendy.cbs.security.CurrentUserProvider;
@@ -23,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -34,6 +38,7 @@ public class AdminStaffServiceImpl implements AdminStaffService {
     private final KeycloakAdminService keycloakAdminService;
     private final SecurityAuditService  securityAuditService;
     private final CurrentUserProvider currentUserProvider;
+    private final AdminStaffMapper adminStaffMapper;
 
     @Override
     @Transactional
@@ -140,6 +145,20 @@ public class AdminStaffServiceImpl implements AdminStaffService {
             throw ex;
         }
 
+    }
+
+    @Override
+    public AdminStaffDTO updateStaff(Long id,AdminStaffUpdateReq req) {
+        Staff staff = staffRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Staff",id));
+        adminStaffMapper.updateEntityFromRequest(req,staff);
+
+        return adminStaffMapper.toDto(staff);
+    }
+
+    @Override
+    public List<AdminStaffDTO> getAllStaff() {
+        return adminStaffMapper.toListDto(staffRepository.findAll());
     }
 
     private UserRepresentation buildKeycloakUser(AdminStaffReq req) {

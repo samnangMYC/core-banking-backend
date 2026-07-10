@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AdminStaffReq {
+public class AdminStaffUpdateReq {
 
     @NotBlank(message = "Username is required")
     @Size(min = 4, max = 50)
@@ -57,9 +57,6 @@ public class AdminStaffReq {
     @Size(max = 50)
     private String maritalStatus;
 
-    @NotNull(message = "Staff role is required")
-    private SystemRole systemRole;
-
     @Size(max = 100)
     private String department;
 
@@ -72,7 +69,5 @@ public class AdminStaffReq {
     @DecimalMin(value = "0.0", inclusive = false, message = "Salary must be greater than 0")
     @Digits(integer = 15, fraction = 2)
     private BigDecimal salary;
-
-
 
 }
