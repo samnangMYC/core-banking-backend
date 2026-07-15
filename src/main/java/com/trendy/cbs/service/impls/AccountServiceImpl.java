@@ -18,6 +18,7 @@ import com.trendy.cbs.service.factory.LedgerEntryFactory;
 import com.trendy.cbs.service.validation.AccountValidationService;
 import com.trendy.cbs.service.validation.CustomerValidationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
@@ -153,6 +154,7 @@ public class AccountServiceImpl implements AccountService {
                 .orElseThrow(() -> new ResourceNotFoundException("Account",id));
     }
 
+    @Transactional
     @Override
     public AccountDTO deposit(Long id, DepositReq req) {
         Account account = accountRepository.findById(id)
@@ -167,8 +169,8 @@ public class AccountServiceImpl implements AccountService {
                 account,
                 req.getAmount(),
                 newBalance,
-                LedgerEntryType.DEBIT,
-                "Deposit",
+                LedgerEntryType.CREDIT,
+                "Cash Deposit",
                 Glcode.CASH
         );
         ledgerEntryRepository.save(ledgerEntry);
@@ -242,7 +244,7 @@ public class AccountServiceImpl implements AccountService {
         if (balance.compareTo(amount) < 0) {
             throw new BusinessException(
                     "Insufficient balance",
-                    ErrorCode.INVALID_AMOUNT,
+                    ErrorCode.INSUFFICIENT_BALANCE,
                     HttpStatus.BAD_REQUEST.value()
             );
         }
