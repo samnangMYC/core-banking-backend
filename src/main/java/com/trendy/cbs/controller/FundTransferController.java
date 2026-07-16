@@ -22,7 +22,7 @@ public class FundTransferController {
     private final FundTransferService fundTransferService;
 
     @PostMapping
-    public ResponseEntity<FundTransferDTO> createFundTransfer(@Valid @RequestBody FundTransferRequest req) {
+    public ResponseEntity<FundTransferDTO> create(@Valid @RequestBody FundTransferRequest req) {
         log.info("Received request to create account {}", req.toString());
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -30,13 +30,13 @@ public class FundTransferController {
     }
 
     @GetMapping
-    public ResponseEntity<List<FundTransferDTO>> getAllFundTransfer() {
+    public ResponseEntity<List<FundTransferDTO>> getAll() {
         log.info("Received request to get all fund transfers");
         return ResponseEntity.ok(fundTransferService.getAllFundTransfer());
     }
 
     @PostMapping("/reverse")
-    public ResponseEntity<FundTransferDTO> reverseFundTransfer(@Valid @RequestBody ReverseFundTransferReq req){
+    public ResponseEntity<FundTransferDTO> reverse(@Valid @RequestBody ReverseFundTransferReq req){
         log.info("Received request to reverse fund transfer with {}", req.toString());
 
         return ResponseEntity.ok(fundTransferService.reverseFundTransfer(req));

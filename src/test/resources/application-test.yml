@@ -4,8 +4,8 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:5532/bankdb
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
+    username: trendy
+    password: verysecret123
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
