@@ -533,12 +533,23 @@ The system implements Role-Based Access Control (RBAC).
 ## Role Hierarchy
 
 ```text
-ADMIN
- ├── MANAGER
- │     ├── SUPERVISOR
- │     │      └── TELLER
- │
- └── CUSTOMER
+SYSTEM_ADMIN
+│
+├── BRANCH_MANAGER
+│   │
+│   ├── MANAGER
+│   │   │
+│   │   ├── SUPERVISOR
+│   │   │   │
+│   │   │   └── TELLER
+│   │   │
+│   │   └── OPERATIONS
+│   │
+│   └── ACCOUNTANT
+│
+├── AUDITOR
+│
+└── CUSTOMER
 ```
 
 ---
@@ -547,48 +558,114 @@ ADMIN
 
 ### Customer
 
-Permissions:
+External user who accesses personal banking services.
 
+Permissions:
 - View profile
 - Manage addresses
 - Manage identity documents
 - Open accounts
-- View balances
+- View account balances
+- View transaction history
 - Transfer funds
 
 ### Teller
 
-Permissions:
+Front-office banking employee responsible for customer transactions.
 
+Permissions:
 - View customer information
 - Create customer accounts
-- Process customer transactions
+- Update customer information
+- Process deposits
+- Process withdrawals
+- Process fund transfers
+- View transaction records
 
 ### Supervisor
 
-Permissions:
+Responsible for controlling teller operations and approving activities.
 
-- Teller permissions
-- Approve operational activities
+Permissions:
+- View teller activities
 - Review customer onboarding
+- Approve operational activities
+- Verify transactions
+- Monitor transaction accuracy
+
 
 ### Manager
 
-Permissions:
-
-- Supervisor permissions
-- Manage branches
-- Manage products
-
-### Administrator
+Responsible for branch operations and business management.
 
 Permissions:
+- Manage branch operations
+- Manage banking products
+- Approve customer requests
+- Review branch reports
+- Monitor staff activities
 
+
+### Branch Manager
+
+Responsible for overall branch administration.
+
+Permissions:
+- Manage branch employees
+- Approve high-value transactions
+- Review branch performance
+- Manage branch operations
+- Access branch reports
+
+
+### Operations
+
+Responsible for internal banking processes.
+
+Permissions:
+- Process account operations
+- Handle operational requests
+- Verify transaction workflows
+- Support branch activities
+- Manage back-office processes
+
+
+### Accountant
+
+Responsible for financial records and reconciliation.
+
+Permissions:
+- Manage General Ledger (GL)
+- Perform financial reconciliation
+- Review financial transactions
+- Generate accounting reports
+- Monitor financial records
+
+
+### Auditor
+
+Responsible for compliance monitoring and system auditing.
+
+Permissions:
+- View audit logs
+- Review transaction history
+- Monitor user activities
+- Generate audit reports
+- Verify system compliance
+
+
+### System Admin
+
+Highest-level administrator responsible for system management.
+
+Permissions:
 - Full system access
-- Staff management
-- Security administration
-- Currency configuration
-- Account type management
+- Manage users and roles
+- Manage permissions
+- Configure security settings
+- Manage currencies
+- Manage account types
+- Configure system settings
 
 ---
 
