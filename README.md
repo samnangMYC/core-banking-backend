@@ -50,7 +50,6 @@ Keywords for SEO: Core Banking System, Spring Boot Banking App, Monolithic Banki
 - Support multiple currencies:
   - USD (US Dollar)
   - KHR (Cambodian Riel)
-  - THB (Thai Baht)
   - Other international currencies
 - Currency-based account balance management
 - Exchange rate management
