@@ -294,3 +294,220 @@ Interactive API documentation is available through Swagger UI:
 
 ```text
 http://localhost:8080/swagger-ui/index.html
+
+# Authentication
+
+## Overview
+
+Authentication is responsible for verifying the identity of customers and staff before granting access to the Core Banking System.
+
+The system uses Keycloak as the Identity Provider and supports OAuth2/OpenID Connect authentication flows.
+
+---
+
+## Authentication Architecture
+
+```text
+Client
+   |
+   v
+Keycloak
+   |
+   v
+JWT Access Token
+   |
+   v
+Spring Security
+   |
+   v
+Protected APIs
+```
+
+---
+
+## Supported Users
+
+### Customer
+
+- Register customer profile
+- Login to customer portal
+- Access personal accounts
+
+### Staff
+
+- Teller
+- Supervisor
+- Manager
+- Administrator
+
+---
+
+## Login Endpoints
+
+### Customer Login
+
+```http
+POST /api/v1/customer/auth/signin
+```
+
+### Staff Login
+
+```http
+POST /api/v1/admin/auth/signin
+```
+
+### Logout
+
+```http
+POST /api/v1/auth/signout
+```
+
+---
+
+## JWT Authentication Flow
+
+```text
+User Login
+     |
+     v
+Keycloak Authentication
+     |
+     v
+Generate JWT Token
+     |
+     v
+Client Stores Token
+     |
+     v
+Authorization Header
+     |
+     v
+Spring Security Validation
+     |
+     v
+Access Granted
+```
+
+---
+
+## HTTP Authorization Header
+
+```http
+Authorization: Bearer <access_token>
+```
+
+---
+
+## Security Features
+
+- JWT Authentication
+- OAuth2 Authorization
+- OpenID Connect
+- Password Encryption
+- Session Management
+- Token Validation
+- Secure API Access
+# Authorization
+
+## Overview
+
+Authorization determines what authenticated users are allowed to access within the Core Banking System.
+
+The system implements Role-Based Access Control (RBAC).
+
+---
+
+## Role Hierarchy
+
+```text
+ADMIN
+ ├── MANAGER
+ │     ├── SUPERVISOR
+ │     │      └── TELLER
+ │
+ └── CUSTOMER
+```
+
+---
+
+## System Roles
+
+### Customer
+
+Permissions:
+
+- View profile
+- Manage addresses
+- Manage identity documents
+- Open accounts
+- View balances
+- Transfer funds
+
+### Teller
+
+Permissions:
+
+- View customer information
+- Create customer accounts
+- Process customer transactions
+
+### Supervisor
+
+Permissions:
+
+- Teller permissions
+- Approve operational activities
+- Review customer onboarding
+
+### Manager
+
+Permissions:
+
+- Supervisor permissions
+- Manage branches
+- Manage products
+
+### Administrator
+
+Permissions:
+
+- Full system access
+- Staff management
+- Security administration
+- Currency configuration
+- Account type management
+
+---
+
+## Authorization Matrix
+
+| Resource | Customer | Teller | Supervisor | Manager | Admin |
+|-----------|-----------|----------|-------------|----------|--------|
+| Customer Profile | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Identity Documents | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Customer Accounts | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Fund Transfer | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Currency Management | ✗ | ✗ | ✗ | ✓ | ✓ |
+| Account Type Management | ✗ | ✗ | ✗ | ✓ | ✓ |
+| Staff Management | ✗ | ✗ | ✗ | ✗ | ✓ |
+
+---
+
+## Spring Security Example
+
+```java
+@PreAuthorize("hasRole('ADMIN')")
+```
+
+```java
+@PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
+```
+
+---
+
+## Security Principles
+
+- Least Privilege Principle
+- Separation of Duties
+- Role-Based Access Control
+- Protected Administrative Operations
