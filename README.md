@@ -29,72 +29,65 @@ Keywords for SEO: Core Banking System, Spring Boot Banking App, Monolithic Banki
 ## 🚀 Features
 
 ### 👤 Identity & Customer Management
-✅ Customer Identity Management (Personal information, identification documents, verification)  
-✅ KYC (Know Your Customer) Management  
-✅ Customer Onboarding & Profile Management  
-✅ Customer Status Lifecycle (Active, Suspended, Closed)  
+- Customer profile management
+- Customer identity document management
+- KYC (Know Your Customer) verification
+- Customer status lifecycle management (Active, Suspended, Closed)
 
 ### 🏦 Account Management
-✅ Multiple Account Types Support:
-- Savings Account
-- Current Account
-- Fixed Deposit Account
-- Loan Account (Future Extension)
-
-✅ Account Lifecycle Management:
-- Account Opening
-- Account Activation
-- Account Blocking
-- Account Closing
-
-✅ Account Number Generation & Validation  
-✅ Multi-Currency Account Support  
+- Support multiple account types:
+  - Savings Account
+  - Current Account
+  - Fixed Deposit Account
+  - Loan Account (Future Extension)
+- Account opening and activation
+- Account blocking and closing
+- Account number generation and validation
+- Multi-currency account support
 
 ### 💱 Currency Management
-✅ Currency Configuration Management  
-✅ Support Multiple Currencies:
-- USD (US Dollar)
-- KHR (Cambodian Riel)
-- THB (Thai Baht)
-- Other International Currencies
-
-✅ Currency-Based Account Balance Management  
-✅ Exchange Rate Management 
+- Currency configuration management
+- Support multiple currencies:
+  - USD (US Dollar)
+  - KHR (Cambodian Riel)
+  - THB (Thai Baht)
+  - Other international currencies
+- Currency-based account balance management
+- Exchange rate management
 
 ### 💳 Transaction Management
-✅ Deposit Processing  
-✅ Withdrawal Processing  
-✅ Internal Fund Transfer  
-✅ Transaction Validation & Processing Rules  
-✅ Transaction History & Statement Management  
-✅ Transaction Status Tracking  
+- Deposit processing
+- Withdrawal processing
+- Internal fund transfer
+- Transaction validation and business rules
+- Transaction history and account statements
+- Transaction status tracking
+
+### 📚 Ledger Management
+- Double-entry ledger recording
+- Debit and credit transaction tracking
+- Transaction reference and audit history
+- Running balance management
 
 ### 🔐 Security & Access Control
-✅ Secure Authentication & Authorization  
-✅ Role-Based Access Control (RBAC)  
-✅ User Identity Management  
-✅ Permission-Based API Access  
-✅ Audit Logging & Activity Tracking  
+- Secure authentication and authorization
+- Role-Based Access Control (RBAC)
+- User identity management
+- Permission-based API access
+- Audit logging and activity tracking
 
 ### 📚 API & Documentation
-✅ REST API Documentation (Swagger/OpenAPI)  
-✅ API Request/Response Validation  
-✅ Standard Error Handling  
+- RESTful API design
+- Swagger/OpenAPI documentation
+- Request and response validation
+- Standard error handling
 
 ### 🧪 Testing & Quality
-✅ Unit Testing (JUnit 5)  
-✅ Integration Testing (Spring Test)  
-✅ Repository & Service Layer Testing  
-✅ Banking Business Rule Testing  
-
-### 📊 Reporting
-✅ Account Balance Reports  
-✅ Transaction Reports  
-✅ Customer Activity Reports  
-✅ Financial Summary Reports
-
----
-
+- Unit testing with JUnit 5
+- Integration testing with Spring Test
+- Repository and service layer testing
+- Banking business rule testing
+  
 ## 💻 Tech Stack
 
 
