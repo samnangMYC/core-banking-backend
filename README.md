@@ -671,15 +671,17 @@ Permissions:
 
 ## Authorization Matrix
 
-| Resource | Customer | Teller | Supervisor | Manager | Admin |
-|-----------|-----------|----------|-------------|----------|--------|
-| Customer Profile | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Identity Documents | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Customer Accounts | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Fund Transfer | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Currency Management | ✗ | ✗ | ✗ | ✓ | ✓ |
-| Account Type Management | ✗ | ✗ | ✗ | ✓ | ✓ |
-| Staff Management | ✗ | ✗ | ✗ | ✗ | ✓ |
+| Role           | User Management | Transactions | Approval | Reports  | Audit |
+| -------------- | --------------- | ------------ | -------- | -------- | ----- |
+| SYSTEM_ADMIN   | ✅               | ✅            | ✅        | ✅        | ✅     |
+| BRANCH_MANAGER | ❌               | ✅            | ✅        | ✅        | ❌     |
+| MANAGER        | ❌               | ✅            | ✅        | ✅        | ❌     |
+| SUPERVISOR     | ❌               | ✅            | ✅        | Limited   | ❌     |
+| TELLER         | ❌               | ✅            | ❌        | ❌        | ❌     |
+| OPERATIONS     | ❌               | ✅            | Limited   | ✅        | ❌     |
+| ACCOUNTANT     | ❌               | Financial     | ✅        | ✅        | ❌     |
+| AUDITOR        | ❌               | View Only     | ❌        | ✅        | ✅     |
+| CUSTOMER       | ❌               | Own Account   | ❌        | Own Data  | ❌     |
 
 ---
 
