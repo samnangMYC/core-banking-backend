@@ -2,9 +2,9 @@
 
 **An educational Core Banking Platform built with Spring Boot**
 
-![GitHub stars](https://img.shields.io/github/stars/your-username/your-repository)
-![GitHub issues](https://img.shields.io/github/issues/your-username/your-repository)
-![License](https://img.shields.io/github/license/your-username/your-repository)
+![GitHub stars](https://img.shields.io/github/stars/samnangMYC/core-banking-backend)
+![GitHub issues](https://img.shields.io/github/issues/samnangMYC/core-banking-backend)
+![License](https://img.shields.io/github/license/samnangMYC/core-banking-backend)
 
 ## 🌟 Overview
 
@@ -1113,17 +1113,4 @@ The following features are planned to expand the system and improve its similari
 
 The project is designed to support modern deployment practices using containerization and cloud technologies.
 
-### 🐳 Docker Deployment
-
-The application can be containerized using Docker for consistent development and deployment environments.
-
-Planned deployment components:
-
-- Spring Boot application container
-- PostgreSQL database container
-- Keycloak authentication server container
-- Redis caching container
-- Message broker container (Kafka/RabbitMQ)
-
-Example deployment architecture:
 
