@@ -982,3 +982,7 @@ The following behaviors are verified:
 - Exception handling
 - Business rule enforcement
 - Ledger synchronization
+
+## Class Diagram
+
+![Class Diagram](docs/diagram/class_diagram.svg)
