@@ -406,6 +406,8 @@ Interactive API documentation is available through Swagger UI:
 ```text
 http://localhost:8080/swagger-ui/index.html
 
+```
+
 # Authentication
 
 ## Overview
