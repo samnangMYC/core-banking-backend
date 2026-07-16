@@ -1059,4 +1059,71 @@ alt="Core Banking System Class Diagram"
 width="100%"
 />
 
+## 🔮 Future Features & Roadmap
+
+The following features are planned to expand the system and improve its similarity to real-world banking platforms.
+
+### 👤 Customer & Identity Management
+- 🔄 Advanced KYC verification workflow
+- 📄 Document upload and verification management
+- 🏠 Multiple customer addresses management
+- 👥 Joint account support
+- 📱 Customer notification preferences
+
+### 💳 Account & Banking Operations
+- 🏦 Multiple account ownership support
+- 💰 Interest calculation engine
+- 💱 Multi-currency account support
+- 🏧 ATM transaction simulation
+- 📊 Account statement generation
+- 🔒 Account freeze and security controls
+
+### 💸 Transaction & Payment Processing
+- 🔁 Scheduled transactions
+- 🌍 International fund transfer simulation
+- 💳 Payment gateway integration
+- 🧾 Transaction fee calculation
+- 🔍 Advanced transaction searching and filtering
+- 📈 Financial transaction analytics
+
+### 🔐 Security Enhancements
+- 🔑 Multi-factor authentication (MFA)
+- 🛡️ Advanced role-based access control (RBAC)
+- 📋 Audit logging system
+- 🚨 Fraud detection simulation
+- 🔒 Data encryption for sensitive information
+
+### 📊 Reporting & Administration
+- 📑 Financial reporting dashboard
+- 📈 Customer activity analytics
+- 🏢 Branch management system
+- 👨‍💼 Employee and staff management
+- 📊 System monitoring and health checks
+
+### ⚙️ Architecture Improvements
+- 🔄 Migration toward microservices architecture
+- 🚪 API Gateway implementation
+- 📨 Event-driven communication using Kafka/RabbitMQ
+- ⚡ Redis caching integration
+- 🧪 Advanced automated testing
+- ☁️ Cloud deployment support
+
+
+## 🚀 Deployment
+
+The project is designed to support modern deployment practices using containerization and cloud technologies.
+
+### 🐳 Docker Deployment
+
+The application can be containerized using Docker for consistent development and deployment environments.
+
+Planned deployment components:
+
+- Spring Boot application container
+- PostgreSQL database container
+- Keycloak authentication server container
+- Redis caching container
+- Message broker container (Kafka/RabbitMQ)
+
+Example deployment architecture:
 
