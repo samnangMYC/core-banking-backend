@@ -511,3 +511,168 @@ Permissions:
 - Separation of Duties
 - Role-Based Access Control
 - Protected Administrative Operations
+
+# Audit Logging
+
+## Overview
+
+The Core Banking System implements centralized audit logging to provide traceability, accountability, security monitoring, and compliance reporting.
+
+Every critical API request is recorded and stored in the `security_audit_logs` table.
+
+---
+
+## Audit Log Entity
+
+| Field | Description |
+|---------|-------------|
+| id | Unique audit record identifier |
+| userId | User identifier performing the action |
+| username | Authenticated username |
+| method | HTTP method (GET, POST, PUT, DELETE, PATCH) |
+| path | Requested API endpoint |
+| ipAddress | Client IP address |
+| userAgent | Browser, mobile app, or client information |
+| statusCode | HTTP response code |
+| action | Business action performed |
+| result | SUCCESS or FAILURE |
+| errorMessage | Detailed error message when operation fails |
+| durationMs | Request processing duration in milliseconds |
+| occurredAt | Timestamp of audit event |
+
+---
+
+## Audit Categories
+
+### Authentication Events
+
+- Customer Login
+- Staff Login
+- Logout
+- Authentication Failure
+
+### Customer Management
+
+- Customer Registration
+- Customer Profile Update
+- Customer Approval
+- Customer Rejection
+- Customer Suspension
+
+### Identity Management
+
+- Identity Document Creation
+- Identity Document Update
+- Identity Document Verification
+- Identity Document Removal
+
+### Account Management
+
+- Account Creation
+- Account Closure
+- Account Status Changes
+- Balance Inquiry
+
+### Transaction Management
+
+- Fund Transfer
+- Transfer Reversal
+- Deposit
+- Withdrawal
+
+### Administration
+
+- Staff Creation
+- Staff Update
+- Currency Configuration
+- Exchange Rate Update
+- Account Type Management
+
+---
+
+## Audit Flow
+
+```text
+Client Request
+      |
+      v
+Spring Security
+      |
+      v
+Controller
+      |
+      v
+Business Service
+      |
+      v
+Audit Event Generated
+      |
+      v
+SecurityAuditLog
+      |
+      v
+PostgreSQL
+```
+
+---
+
+## Example Audit Record
+
+### Successful Request
+
+```json
+{
+  "userId": "5f4d8e91",
+  "username": "manager01",
+  "method": "PATCH",
+  "path": "/api/v1/customers/100/approve",
+  "ipAddress": "192.168.1.20",
+  "statusCode": 200,
+  "action": "CUSTOMER_APPROVAL",
+  "result": "SUCCESS",
+  "durationMs": 145,
+  "occurredAt": "2026-07-16T10:15:30Z"
+}
+```
+
+### Failed Request
+
+```json
+{
+  "userId": "5f4d8e91",
+  "username": "manager01",
+  "method": "POST",
+  "path": "/api/v1/fund-transfer",
+  "statusCode": 400,
+  "action": "FUND_TRANSFER",
+  "result": "FAILURE",
+  "errorMessage": "Insufficient account balance",
+  "durationMs": 78,
+  "occurredAt": "2026-07-16T10:25:41Z"
+}
+```
+
+---
+
+## Security Benefits
+
+- Tracks all critical banking operations
+- Provides user accountability
+- Supports fraud investigation
+- Enables security monitoring
+- Supports regulatory compliance requirements
+- Captures operational metrics through request duration tracking
+
+---
+
+## Retention Strategy
+
+Recommended retention period:
+
+| Log Type | Retention |
+|-----------|------------|
+| Authentication Logs | 1-3 Years |
+| Operational Audit Logs | 5 Years |
+| Financial Transaction Logs | 7-10 Years |
+
+Retention policies should comply with local banking regulations and organizational compliance requirements.
