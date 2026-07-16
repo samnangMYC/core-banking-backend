@@ -198,7 +198,6 @@ Manage authentication, authorization, and identity verification.
 | Customer Authentication | `/customer/auth/signin` |
 | Staff Authentication | `/admin/auth/signin` |
 | Logout | `/auth/signout` |
-| Identity Documents | `/customer/me/identity-doc/**` |
 
 ### 👤 Customer Management
 
