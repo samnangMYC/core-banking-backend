@@ -161,12 +161,6 @@ trendy-core-banking-system/
 │   └── main/resources/
 │       │
 │       ├── application.yml     # Application configuration
-│       │
-│       ├── db/
-│       │   └── migration/      # Database migration scripts
-│       │                       # Flyway / Liquibase
-│       │
-│       └── logback.xml         # Logging configuration
 │
 └── scripts/                    # DevOps & Automation Scripts
     ├── deployment/
@@ -190,3 +184,114 @@ trendy-core-banking-system/
 | `enums` | Banking constants and status definitions |
 | `init` | Startup initialization logic |
 | `helper` | Reusable utility components |
+
+## 🔌 API Modules
+
+The Trendy Core Banking System exposes RESTful APIs organized by business domains.
+
+### 🔐 Authentication & Identity
+
+Manage authentication, authorization, and identity verification.
+
+| Feature | Endpoints |
+|----------|----------|
+| Customer Authentication | `/customer/auth/signin` |
+| Staff Authentication | `/admin/auth/signin` |
+| Logout | `/auth/signout` |
+| Identity Documents | `/customer/me/identity-doc/**` |
+
+### 👤 Customer Management
+
+Manage customer onboarding, profile updates, and approval workflows.
+
+| Feature | Endpoints |
+|----------|----------|
+| Customer Registration | `/customers/request` |
+| Customer Profile | `/customers/me` |
+| Customer Approval Workflow | `/customers/{id}/approve` |
+| Customer Rejection Workflow | `/customers/{id}/reject` |
+| Customer Suspension | `/customers/{id}/suspend` |
+| Customer Status Management | `/customers/{id}/status` |
+
+### 🏠 Customer Address Management
+
+Manage customer residential and mailing addresses.
+
+| Feature | Endpoints |
+|----------|----------|
+| Customer Addresses | `/customer/me/addresses/**` |
+
+### 🏦 Account Management
+
+Manage customer bank accounts and balances.
+
+| Feature | Endpoints |
+|----------|----------|
+| Create Account | `/customer/accounts` |
+| View Accounts | `/customer/accounts` |
+| Account Details | `/customer/accounts/{id}` |
+| Account Lookup | `/customer/accounts/{id}/number` |
+| Balance Inquiry | `/customer/accounts/{id}/balance` |
+
+### 💸 Fund Transfer
+
+Process internal account-to-account transfers.
+
+| Feature | Endpoints |
+|----------|----------|
+| Transfer Funds | `/fund-transfer` |
+| Transfer Reversal | `/fund-transfer/reverse` |
+| Transfer History | `/fund-transfer` |
+
+### 💱 Currency Management
+
+Manage supported currencies and exchange rates.
+
+| Feature | Endpoints |
+|----------|----------|
+| Currency Management | `/currency/**` |
+| Exchange Rate Management | `/currency/exchange-rate/**` |
+
+### 📋 Account Type Management
+
+Manage banking account products.
+
+| Feature | Endpoints |
+|----------|----------|
+| Account Types | `/account-type/**` |
+
+Supported account products:
+
+- Savings Account
+- Current Account
+- Fixed Deposit Account
+
+### 👨‍💼 Staff Management
+
+Manage internal banking staff accounts.
+
+| Feature | Endpoints |
+|----------|----------|
+| Staff Administration | `/admin/staff/**` |
+
+Supported staff roles:
+
+- Teller
+- Supervisor
+- Branch Manager
+- System Administrator
+
+### 📒 Ledger & Accounting
+
+Manage financial ledger entries and accounting records.
+
+| Feature | Endpoints |
+|----------|----------|
+| Ledger Entries | `/ledger-entry/**` |
+
+### 📖 API Documentation
+
+Interactive API documentation is available through Swagger UI:
+
+```text
+http://localhost:8080/swagger-ui/index.html
