@@ -1,30 +1,66 @@
-<!-- Modern Gradient Header -->
-<h1 align="center">🏦 Trendy - Core Banking System (CBS) </h1>
-<h3 align="center">Scalable,Banking Platform with Spring Boot (CBS)</h3>
+# 🏦 Trendy Core Banking System (CBS)
 
-<p align="center">
-  <a href="https://github.com/samnangMYC/core-banking-backend">
-    <img src="https://img.shields.io/github/stars/samnangMYC/core-banking-backend?style=social" alt="GitHub stars" />
-  </a>
-  <a href="https://github.com/samnangMYC/core-banking-backend/issues">
-    <img src="https://img.shields.io/github/issues/samnangMYC/core-banking-backend" alt="GitHub issues" />
-  </a>
-  <a href="https://github.com/yourusername/core-banking-backend/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/samnangMYC/core-banking-backend" alt="License" />
-  </a>
-</p>
+**An educational Core Banking Platform built with Spring Boot**
 
----
+![GitHub stars](https://img.shields.io/github/stars/your-username/your-repository)
+![GitHub issues](https://img.shields.io/github/issues/your-username/your-repository)
+![License](https://img.shields.io/github/license/your-username/your-repository)
 
-## 🌟 Description
+## 🌟 Overview
 
-A Core Banking System (CBS) built using Spring Boot following a monolithic architecture. This system is designed for simplicity, maintainability, and enterprise-grade reliability, covering essential banking operations such as customer management, accounts, transactions, and reporting.
+**Trendy Core Banking System (CBS)** is an educational banking platform developed with **Spring Boot** to explore and demonstrate real-world banking system concepts, backend architecture, and enterprise application development practices.
 
-It is suitable for small to medium banks or fintech applications that require a single deployable backend system without microservices complexity.
+The project follows a **monolithic architecture** and focuses on implementing core banking functionalities such as customer management, identity verification, account management, transaction processing, ledger operations, and financial reporting.
 
-Keywords for SEO: Core Banking System, Spring Boot Banking App, Monolithic Banking System, Banking Software, Digital Banking Platform, Secure Banking Backend, Open Source Banking System
+This project is created for **learning, experimentation, and portfolio demonstration purposes**, showcasing how a simplified Core Banking System can be designed using modern backend engineering practices, clean architecture principles, and domain-driven design concepts.
 
----
+> 🚧 This project is actively under development. New features, improvements, and architectural enhancements are continuously being added.
+
+## 🚀 Key Features
+
+- ✅ Customer identity and profile management
+- ✅ Account lifecycle management
+- ✅ Account types and banking products
+- ✅ Deposit and withdrawal operations
+- ✅ Fund transfer processing
+- ✅ Transaction history and ledger management
+- ✅ Role-based access control
+- ✅ Authentication and security integration
+- ✅ Validation and exception handling
+- ✅ RESTful API design
+
+## 🏛️ Architecture
+
+The system is currently developed using a **Monolithic Architecture**, where all business modules are maintained and deployed as a single Spring Boot application.
+
+The architecture focuses on:
+
+- Clean separation of application layers
+- Maintainable domain-driven structure
+- Easier development and testing
+- Clear understanding of enterprise banking workflows
+
+The project is designed with future scalability in mind, allowing potential migration toward a **microservices architecture** as the system grows.
+
+## 🎯 Project Purpose
+
+This project aims to:
+
+- Learn and apply enterprise Spring Boot development practices
+- Understand core banking domain concepts
+- Practice designing complex backend systems
+- Explore security, database design, and transaction management
+- Build a foundation for future fintech and banking applications
+
+## 📌 Current Status
+
+🚧 **Active Development**
+
+The system is continuously evolving with additional banking features, security improvements, testing, and architectural enhancements.
+
+## 🔍 SEO Keywords
+
+Core Banking System, Spring Boot Banking Application, Educational Banking Project, Java Banking Backend, Monolithic Banking Architecture, Digital Banking Platform, Fintech Backend System, Banking Software Development, Enterprise Java Application, Open Source Banking System
 
 ## 🚀 Features
 
