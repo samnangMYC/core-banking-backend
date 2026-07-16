@@ -187,107 +187,218 @@ trendy-core-banking-system/
 
 ## 🔌 API Modules
 
-The Trendy Core Banking System exposes RESTful APIs organized by business domains.
+The **Trendy Core Banking System** exposes RESTful APIs organized by business domains. Each module is designed around a specific banking capability, providing clear separation of responsibilities and maintainable API endpoints.
 
-### 🔐 Authentication & Identity
+> **Note:** The endpoint paths below provide an overview of the available modules. For complete request and response specifications, refer to the Swagger/OpenAPI documentation.
 
-Manage authentication, authorization, and identity verification.
+---
 
-| Feature | Endpoints |
-|----------|----------|
-| Customer Authentication | `/customer/auth/signin` |
-| Staff Authentication | `/admin/auth/signin` |
-| Logout | `/auth/signout` |
+## 🔐 Authentication & Authorization
 
-### 👤 Customer Management
+Manage user authentication, token lifecycle, and secure access to protected resources.
 
-Manage customer onboarding, profile updates, and approval workflows.
+| Feature | Endpoint |
+|---------|----------|
+| Customer Sign In | `POST /customer/auth/signin` |
+| Staff Sign In | `POST /admin/auth/signin` |
+| Sign Out | `POST /auth/signout` |
 
-| Feature | Endpoints |
-|----------|----------|
-| Customer Registration | `/customers/request` |
-| Customer Profile | `/customers/me` |
-| Customer Approval Workflow | `/customers/{id}/approve` |
-| Customer Rejection Workflow | `/customers/{id}/reject` |
-| Customer Suspension | `/customers/{id}/suspend` |
-| Customer Status Management | `/customers/{id}/status` |
+**Capabilities**
 
-### 🏠 Customer Address Management
+- JWT-based authentication
+- OAuth2 / OpenID Connect integration
+- Secure session management
+- Role-Based Access Control (RBAC)
+
+---
+
+## 👤 Customer Management
+
+Manage customer onboarding, profile information, and lifecycle operations.
+
+| Feature | Endpoint |
+|---------|----------|
+| Register Customer | `POST /customers/request` |
+| View Customer Profile | `GET /customers/me` |
+| Approve Customer | `PATCH /customers/{id}/approve` |
+| Reject Customer | `PATCH /customers/{id}/reject` |
+| Suspend Customer | `PATCH /customers/{id}/suspend` |
+| Update Customer Status | `PATCH /customers/{id}/status` |
+
+**Capabilities**
+
+- Customer registration
+- KYC approval workflow
+- Customer lifecycle management
+- Status management
+- Profile maintenance
+
+---
+
+## 🏠 Customer Address Management
 
 Manage customer residential and mailing addresses.
 
-| Feature | Endpoints |
-|----------|----------|
-| Customer Addresses | `/customer/me/addresses/**` |
+| Feature | Endpoint |
+|---------|----------|
+| Customer Address Operations | `/customer/me/addresses/**` |
 
-### 🏦 Account Management
+**Capabilities**
 
-Manage customer bank accounts and balances.
+- Add address
+- Update address
+- Delete address
+- Retrieve customer addresses
 
-| Feature | Endpoints |
-|----------|----------|
-| Create Account | `/customer/accounts` |
-| View Accounts | `/customer/accounts` |
-| Account Details | `/customer/accounts/{id}` |
-| Account Lookup | `/customer/accounts/{id}/number` |
-| Balance Inquiry | `/customer/accounts/{id}/balance` |
+---
 
-### 💸 Fund Transfer
+## 🏦 Account Management
 
-Process internal account-to-account transfers.
+Manage customer bank accounts throughout their lifecycle.
 
-| Feature | Endpoints |
-|----------|----------|
-| Transfer Funds | `/fund-transfer` |
-| Transfer Reversal | `/fund-transfer/reverse` |
-| Transfer History | `/fund-transfer` |
+| Feature | Endpoint |
+|---------|----------|
+| Create Account | `POST /customer/accounts` |
+| List Customer Accounts | `GET /customer/accounts` |
+| View Account Details | `GET /customer/accounts/{id}` |
+| Find Account by Number | `GET /customer/accounts/{number}` |
+| Check Account Balance | `GET /customer/accounts/{id}/balance` |
 
-### 💱 Currency Management
+**Supported Account Types**
+
+- 💰 Savings Account
+- 🏢 Current Account
+- 📈 Fixed Deposit Account
+
+**Capabilities**
+
+- Account opening
+- Account activation
+- Balance inquiry
+- Account lookup
+- Multi-currency account support
+
+---
+
+## 💸 Fund Transfer
+
+Process secure internal account-to-account transfers.
+
+| Feature | Endpoint |
+|---------|----------|
+| Transfer Funds | `POST /fund-transfer` |
+| Reverse Transfer | `POST /fund-transfer/reverse` |
+| View Transfer History | `GET /fund-transfer` |
+
+**Capabilities**
+
+- Internal fund transfer
+- Transaction validation
+- Balance verification
+- Transfer history
+- Transaction reversal
+
+---
+
+## 💱 Currency Management
 
 Manage supported currencies and exchange rates.
 
-| Feature | Endpoints |
-|----------|----------|
+| Feature | Endpoint |
+|---------|----------|
 | Currency Management | `/currency/**` |
 | Exchange Rate Management | `/currency/exchange-rate/**` |
 
-### 📋 Account Type Management
+**Capabilities**
 
-Manage banking account products.
+- Currency configuration
+- Exchange rate management
+- Multi-currency support
+- Currency activation and maintenance
 
-| Feature | Endpoints |
-|----------|----------|
-| Account Types | `/account-type/**` |
+---
 
-Supported account products:
+## 📋 Account Type Management
+
+Manage banking products available for customers.
+
+| Feature | Endpoint |
+|---------|----------|
+| Account Type Management | `/account-type/**` |
+
+**Supported Products**
 
 - Savings Account
 - Current Account
 - Fixed Deposit Account
 
-### 👨‍💼 Staff Management
+**Capabilities**
 
-Manage internal banking staff accounts.
+- Create account types
+- Update account types
+- Configure product settings
+- Manage account availability
 
-| Feature | Endpoints |
-|----------|----------|
+---
+
+## 👨‍💼 Staff Management
+
+Manage internal banking staff accounts and administrative operations.
+
+| Feature | Endpoint |
+|---------|----------|
 | Staff Administration | `/admin/staff/**` |
 
-Supported staff roles:
+**Supported Roles**
 
 - Teller
 - Supervisor
 - Branch Manager
 - System Administrator
 
-### 📒 Ledger & Accounting
+**Capabilities**
 
-Manage financial ledger entries and accounting records.
+- Staff registration
+- Role assignment
+- Permission management
+- Account activation and suspension
 
-| Feature | Endpoints |
-|----------|----------|
-| Ledger Entries | `/ledger-entry/**` |
+---
 
+## 📒 Ledger & Accounting
+
+Maintain financial records using double-entry accounting principles.
+
+| Feature | Endpoint |
+|---------|----------|
+| Ledger Management | `/ledger-entry/**` |
+
+**Capabilities**
+
+- Double-entry bookkeeping
+- Debit and credit recording
+- Transaction audit trail
+- Running balance calculation
+- Financial reconciliation
+
+---
+
+## 📖 Interactive API Documentation
+
+The complete API specification is available through **Swagger UI** after the application is running.
+
+```text
+http://localhost:8080/swagger-ui/index.html
+```
+
+Swagger provides:
+
+- Complete endpoint documentation
+- Request and response schemas
+- Authentication support
+- Interactive API testing
+- HTTP status code reference
+  
 ### 📖 API Documentation
 
 Interactive API documentation is available through Swagger UI:
@@ -664,15 +775,130 @@ PostgreSQL
 - Captures operational metrics through request duration tracking
 
 ---
+# Customer Account Management Testing
 
-## Retention Strategy
+## Overview
 
-Recommended retention period:
+This document describes unit tests for customer account management functionality.
 
-| Log Type | Retention |
-|-----------|------------|
-| Authentication Logs | 1-3 Years |
-| Operational Audit Logs | 5 Years |
-| Financial Transaction Logs | 7-10 Years |
+---
 
-Retention policies should comply with local banking regulations and organizational compliance requirements.
+## Tested Methods
+
+### createAccount()
+
+Responsible for creating customer accounts while enforcing business rules.
+
+#### Test Cases
+
+| Test Case | Description |
+|------------|-------------|
+| createSelfAccount_firstAccount_createsDefaultSavingsUsdAccount | Creates default Savings Account in USD for first customer account |
+| createSelfAccount_subsequentAccount_usesRequestedTypeAndCurrency | Creates account using selected account type and currency |
+| createSelfAccount_customerNotFound_throwsBusinessException | Customer record does not exist |
+| createSelfAccount_accountLimitReached_throwsBusinessException | Customer exceeded allowed account limit |
+| createSelfAccount_customerNotActive_propagatesValidationException | Customer status is not ACTIVE |
+| createSelfAccount_defaultAccountTypeMissing_throwsResourceNotFoundException | Default account type configuration missing |
+| createSelfAccount_defaultCurrencyMissing_throwsResourceNotFoundException | Default currency configuration missing |
+| createSelfAccount_requestedAccountTypeMissing_throwsResourceNotFoundException | Requested account type not found |
+
+---
+
+### getAccountById()
+
+Retrieve account details by internal identifier.
+
+#### Test Cases
+
+| Test Case | Description |
+|------------|-------------|
+| getAccountById_accountExists_returnsMappedAccountDTO | Returns account information successfully |
+| getAccountById_accountNotFound_throwsResourceNotFoundException | Account does not exist |
+
+---
+
+### getAccountByNumber()
+
+Retrieve account details using account number.
+
+#### Test Coverage
+
+- Existing account retrieval
+- Non-existing account handling
+- DTO mapping validation
+
+---
+
+## Business Rules Validated
+
+- Customer must exist
+- Customer must be ACTIVE
+- Account type must exist
+- Currency must exist
+- Account limit enforcement
+- Default account creation logic
+
+# Staff Account Management Testing
+
+## Overview
+
+This document describes unit tests covering teller and staff banking operations.
+
+---
+
+## Deposit Operations
+
+### Tested Method
+
+deposit()
+
+#### Test Cases
+
+| Test Case | Description |
+|------------|-------------|
+| deposit_shouldIncreaseBalance_whenValidRequest | Account balance increases after successful deposit |
+
+---
+
+## Withdrawal Operations
+
+### Tested Method
+
+withdraw()
+
+#### Test Cases
+
+| Test Case | Description |
+|------------|-------------|
+| withdraw_shouldDecreaseBalance_whenValidRequest | Account balance decreases after withdrawal |
+| withdraw_shouldThrowException_whenAccountNotFound | Account does not exist |
+| withdraw_shouldThrowBusinessException_whenInsufficientBalance | Withdrawal exceeds available balance |
+
+---
+
+## Business Rules Validated
+
+### Deposit
+
+- Account exists
+- Amount greater than zero
+- Account is active
+
+### Withdrawal
+
+- Account exists
+- Account is active
+- Sufficient balance available
+- Amount greater than zero
+
+---
+
+## Transaction Integrity
+
+The following behaviors are verified:
+
+- Balance consistency
+- Atomic transactions
+- Exception handling
+- Business rule enforcement
+- Ledger synchronization
