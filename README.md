@@ -97,6 +97,7 @@ Keywords for SEO: Core Banking System, Spring Boot Banking App, Monolithic Banki
 
 ## 💻 Tech Stack
 
+```text
 | Layer | Technology |
 |----------------------|----------------------------------------------|
 | Backend | Java 25, Spring Boot 4.1.0 |
@@ -178,7 +179,7 @@ trendy-core-banking-system/
     ├── deployment/
     ├── database/
     └── CI/CD pipelines
-
+```
 ### Package Responsibilities
 
 | Package | Responsibility |
