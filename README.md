@@ -985,4 +985,10 @@ The following behaviors are verified:
 
 ## Class Diagram
 
-![Class Diagram](docs/diagram/class_diagram.svg)
+![Class Diagram]
+
+<img 
+src="doc/diagram/class_diagram.svg" 
+alt="Core Banking System Class Diagram"
+width="100%"
+/>
