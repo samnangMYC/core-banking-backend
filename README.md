@@ -985,10 +985,40 @@ The following behaviors are verified:
 
 ## Class Diagram
 
-![Class Diagram]
-
 <img 
 src="doc/diagram/class_diagram.svg" 
 alt="Core Banking System Class Diagram"
 width="100%"
 />
+
+### Create Self Account
+
+<img 
+src="doc/diagram/self-account-creation.svg" 
+alt="Core Banking System Class Diagram"
+width="100%"
+/>
+
+The Create Self Account feature allows authenticated customers to create their own bank account through the CBS system. The process begins by validating the customer's JWT token and retrieving the associated customer profile. The system verifies customer existence, checks the maximum allowed account limit, and validates KYC information including identity documents before allowing account creation.
+
+If the customer does not have any existing accounts, the system automatically creates a default personal savings account with USD currency. If the customer already has an account, the system allows manual account creation by selecting the desired account type and currency. The system then generates a unique account number, saves the account information, and returns the created account details as an AccountDTO response.
+
+This workflow ensures secure account creation by enforcing authentication, customer verification, account limits, and proper banking rules while maintaining data integrity and compliance with CBS security principles.
+
+### Create Fund Transfer
+
+<img 
+src="doc/diagram/fund-transfer.svg" 
+alt="Core Banking System Class Diagram"
+width="100%"
+/>
+
+The Create Fund Transfer feature allows customers to transfer funds between accounts securely within the CBS system. The process begins by retrieving the sender and receiver accounts with database locking to prevent race conditions during concurrent transactions.
+
+Before processing the transfer, the system validates that both accounts exist, are active, and support the requested operation. For internal transfers, both accounts must use the same currency. The transfer amount is validated and normalized before checking whether the sender has a sufficient balance.
+
+Once validation is completed, the system creates a fund transfer transaction record with a unique transaction reference and marks it as processing. The sender account balance is debited, and the receiver account balance is credited. The system then creates corresponding double-entry ledger records, including a debit entry for the sender account and a credit entry for the receiver account.
+
+After all operations are completed successfully, the transaction status is updated to SUCCESS with the completion timestamp. If any error occurs during processing, the transfer is marked as FAILED and the exception is returned for further handling.
+
+This workflow ensures transaction consistency, prevents balance conflicts, maintains accurate financial records through ledger entries, and follows core banking principles such as transaction locking, validation, and double-entry accounting.
