@@ -26,7 +26,6 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-
     @PostMapping("/request")
     public ResponseEntity<CustomerDTO> request(@Valid @RequestBody CustomerRegistrationRequest request) {
         log.info("Received request for CustomerRegistrationRequest: {}", request);
@@ -53,7 +52,7 @@ public class CustomerController {
     @PreAuthorize("hasRole('CUSTOMER')")
     @PatchMapping("/me")
     public ResponseEntity<CustomerDTO> updateMe(@AuthenticationPrincipal Jwt jwt,
-                                                 CustomerUpdateRequest request) {
+                                                @Valid @RequestBody CustomerUpdateRequest request) {
        log.info("Received update request");
         return ResponseEntity.ok(customerService.updateCustomerByMe(jwt,request));
     }
@@ -82,11 +81,9 @@ public class CustomerController {
     @PreAuthorize("hasAnyRole('SUPERVISOR','MANAGER','BRANCH_MANAGER','OPERATIONS','SYSTEM_ADMIN')")
     @PatchMapping("/{id}/status")
     public ResponseEntity<CustomerDTO> staus(@PathVariable("id") Long customerId,
-                                             CustomerStatusRequest request) {
+                                             @Valid @RequestBody CustomerStatusRequest request) {
         log.info("Received staus user request for customer");
         return ResponseEntity.ok(customerService.updateCustomerStatus(customerId,request));
     }
-
-
 
 }

@@ -3,10 +3,12 @@ package com.trendy.cbs.service.impls;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.trendy.cbs.entity.Customer;
+import com.trendy.cbs.entity.Staff;
 import com.trendy.cbs.entity.User;
 import com.trendy.cbs.enums.*;
 import com.trendy.cbs.exception.BusinessException;
 import com.trendy.cbs.payload.request.*;
+import com.trendy.cbs.repos.StaffRepository;
 import com.trendy.cbs.security.CurrentUserProvider;
 import com.trendy.cbs.security.JwtRoleExtractor;
 import com.trendy.cbs.payload.dto.CustomerDTO;
@@ -27,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Set;
 
 @Slf4j
@@ -38,12 +41,12 @@ public class AuthServiceImpl implements AuthService {
     private final KeycloakAdminService keycloakAdminService;
     private final KeycloakTokenService keycloakTokenService;
     private final JwtRoleExtractor jwtRoleExtractor;
-    private final UserRepository userRepository;
     private final SecurityAuditService auditServices;
     private final CurrentUserProvider currentUserProvider;
     private final SecurityAuditService securityAuditService;
 
     @Override
+    @Transactional
     public AuthResponse signInAsStaff(AuthReq req) {
         return login(req.getUsername(), req.getPassword());
     }

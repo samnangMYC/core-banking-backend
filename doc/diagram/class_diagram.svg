@@ -1,0 +1,654 @@
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'   width='1786' height='1060' viewBox='0 0 1786 1060' >
+  <script type='text/ecmascript'>
+  <![CDATA[
+  function hghl(el) { for ( var i in el ){ var elem = document.getElementById(el[i]); if ( elem != null ) elem.setAttribute('class','highlight');  }  }
+  function uhghl(el) { for ( var i in el ){ var elem = document.getElementById(el[i]); if ( elem != null ) elem.setAttribute('class','unhighlight'); }  } 
+  ]]>
+  </script> 
+
+<style type='text/css'>
+  text                { fill:#6e798a; font-weight:normal;stroke:#2a2b2c;stroke-width:.1px; font-family: Candara, 'Segoe UI', Dialog; font-size:13px; }
+  text.tableHeader    { fill:#576b57; font-weight:normal;stroke:#2a2b2c;stroke-width:.1px; font-family: Candara, 'Segoe UI', Dialog; font-size:13px;  font-weight: bold; }
+  a text:hover        { font-weight:500; }
+  text.highlight      { font-weight:500; }
+  text.white          { fill:#ffffff; }
+  text.colType        { fill:#bac1cb; }
+  text.relName        { fill:#9c9a9a; stroke-width:0; }
+  text.dataType       { stroke:0; font-size:12px; text-anchor: end;}
+  text.legendTitle    { fill:#2b3b64; font-weight:500; }
+  text.legendSubTitle { fill:#616161; font-size:12px; }
+  path, circle        { stroke:#b2b3b4; stroke-width:1.5; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+  .filled             { fill:#7f7971; }
+  path.virtual        { stroke:#6f70bb; }
+  path.logo           { fill:#fbeac0;fill-opacity:1;stroke-width:0.3;stroke:#222222; }
+  path.dotted         { stroke-dasharray:3,3; }
+  path.unhighlight    { stroke-width:12; opacity:0; pointer-events:all; }
+  path.highlight      { stroke-width:2; stroke:#061e3f; opacity:1; pointer-events:all; }
+  path.line           { stroke-width:10; stroke-linecap:round; stroke-linejoin:round; }
+  rect.entity         { fill:#fafafb; stroke-width:1; shape-rendering:crispEdges; filter:url(#shadow); }
+  line.delim          { stroke-width:1px; shape-rendering:crispEdges; }
+  text.callout        { fill:#201a10; font-family: Candara, 'Segoe UI', Dialog; font-size:14px; }
+  rect.callout        { fill:url(#calloutGradient); stroke-width:1px; stroke:#d0cec3; }
+  rect.shape          { stroke:#bebdbd; stroke-width:0.5; }
+  rect.legend         { fill:url(#legendGradient); stroke-width:1px; stroke:#d6dbe4; }
+  text.grp            { fill:#b1b1b1; }
+  rect.grp            { stroke:#aee1ab; stroke-width:1; opacity:0.7; }
+  path.bgPattern      { fill:none;stroke-width:0.6;stroke:#e5e9ee; }
+  path.eval           { fill:#efefef;fill-opacity:1;stroke-width:0.6;stroke:#e9e9e9; }
+  rect.palpable       { fill:#fffbe5; }
+  a, a:visited, a:hover, a:active { text-decoration: none; }
+</style>
+<defs>
+  <pattern id="layoutBgA" width="60" height="34.64" patternUnits="userSpaceOnUse">
+    <rect x="0" y="0"  width="60" height="34.64" fill="#eaecf1" />
+  </pattern>
+  <pattern id='layoutBgEval'  width='300' height='300' x='0' y='0' patternUnits="userSpaceOnUse">
+    <g transform='scale(1.5)'>
+    <path class='eval' d='m 62.011835,91.267143 c 3.536475,3.175214 2.262669,8.705999 -1.637711,11.015197 -3.594697,5.8423 -6.34682,-2.892623 -9.715478,-4.653898 -5.609222,-2.838926 2.050802,-6.680123 4.77004,-8.319046 2.334696,-0.724067 4.935143,0.312302 6.583149,1.957747 z m -2.720492,2.538595 c -2.698397,-3.517732 -9.282815,1.269287 -3.69635,3.568637 2.765331,5.605665 7.052809,-0.56184 3.69635,-3.568637 z' />
+    <path class='eval' d='m 72.25864,84.624638 c 4.108046,3.143003 -0.737059,6.895259 -1.994918,8.323564 -3.586718,5.561143 -6.495079,-4.197379 -10.07759,-5.582178 -4.443422,-1.088878 1.349298,-7.249213 2.503526,-2.503449 2.464639,4.517161 2.304019,-3.70697 6.291113,-1.995914 1.280083,0.137865 2.410691,0.864819 3.277869,1.757977 z m -2.646109,2.323242 c -4.797162,-3.078383 -2.810517,6.305507 0.515161,1.990646 0.296432,-0.688582 0.01209,-1.493412 -0.515161,-1.990646 z' />
+    <path class='eval' d='m 78.230641,79.436735 c 4.142121,3.027466 -2.020102,10.435276 -3.450543,5.477315 3.306312,-5.248112 -9.186019,-2.220094 -5.805994,-8.77679 -0.544141,-3.93011 6.797826,-2.102227 3.386015,0.245477 -0.181085,2.915838 4.637371,1.019311 5.870522,3.053982 z' />
+    <path class='eval' d='m 82.744502,72.597397 c -4.901605,1.926521 1.146497,6.285555 2.559694,2.225783 6.21817,3.539297 -6.640186,8.416664 -7.590325,1.997457 -2.24365,-2.914883 4.026676,-10.148618 5.030631,-4.22324 z' />
+    <path class='eval' d='m 90.727458,64.259158 c 1.583987,1.690029 3.321317,3.2696 4.81267,5.026353 -2.535706,6.849794 -6.445583,-5.918773 -8.388458,-0.167017 0.782768,2.03426 5.877405,3.752079 2.670979,5.711199 -3.315119,1.519161 -5.782422,-5.157931 -8.858893,-6.780537 -4.229842,-1.139816 1.510134,-7.074128 2.586227,-2.385939 3.141198,5.495193 1.840537,-5.598295 7.177489,-1.404062 z' />
+    <path class='eval' d='m 99.622027,58.374253 c 1.493293,1.9548 -6.281936,7.024659 -0.885258,4.740447 0.386238,-4.434477 6.131941,-1.133173 2.175851,1.618005 -4.421491,6.12739 -13.666659,-3.151506 -7.058299,-7.136537 1.785129,-1.119329 4.348209,-0.743179 5.767706,0.778085 z m -2.900824,1.89746 c -3.608188,-2.208543 -2.280489,5.00803 -0.12563,0.329531 z' />
+    <path class='eval' d='m 115.18023,50.570441 c -1.61703,5.201678 -4.6204,-0.364502 -7.01598,-1.749619 -4.40977,2.122562 4.89641,4.913939 1.89606,7.018157 -2.48061,3.877635 -4.11404,-4.060614 -7.01192,-2.6391 -1.76318,3.107252 7.28394,6.252304 0.87346,7.876177 -1.74515,-2.956649 -9.055498,-5.610518 -3.950378,-8.66062 1.696478,1.897023 1.770418,-5.43503 5.347308,-3.072411 -0.44014,-5.474701 6.11995,-4.950882 7.7846,-0.815355 0.69076,0.682329 1.39587,1.351469 2.07685,2.042771 z' />
+    <path class='eval' d='m 120.54891,39.417125 c 2.50681,1.334124 4.80466,4.941837 0.75044,5.297362 -0.46414,1.89865 -5.25369,5.602652 -8.01742,1.815475 -3.87345,-2.809139 -0.0676,-7.603869 2.3036,-8.133924 1.6795,-3.853018 3.16703,-1.199465 4.96338,1.021087 z m -2.2464,2.175828 c -4.8049,-2.992167 -3.08987,6.380358 0.42374,2.036159 0.33052,-0.677508 0.12099,-1.525836 -0.42374,-2.036159 z' />
+    <path class='eval' d='m 128.50836,24.06821 c -5.10403,3.035506 3.20535,6.383175 5.05938,9.450276 -0.91853,2.95886 -4.06493,3.650723 -5.34691,0.265618 -2.25715,-2.089033 -4.65672,-6.948595 -7.07024,-2.584686 -4.71758,-3.764394 3.81217,-5.812054 5.12382,-9.226328 0.75738,0.677487 1.38637,1.498638 2.23389,2.095175 z' />
+    <path class='eval' d='m 137.14366,22.299812 c -3.09615,2.259885 0.71537,4.412454 1.99042,6.435866 -3.08975,5.080354 -5.91384,-2.98648 -8.92144,-4.094939 1.44369,-3.219573 3.3497,-1.335928 4.27156,-4.41058 0.97822,-0.894325 1.75044,1.871047 2.65946,2.069653 z' />
+    <path class='eval' d='m 136.85093,14.890174 c 2.31562,5.283511 -7.17975,1.771993 -1.29675,-0.475107 l 0.7108,0.08973 z m 4.867,5.317354 c 2.56912,1.439678 4.26517,4.725219 0.30678,5.233637 -1.56592,-3.098864 -9.51683,-5.749448 -3.64502,-8.633714 1.17746,0.325095 2.15375,2.591149 3.33824,3.400077 z' />
+    <path class='eval' d='m 149.95578,11.976423 c 2.50679,1.334142 4.80455,4.94192 0.75041,5.297394 -0.4641,1.898604 -5.25368,5.602645 -8.0174,1.81545 -3.87347,-2.80918 -0.0676,-7.603844 2.30366,-8.133968 1.67949,-3.8530525 3.16695,-1.1993573 4.96333,1.021124 z m -2.24641,2.175828 c -4.80489,-2.992177 -3.08986,6.380343 0.42374,2.036167 0.33055,-0.677518 0.121,-1.52585 -0.42374,-2.036167 z' />
+    <path class='eval' d='m 153.26135,7.538431 c 2.60497,1.5799548 6.03999,5.944272 1.08117,6.050232 -2.53319,-3.231828 -7.20316,-6.4304525 -8.84748,-9.4582682 1.89121,-2.8664883 3.78452,-2.247699 5.38514,0.8929426 0.78017,0.8503859 1.57195,1.6911437 2.38118,2.5150667 z' />
+    </g>
+  </pattern>
+  <linearGradient id='legendGradient' x1='0%' y1='0%' x2='100%' y2='0%'>
+    <stop offset='0%' stop-color='#eef5fc' />
+    <stop offset='100%' stop-color='#f7fafe' />
+  </linearGradient>
+  <!-- https://norbat.de/svg-pattern-3d-webmuster/ -->
+  <linearGradient id='calloutGradient' x1='0%' y1='0%' x2='100%' y2='0%'>
+    <stop offset='0%' stop-color='#efeae1dd' />
+    <stop offset='100%' stop-color='#e8e9eadd' />
+  </linearGradient>
+  <filter id="shadow">
+    <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#a0a0a0" flood-opacity="0.4" />
+  </filter>
+  <!--
+  <filter id='shadow2' width='120%' height='120%'>
+    <feOffset result='offOut' in='SourceGraphic' dx='0' dy='0' />
+    <feColorMatrix result='matrixOut' in='offOut'
+                   values='0.5 0 0 0 0 0 0.5 0 0 0 0 0 0.5 0 0 0 0 0 0.5 0' />
+    <feGaussianBlur result='blurOut' in='matrixOut' stdDeviation='3' />
+    <feBlend in='SourceGraphic' in2='blurOut' />
+  </filter>
+  -->
+  <filter id='fkShadow' height='130%'>
+    <feGaussianBlur in='SourceAlpha' stdDeviation='1.5'/> <!-- stdDeviation is how much to blur -->
+    <feOffset dx='1.2' dy='1.2' result='offsetblur'/> <!-- how much to offset -->
+    <feMerge>
+      <feMergeNode/> <!-- this contains the offset blurred image -->
+      <feMergeNode in='SourceGraphic'/> <!-- this contains the element that the filter is applied to -->
+    </feMerge>
+  </filter>
+  <symbol id='calloutArrowDown' >
+    <path d='M 0,0 L 8,12 L 16,0 z' style='fill:#f8f6d1;stroke:none; filter: url(#shadow);' />
+    <path d='M 0,0 L 8,12 L 16,0' style='stroke:#bebdbd; stroke-width:0.5;' />
+  </symbol>
+  <symbol id='calloutArrowUp' >
+    <path d='M 0,16 L 8,4 L 16,16 z' style='fill:#ffffff; stroke:none; filter: url(#shadow);' />
+    <path d='M 0,16 L 8,4 L 16,16' style='stroke:#bebdbd; stroke-width:0.5;' />
+  </symbol>
+  <symbol id='pk' width="13" height="13">
+    <g>
+      <path style='fill:#bfaf00;stroke:#bfaf00;stroke-width:0.2;stroke-linecap:round;stroke-linejoin:round;'
+            d='M 9.3678877,3.5695485 C 9.1030218,3.2729386 9.0796382,2.7628519 9.3396185,2.4517097 9.5449651,2.1956495 9.9040386,2.0980533 10.199638,2.2169415 10.533525,2.3415459 10.775153,2.706942 10.750675,3.0842709 10.737029,3.3980003 10.541153,3.699122 10.258248,3.8066067 9.966649,3.9250429 9.6169668,3.8418805 9.4008073,3.6062324 9.3894892,3.5943518 9.3785264,3.582104 9.3678886,3.5695487 z M 11.226617,6.9916004 C 11.888137,6.3548946 12.293488,5.4172188 12.311087,4.442353 12.378144,2.7379364 11.248678,1.0541269 9.7322318,0.44767357 8.3887112,-0.1280313 6.7865012,0.26822889 5.8918395,1.4007929 5.080823,2.3839145 4.9336815,3.8452096 5.3635544,5.101615 L 4.3670905,5.315913 C 4.0664984,5.3682645 4.0967703,5.6316724 4.2574957,5.8208829 L 4.9124,6.5655244 4.1543436,7.2512357 3.2136002,7.2163506 3.1674775,8.5586827 2.0406832,8.5086512 1.5965306,8.9299953 1.5471661,10.179833 0.75616674,10.195223 0.2112857,10.758575 0.15354288,11.735988 0.07199052,12.765553 c 0.36440953,0.238225 0.79006967,0.195492 1.44938278,-0.02675 L 6.3033562,8.1282037 6.8217102,8.6765688 C 6.9985465,8.8799427 7.3003699,8.7497574 7.358381,8.5016252 L 7.4938877,7.5084164 c 0.8537488,0.3985387 1.8303125,0.4711541 2.6851793,0.1427713 0.393927,-0.1407258 0.746858,-0.3701772 1.04755,-0.6595873 z'/>
+      <path d='M 6.8014948,6.3102123 0.15369063,13.024481 0.21560535,12.141962 6.0062342,6.2683782 z'
+            style='fill:#bfaf00;fill-opacity:1;stroke:#bfaf00;stroke-width:0.06912433;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:3.00300009'/>
+    </g>
+  </symbol>
+  <symbol id='idx1' width="13" height="13">
+    <g transform='scale(0.99)'>
+      <rect width='4' height='4' x='7' y='1' style='fill:#ffff3f;stroke:#b48333;stroke-width:0.6;' ry='0.83'/>
+      <rect width='4' height='4' x='1' y='7' style='fill:#ffff3f;stroke:#b48333;stroke-width:0.6;' ry='0.832'/>
+      <rect width='4' height='4' x='7' y='7' style='fill:#ffff3f;stroke:#b48333;stroke-width:0.6;' ry='0.832'/>
+    </g>
+  </symbol>
+  <symbol id='idx2' width="13" height="13">
+    <g transform='scale(0.99)'>
+      <rect width='4' height='3' x='6' y='1' style='fill:#7fc8e9;stroke:#2f6f8c;stroke-width:0.6;' ry='0.83'/>
+      <rect width='7' height='3' x='3' y='6' style='fill:#7fc8e9;stroke:#2f6f8c;stroke-width:0.6;' ry='0.832'/>
+    </g>
+  </symbol>
+  <symbol id='unq' width="13" height="13">
+    <g transform='scale(0.75)'>
+      <path style="fill:#999999;stroke:none;" d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+      <text x='4' y='9' style='font-size:8px;fill:#999999;'>1</text>
+    </g>
+  </symbol>
+  <symbol id='idx' width="13" height="13">
+    <g transform='scale(0.75)'>
+      <path style="fill:#999999;stroke:none;" d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+    </g>
+  </symbol>
+  <symbol id='fk' width="13" height="13">
+    <g transform='scale(0.87)'>
+      <path style='fill:none;stroke:#5a72a8;stroke-width:1;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+            d='M 1.1,11 1,5.3 C 1,3.6 1.6,3.3 2.9,3.3 l 7.9,0' />
+      <path style='fill:#5a72a8;stroke:#5a72a8;stroke-width:1;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+            d='M 6.3,0.8 11.3,3.4 6.3,5.6 Z' />
+    </g>
+  </symbol>
+  <symbol id='ref' width="13" height="13">
+    <g transform='scale(0.87)'>
+      <path style='fill:none;stroke:#b4a717;stroke-width:1;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+            d='m 10.9,11.2 0,-5.8 C 10,3.7 10,3 9,3 l -7.9,0'/>
+      <path style='fill:#b4a717;stroke:#b4a717;stroke-width:1;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+            d='M 5.7,0.8 0.7,3.4 5.7,5.6 Z'/>
+    </g>
+  </symbol>
+  <symbol id='flagBlue' width="16" height="16">
+    <g transform='scale(0.75)'>
+      <path style="fill:#b7d0f6;stroke:none;" d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12 12 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A20 20 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a20 20 0 0 0 1.349-.476l.019-.007.004-.002h.001"/>
+    </g>
+  </symbol>
+  <symbol id='flagRed' width="16" height="16">
+    <g transform='scale(0.75)'>
+      <path style="fill:#f4a393;stroke:none;" d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12 12 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A20 20 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a20 20 0 0 0 1.349-.476l.019-.007.004-.002h.001"/>
+    </g>
+  </symbol>
+  <symbol id='flagGreen' width="16" height="16">
+    <g transform='scale(0.75)'>
+      <path style="fill:#77ec8b;stroke:none;" d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12 12 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A20 20 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a20 20 0 0 0 1.349-.476l.019-.007.004-.002h.001"/>
+    </g>
+  </symbol>
+  <symbol id='nn' width="3" height="3">
+    <path style='stroke:#da897b;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+          d='M 0,0 3,3 M 0,3 3,0 z'/>
+  </symbol>
+  <symbol id='virtual' width="16" height="16">
+    <g transform='scale(0.99)'>
+      <path style='stroke:#5394b8;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;' d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755q-.247.248-.517.486z"/>
+      <path style='stroke:#5394b8;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;' d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829"/>
+      <path style='stroke:#5394b8;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;' d="M3.35 5.47q-.27.24-.518.487A13 13 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7 7 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12z"/>
+    </g>
+  </symbol>
+  <symbol id='shield' width="16" height="16">
+    <g transform='scale(0.99)'>
+      <path style='stroke:#5394b8;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+            d="M5.338 1.59a61 61 0 0 0-2.837.856.48.48 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.7 10.7 0 0 0 2.287 2.233c.346.244.652.42.893.533q.18.085.293.118a1 1 0 0 0 .101.025 1 1 0 0 0 .1-.025q.114-.034.294-.118c.24-.113.547-.29.893-.533a10.7 10.7 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7 7 0 0 1-1.048-.625 11.8 11.8 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 63 63 0 0 1 5.072.56"/>
+      <path style='stroke:#5394b8;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+            d="M10.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+    </g>
+  </symbol>
+  <symbol id='shield-slash' width="16" height="16">
+    <g transform='scale(0.99)'>
+      <path style='stroke:#5394b8;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+            d="M1.093 3.093c-.465 4.275.885 7.46 2.513 9.589a11.8 11.8 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7 7 0 0 0 1.048-.625 11.3 11.3 0 0 0 1.733-1.525l-.745-.745a10.3 10.3 0 0 1-1.578 1.392c-.346.244-.652.42-.893.533q-.18.085-.293.118a1 1 0 0 1-.101.025 1 1 0 0 1-.1-.025 2 2 0 0 1-.294-.118 6 6 0 0 1-.893-.533 10.7 10.7 0 0 1-2.287-2.233C3.053 10.228 1.879 7.594 2.06 4.06zM3.98 1.98l-.852-.852A59 59 0 0 1 5.072.559C6.157.266 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.483 3.626-.332 6.491-1.551 8.616l-.77-.77c1.042-1.915 1.72-4.469 1.29-7.702a.48.48 0 0 0-.33-.39c-.65-.213-1.75-.56-2.836-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524a50 50 0 0 0-1.357.39zm9.666 12.374-13-13 .708-.708 13 13z"/>
+    </g>
+  </symbol>
+  <symbol id='view' width="13" height="13">
+    <g transform='scale(0.81)'>
+      <path style="fill:#999999;stroke:none;" d="M3 2.5A1.5 1.5 0 0 1 4.5 1h1A1.5 1.5 0 0 1 7 2.5V5h2V2.5A1.5 1.5 0 0 1 10.5 1h1A1.5 1.5 0 0 1 13 2.5v2.382a.5.5 0 0 0 .276.447l.895.447A1.5 1.5 0 0 1 15 7.118V14.5a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 14.5v-3a.5.5 0 0 1 .146-.354l.854-.853V9.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v.793l.854.853A.5.5 0 0 1 7 11.5v3A1.5 1.5 0 0 1 5.5 16h-3A1.5 1.5 0 0 1 1 14.5V7.118a1.5 1.5 0 0 1 .83-1.342l.894-.447A.5.5 0 0 0 3 4.882zM4.5 2a.5.5 0 0 0-.5.5V3h2v-.5a.5.5 0 0 0-.5-.5zM6 4H4v.882a1.5 1.5 0 0 1-.83 1.342l-.894.447A.5.5 0 0 0 2 7.118V13h4v-1.293l-.854-.853A.5.5 0 0 1 5 10.5v-1A1.5 1.5 0 0 1 6.5 8h3A1.5 1.5 0 0 1 11 9.5v1a.5.5 0 0 1-.146.354l-.854.853V13h4V7.118a.5.5 0 0 0-.276-.447l-.895-.447A1.5 1.5 0 0 1 12 4.882V4h-2v1.5a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5zm4-1h2v-.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zm4 11h-4v.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5zm-8 0H2v.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5z"/>
+    </g>
+  </symbol>
+  <symbol id='logo' width="100" height="100" style="filter:url(#shadow);">
+    <path style='stroke:none;fill:#5d5d5d' d='M2.41,6.80 17.39,0.35 26.83,7.21 28.32,24.45 12.62,29.77 1.74,23.96'/>
+    <path style='stroke:none;fill:#efefef' d='M 2.21, 6.45  9.36, 3.49  9.42,11.63  2.04,14.42'/>
+    <path style='stroke:none;fill:#efefef' d='M10.23, 3.14 17.39, 0.17 17.68, 8.59 10.29,11.28'/>
+    <path style='stroke:none;fill:#d2d2d2' d='M17.44, 0.17 21.59, 3.55 22.36,11.43 17.76,8.63'/>
+    <path style='stroke:none;fill:#d2d2d2' d='M22.67, 4.33 26.98, 7.06 27.65,14.77 23.20,11.77'/>
+    <path style='stroke:none;fill:#efefef' d='M1.89,15.58  9.39,12.65  9.48,21.14  1.57,24.10'/>
+    <path style='stroke:none;fill:#17afde' d='M10.38,12.36 17.70, 9.51 18.11,18.37 10.32 20.96'/>
+    <path style='stroke:none;fill:#1389ad' d='M17.73, 9.59 22.41,12.47 22.82,21.14 18.05,18.34'/>
+    <path style='stroke:none;fill:#d2d2d2' d='M23.26,12.94 27.62,15.70 28.42,24.54 23.69,21.60'/>
+    <path style='stroke:none;fill:#828282' d='M1.57,24.19  9.45,21.22 14.30,24.40  6.80,26.80'/>
+    <path style='stroke:none;fill:#0c485c' d='M10.47,20.90 18.11,18.32 22.82,21.19 15.20,23.81'/>
+    <path style='stroke:none;fill:#828282' d='M23.69,21.63 28.32,24.65 20.87,27.07 15.84,24.30'/>
+    <path style='stroke:none;fill:#828282' d='M14.94,24.68 19.80,27.41 12.59,29.97  7.73,27.21'/>
+  </symbol>
+</defs>
+
+<defs>  <marker id='ZeroMore' viewBox='0 0 9.50 9.50' refX='4.75' refY='4.75' markerWidth='9.50' markerHeight='9.50' orient='auto-start-reverse'>
+    <path d='M 2.38,4.75 L 4.75,4.75 M 7.13,4.75 L 9.50,4.75 z' style='stroke-width:1;'/>
+    <path d='M 9.50,0.00 L 4.75,4.75 L 9.50,9.50' style='stroke-width:1;'/>
+    <path d='M 0.00,4.75 L 9.50,4.75 z' style='stroke-width:1;'/>
+  </marker>
+  <marker id='ZeroOne' viewBox='0 0 9.50 9.50' refX='4.75' refY='4.75' markerWidth='9.50' markerHeight='9.50' orient='auto-start-reverse'>
+    <path d='M 2.38,4.75 L 4.75,4.75 M 7.13,4.75 L 9.50,4.75 z' style='stroke-width:1;'/>
+  </marker>
+  <marker id='OneMore' viewBox='0 0 9.50 9.50' refX='4.75' refY='4.75' markerWidth='9.50' markerHeight='9.50' orient='auto-start-reverse'>
+    <path d='M 4.75,4.75 L 9.50,4.75 z' style='stroke-width:1;'/>
+    <path d='M 9.50,0.00 L 4.75,4.75 L 9.50,9.50' style='stroke-width:1;'/>
+    <path d='M 0.00,4.75 L 9.50,4.75 z' style='stroke-width:1;'/>
+  </marker>
+  <marker id='One' viewBox='0 0 9.50 9.50' refX='4.75' refY='4.75' markerWidth='9.50' markerHeight='9.50' orient='auto-start-reverse'>
+    <path d='M 4.75,4.75 L 9.50,4.75 z' style='stroke-width:1;'/>
+  </marker>
+  <marker id='Range' viewBox='0 0 9.50 9.50' refX='4.75' refY='4.75' markerWidth='9.50' markerHeight='9.50' orient='auto-start-reverse'>
+    <path d='M 4.75,4.75 L 9.50,4.75 z' style='stroke-width:1;'/>
+  </marker>
+  <marker id='Arrow' viewBox='0 0 9.50 9.50' refX='4.75' refY='4.75' markerWidth='9.50' markerHeight='9.50' orient='auto-start-reverse'>
+    <path d='M 4.750,4.750 L 9.500,4.750 L 4.750,0.000 L 9.500,4.750 L 4.750,9.500' style='stroke-width:1;'/>
+  </marker>
+  <linearGradient id='ttl_3986C1' x1='0%' y1='0%' x2='100%' y2='0%' >
+     <stop offset='0%' stop-color='#6CACDE' /> 
+     <stop offset='100%' stop-color='#A0C2DD' /> 
+  </linearGradient>
+  <linearGradient id='tbg_3986C1' x1='0%' y1='0%' x2='100%' y2='0%' >
+     <stop offset='0%' stop-color='#E3E4E5' /> 
+     <stop offset='100%' stop-color='#F4F5F7' /> 
+  </linearGradient>
+</defs>
+
+<!-- == Shape Colors == -->
+<!-- == Desktop == -->
+<rect x='0' y='0' width='1786' height='1060' rx='10' ry='10' style='fill:url(#layoutBgA); stroke:#ccc; stroke-width:.7px; cursor:move;' />
+<rect x='1' y='1' width='1784' height='1058' rx='10' ry='10' style='fill:url(#layoutBgEval);' />
+
+<!-- == Legend == -->
+<g transform='translate(10,10)'>
+  <rect x='10' y='10' width='360' height='70' rx='4' ry='4' class='legend'/> 
+  <g><title>Read column and table comments by hovering the columns and tables.
+Zoom with CTRL+whell mouse button, pan by dragging the diagram with the right-mouse button</title></g>
+  <g><title>DbSchema Database Designer</title><use x='20' y='40' href='#logo'/></g>  <text x='20' y='30' class='legendTitle' >Diagram</text> 
+  <text x='57' y='47' class='legendSubTitle'><tspan>Read schema comments as mouse-over tooltips</tspan></text>
+  <a href='https://dbschema.com'><text x='57' y='61' class='legendSubTitle'><tspan>DbSchema.com © 2026-07-16 Wise Coders<title>DbSchema.com © 2026-07-16 Wise Coders</title></tspan></text></a> 
+</g>
+
+<g transform='translate(0,110)'>
+<!-- == Fk 'accounts_fkqhnlhf816k33cy670yig4m4ta' == -->
+<path id='accounts_fkqhnlhf816k33cy670yig4m4ta'  onmouseover="hghl(['accounts_fkqhnlhf816k33cy670yig4m4ta','public.accounts.cus_id','public.customers.id'])" onmouseout="uhghl(['accounts_fkqhnlhf816k33cy670yig4m4ta','public.accounts.cus_id','public.customers.id'])" transform='translate(10,0)' class='unhighlight' d='M 209,646L 219,646Q 228,646 228,656L 228,789Q 228,798 238,798L 523,798Q 532,798 532,789L 532,646' >
+	<title>&#x1F517;  Foreign Key fkqhnlhf816k33cy670yig4m4ta
+accounts &#10132; customers ( cus_id -&gt; id )
+</title>
+</path>
+<path transform='translate(10,0)' marker-start='url(#OneMore)' marker-end='url(#One)'    d='M 209,646L 219,646Q 228,646 228,656L 228,789Q 228,798 238,798L 523,798Q 532,798 532,789L 532,646' ><title>&#x1F517;  Foreign Key fkqhnlhf816k33cy670yig4m4ta
+accounts &#10132; customers ( cus_id -&gt; id )
+</title></path>
+<text x='218' y='640' transform='rotate(0 218,640)' class='relName'>cus&#95;id</text>
+<!-- == Fk 'accounts_fkks5v3om3pymdtf0wuslv1exjb' == -->
+<path id='accounts_fkks5v3om3pymdtf0wuslv1exjb'  onmouseover="hghl(['accounts_fkks5v3om3pymdtf0wuslv1exjb','public.accounts.currency_id','public.currency.cur_id'])" onmouseout="uhghl(['accounts_fkks5v3om3pymdtf0wuslv1exjb','public.accounts.currency_id','public.currency.cur_id'])" transform='translate(10,0)' class='unhighlight' d='M 190,361L 190,295Q 190,285 200,285L 257,285Q 266,285 266,276L 266,29Q 266,19 276,19L 504,19Q 513,19 513,29L 513,76' >
+	<title>&#x1F517;  Foreign Key fkks5v3om3pymdtf0wuslv1exjb
+accounts &#10132; currency ( currency_id -&gt; cur_id )
+</title>
+</path>
+<path transform='translate(10,0)' marker-start='url(#ZeroMore)' marker-end='url(#One)'  class='dotted '  d='M 190,361L 190,295Q 190,285 200,285L 257,285Q 266,285 266,276L 266,29Q 266,19 276,19L 504,19Q 513,19 513,29L 513,76' ><title>&#x1F517;  Foreign Key fkks5v3om3pymdtf0wuslv1exjb
+accounts &#10132; currency ( currency_id -&gt; cur_id )
+</title></path>
+<text x='193' y='358' transform='rotate(270 193,358)' class='relName'>currency&#95;id</text>
+<!-- == Fk 'accounts_fkh3ex9v0rl0i19dfnbr3lqfiqo' == -->
+<path id='accounts_fkh3ex9v0rl0i19dfnbr3lqfiqo'  onmouseover="hghl(['accounts_fkh3ex9v0rl0i19dfnbr3lqfiqo','public.accounts.account_type_id','public.account_type.id'])" onmouseout="uhghl(['accounts_fkh3ex9v0rl0i19dfnbr3lqfiqo','public.accounts.account_type_id','public.account_type.id'])" transform='translate(10,0)' class='unhighlight' d='M 114,361L 114,266' >
+	<title>&#x1F517;  Foreign Key fkh3ex9v0rl0i19dfnbr3lqfiqo
+accounts &#10132; account_type ( account_type_id -&gt; id )
+</title>
+</path>
+<path transform='translate(10,0)' marker-start='url(#ZeroMore)' marker-end='url(#One)'  class='dotted '  d='M 114,361L 114,266' ><title>&#x1F517;  Foreign Key fkh3ex9v0rl0i19dfnbr3lqfiqo
+accounts &#10132; account_type ( account_type_id -&gt; id )
+</title></path>
+<text x='117' y='358' transform='rotate(270 117,358)' class='relName'>account&#95;type&#95;id</text>
+<!-- == Fk 'addresses_fkhrpf5e8dwasvdc5cticysrt2k' == -->
+<path id='addresses_fkhrpf5e8dwasvdc5cticysrt2k'  onmouseover="hghl(['addresses_fkhrpf5e8dwasvdc5cticysrt2k','public.addresses.customer_id','public.customers.id'])" onmouseout="uhghl(['addresses_fkhrpf5e8dwasvdc5cticysrt2k','public.addresses.customer_id','public.customers.id'])" transform='translate(10,0)' class='unhighlight' d='M 418,247L 418,276Q 418,285 428,285L 447,285Q 456,285 456,295L 456,352Q 456,361 466,361L 494,361' >
+	<title>&#x1F517;  Foreign Key fkhrpf5e8dwasvdc5cticysrt2k
+addresses &#10132; customers ( customer_id -&gt; id )
+</title>
+</path>
+<path transform='translate(10,0)' marker-start='url(#One)' marker-end='url(#One)'    d='M 418,247L 418,276Q 418,285 428,285L 447,285Q 456,285 456,295L 456,352Q 456,361 466,361L 494,361' ><title>&#x1F517;  Foreign Key fkhrpf5e8dwasvdc5cticysrt2k
+addresses &#10132; customers ( customer_id -&gt; id )
+</title></path>
+<text x='430' y='247' transform='rotate(90 430,247)' class='relName'>customer&#95;id</text>
+<!-- == Fk 'customers_fkrh1g1a20omjmn6kurd35o3eit' == -->
+<path id='customers_fkrh1g1a20omjmn6kurd35o3eit'  onmouseover="hghl(['customers_fkrh1g1a20omjmn6kurd35o3eit','public.customers.user_id','public.users.id'])" onmouseout="uhghl(['customers_fkrh1g1a20omjmn6kurd35o3eit','public.customers.user_id','public.users.id'])" transform='translate(10,0)' class='unhighlight' d='M 646,646L 646,903Q 646,912 656,912L 1549,912Q 1558,912 1558,903L 1558,836' >
+	<title>&#x1F517;  Foreign Key fkrh1g1a20omjmn6kurd35o3eit
+customers &#10132; users ( user_id -&gt; id )
+</title>
+</path>
+<path transform='translate(10,0)' marker-start='url(#One)' marker-end='url(#One)'    d='M 646,646L 646,903Q 646,912 656,912L 1549,912Q 1558,912 1558,903L 1558,836' ><title>&#x1F517;  Foreign Key fkrh1g1a20omjmn6kurd35o3eit
+customers &#10132; users ( user_id -&gt; id )
+</title></path>
+<text x='658' y='646' transform='rotate(90 658,646)' class='relName'>user&#95;id</text>
+<!-- == Fk 'identity_doc_fk1h8ubcs574q7va685xusfh9lr' == -->
+<path id='identity_doc_fk1h8ubcs574q7va685xusfh9lr'  onmouseover="hghl(['identity_doc_fk1h8ubcs574q7va685xusfh9lr','public.identity_doc.cus_id','public.customers.id'])" onmouseout="uhghl(['identity_doc_fk1h8ubcs574q7va685xusfh9lr','public.identity_doc.cus_id','public.customers.id'])" transform='translate(10,0)' class='unhighlight' d='M 722,494L 665,494' >
+	<title>&#x1F517;  Foreign Key fk1h8ubcs574q7va685xusfh9lr
+identity_doc &#10132; customers ( cus_id -&gt; id )
+</title>
+</path>
+<path transform='translate(10,0)' marker-start='url(#ZeroOne)' marker-end='url(#One)'  class='dotted '  d='M 722,494L 665,494' ><title>&#x1F517;  Foreign Key fk1h8ubcs574q7va685xusfh9lr
+identity_doc &#10132; customers ( cus_id -&gt; id )
+</title></path>
+<text x='693' y='488' transform='rotate(0 693,488)' class='relName'>cus&#95;id</text>
+<!-- == Fk 'staffs_fkamgwfug55gkfkjidp88wyaj37' == -->
+<path id='staffs_fkamgwfug55gkfkjidp88wyaj37'  onmouseover="hghl(['staffs_fkamgwfug55gkfkjidp88wyaj37','public.staffs.user_id','public.users.id'])" onmouseout="uhghl(['staffs_fkamgwfug55gkfkjidp88wyaj37','public.staffs.user_id','public.users.id'])" transform='translate(10,0)' class='unhighlight' d='M 1558,494L 1558,627' >
+	<title>&#x1F517;  Foreign Key fkamgwfug55gkfkjidp88wyaj37
+staffs &#10132; users ( user_id -&gt; id )
+</title>
+</path>
+<path transform='translate(10,0)' marker-start='url(#One)' marker-end='url(#One)'    d='M 1558,494L 1558,627' ><title>&#x1F517;  Foreign Key fkamgwfug55gkfkjidp88wyaj37
+staffs &#10132; users ( user_id -&gt; id )
+</title></path>
+<text x='1570' y='494' transform='rotate(90 1570,494)' class='relName'>user&#95;id</text>
+<!-- == Fk 'ledger_entry_fk69hpn2k8m1osawn5vsu2i7hij' == -->
+<path id='ledger_entry_fk69hpn2k8m1osawn5vsu2i7hij'  onmouseover="hghl(['ledger_entry_fk69hpn2k8m1osawn5vsu2i7hij','public.ledger_entry.account_id','public.accounts.acc_id'])" onmouseout="uhghl(['ledger_entry_fk69hpn2k8m1osawn5vsu2i7hij','public.ledger_entry.account_id','public.accounts.acc_id'])" transform='translate(10,0)' class='unhighlight' d='M 1159,608L 1159,827Q 1159,836 1150,836L 200,836Q 190,836 190,827L 190,665' >
+	<title>&#x1F517;  Foreign Key fk69hpn2k8m1osawn5vsu2i7hij
+ledger_entry &#10132; accounts ( account_id -&gt; acc_id )
+</title>
+</path>
+<path transform='translate(10,0)' marker-start='url(#ZeroMore)' marker-end='url(#One)'  class='dotted '  d='M 1159,608L 1159,827Q 1159,836 1150,836L 200,836Q 190,836 190,827L 190,665' ><title>&#x1F517;  Foreign Key fk69hpn2k8m1osawn5vsu2i7hij
+ledger_entry &#10132; accounts ( account_id -&gt; acc_id )
+</title></path>
+<text x='1171' y='608' transform='rotate(90 1171,608)' class='relName'>account&#95;id</text>
+<!-- == Fk 'staff_addresses_fk4ispx9ypk6c5mxrs2c2uly4cg' == -->
+<path id='staff_addresses_fk4ispx9ypk6c5mxrs2c2uly4cg'  onmouseover="hghl(['staff_addresses_fk4ispx9ypk6c5mxrs2c2uly4cg','public.staff_addresses.staff_id','public.staffs.id'])" onmouseout="uhghl(['staff_addresses_fk4ispx9ypk6c5mxrs2c2uly4cg','public.staff_addresses.staff_id','public.staffs.id'])" transform='translate(10,0)' class='unhighlight' d='M 1330,646L 1330,637Q 1330,627 1340,627L 1454,627Q 1463,627 1463,618L 1463,466Q 1463,456 1473,456L 1482,456' >
+	<title>&#x1F517;  Foreign Key fk4ispx9ypk6c5mxrs2c2uly4cg
+staff_addresses &#10132; staffs ( staff_id -&gt; id )
+</title>
+</path>
+<path transform='translate(10,0)' marker-start='url(#One)' marker-end='url(#One)'    d='M 1330,646L 1330,637Q 1330,627 1340,627L 1454,627Q 1463,627 1463,618L 1463,466Q 1463,456 1473,456L 1482,456' ><title>&#x1F517;  Foreign Key fk4ispx9ypk6c5mxrs2c2uly4cg
+staff_addresses &#10132; staffs ( staff_id -&gt; id )
+</title></path>
+<text x='1333' y='643' transform='rotate(270 1333,643)' class='relName'>staff&#95;id</text>
+<!-- == Fk 'rate_fkih4mq6ehtxoqgx3tq348s8l46' == -->
+<path id='rate_fkih4mq6ehtxoqgx3tq348s8l46'  onmouseover="hghl(['rate_fkih4mq6ehtxoqgx3tq348s8l46','public.rate.to_currency','public.currency.cur_id'])" onmouseout="uhghl(['rate_fkih4mq6ehtxoqgx3tq348s8l46','public.rate.to_currency','public.currency.cur_id'])" transform='translate(10,0)' class='unhighlight' d='M 1140,133L 960,133Q 950,133 950,124L 950,48Q 950,38 941,38L 637,38Q 627,38 627,48L 627,76' >
+	<title>&#x1F517;  Foreign Key fkih4mq6ehtxoqgx3tq348s8l46
+rate &#10132; currency ( to_currency -&gt; cur_id )
+</title>
+</path>
+<path transform='translate(10,0)' marker-start='url(#OneMore)' marker-end='url(#One)'    d='M 1140,133L 960,133Q 950,133 950,124L 950,48Q 950,38 941,38L 637,38Q 627,38 627,48L 627,76' ><title>&#x1F517;  Foreign Key fkih4mq6ehtxoqgx3tq348s8l46
+rate &#10132; currency ( to_currency -&gt; cur_id )
+</title></path>
+<text x='1077' y='127' transform='rotate(0 1077,127)' class='relName'>to&#95;currency</text>
+<!-- == Fk 'rate_fkrr8gu1sie4ef49qkmv9o1buyb' == -->
+<path id='rate_fkrr8gu1sie4ef49qkmv9o1buyb'  onmouseover="hghl(['rate_fkrr8gu1sie4ef49qkmv9o1buyb','public.rate.from_currency','public.currency.cur_id'])" onmouseout="uhghl(['rate_fkrr8gu1sie4ef49qkmv9o1buyb','public.rate.from_currency','public.currency.cur_id'])" transform='translate(10,0)' class='unhighlight' d='M 1178,114L 1178,29Q 1178,19 1169,19L 618,19Q 608,19 608,29L 608,76' >
+	<title>&#x1F517;  Foreign Key fkrr8gu1sie4ef49qkmv9o1buyb
+rate &#10132; currency ( from_currency -&gt; cur_id )
+</title>
+</path>
+<path transform='translate(10,0)' marker-start='url(#OneMore)' marker-end='url(#One)'    d='M 1178,114L 1178,29Q 1178,19 1169,19L 618,19Q 608,19 608,29L 608,76' ><title>&#x1F517;  Foreign Key fkrr8gu1sie4ef49qkmv9o1buyb
+rate &#10132; currency ( from_currency -&gt; cur_id )
+</title></path>
+<text x='1181' y='111' transform='rotate(270 1181,111)' class='relName'>from&#95;currency</text>
+<!-- == Fk 'fund_transfers_fk62ogfh4cbxwsxyb27l764oyc' == -->
+<path id='fund_transfers_fk62ogfh4cbxwsxyb27l764oyc'  onmouseover="hghl(['fund_transfers_fk62ogfh4cbxwsxyb27l764oyc','public.fund_transfers.currency_id','public.currency.cur_id'])" onmouseout="uhghl(['fund_transfers_fk62ogfh4cbxwsxyb27l764oyc','public.fund_transfers.currency_id','public.currency.cur_id'])" transform='translate(10,0)' class='unhighlight' d='M 722,114L 646,114' >
+	<title>&#x1F517;  Foreign Key fk62ogfh4cbxwsxyb27l764oyc
+fund_transfers &#10132; currency ( currency_id -&gt; cur_id )
+</title>
+</path>
+<path transform='translate(10,0)' marker-start='url(#OneMore)' marker-end='url(#One)'    d='M 722,114L 646,114' ><title>&#x1F517;  Foreign Key fk62ogfh4cbxwsxyb27l764oyc
+fund_transfers &#10132; currency ( currency_id -&gt; cur_id )
+</title></path>
+<text x='661' y='108' transform='rotate(0 661,108)' class='relName'>currency&#95;id</text>
+<!-- == Table 'account_type' == -->
+<rect id='depict_public&#46;account&#95;type' class='entity' style='stroke:#F9FAFC' x='95' y='48' width='152' height='209' rx='4' ry='4' />
+<rect x='95' y='48' width='152' height='8' rx='4' ry='4' style='stroke-width:0;fill:url(#ttl_3986C1);'/>
+<rect x='95' y='52' width='152' height='29' style='stroke-width:0;fill:url(#tbg_3986C1);'/>
+<g><title>Table public.account_type</title><text id='depict&#45;public&#46;account&#95;type' x='125' y='70' class='tableHeader' style='fill:#414448;'>account&#95;type</text></g>  <use x='96' y='91' href='#nn'/><g><title>&#x1F511;  Pk account_type_pkey ( id ) </title><use x='97' y='90' href='#pk'/></g><g><title>&#10697;  id
+     * bigint
+ &#8601; accounts( account_type_id )</title><text id='public&#46;account&#95;type&#46;id' x='118' y='104' onmouseover="hghl(['accounts_fkh3ex9v0rl0i19dfnbr3lqfiqo','public.accounts.account_type_id'])" onmouseout="uhghl(['accounts_fkh3ex9v0rl0i19dfnbr3lqfiqo','public.accounts.account_type_id'])" class='colPk'>id</text></g><a href='#public.account_type.id'><g><title>&#x1F517;  Referred by accounts ( account_type_id -&gt; id ) </title><use x='233' y='90' href='#ref'/></g></a>
+  <g><title>&#10697;  code
+     varchar(255)</title><text id='public&#46;account&#95;type&#46;code' x='118' y='123'>code</text></g><text x='243' y='119' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  created_date
+     timestamp(6)</title><text id='public&#46;account&#95;type&#46;created&#95;date' x='118' y='142'>created&#95;date</text></g><text x='243' y='138' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  description
+     varchar(255)</title><text id='public&#46;account&#95;type&#46;description' x='118' y='161'>description</text></g><text x='243' y='157' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  interest_rate
+     decimal(38,2)</title><text id='public&#46;account&#95;type&#46;interest&#95;rate' x='118' y='180'>interest&#95;rate</text></g><text x='243' y='176' text-anchor='end' class='colType'>&#35;</text>  <g><title>&#10697;  name
+     varchar(255)</title><text id='public&#46;account&#95;type&#46;name' x='118' y='199'>name</text></g><text x='243' y='195' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  purpose_type
+     varchar(255)</title><text id='public&#46;account&#95;type&#46;purpose&#95;type' x='118' y='218'>purpose&#95;type</text></g><text x='243' y='214' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  updated_date
+     timestamp(6)</title><text id='public&#46;account&#95;type&#46;updated&#95;date' x='118' y='237'>updated&#95;date</text></g><text x='243' y='233' text-anchor='end' class='colType'>t</text>
+<!-- == Table 'accounts' == -->
+<rect id='depict_public&#46;accounts' class='entity' style='stroke:#F9FAFC' x='57' y='371' width='152' height='285' rx='4' ry='4' />
+<rect x='57' y='371' width='152' height='8' rx='4' ry='4' style='stroke-width:0;fill:url(#ttl_3986C1);'/>
+<rect x='57' y='375' width='152' height='29' style='stroke-width:0;fill:url(#tbg_3986C1);'/>
+<g><title>Table public.accounts</title><text id='depict&#45;public&#46;accounts' x='101' y='393' class='tableHeader' style='fill:#414448;'>accounts</text></g>  <use x='58' y='414' href='#nn'/><g><title>&#x1F511;  Pk accounts_pkey ( acc_id ) </title><use x='59' y='413' href='#pk'/></g><g><title>&#10697;  acc_id
+     * bigint
+ &#8601; ledger_entry( account_id )</title><text id='public&#46;accounts&#46;acc&#95;id' x='80' y='427' onmouseover="hghl(['ledger_entry_fk69hpn2k8m1osawn5vsu2i7hij','public.ledger_entry.account_id'])" onmouseout="uhghl(['ledger_entry_fk69hpn2k8m1osawn5vsu2i7hij','public.ledger_entry.account_id'])" class='colPk'>acc&#95;id</text></g><a href='#public.accounts.acc_id'><g><title>&#x1F517;  Referred by ledger_entry ( account_id -&gt; acc_id ) </title><use x='195' y='413' href='#ref'/></g></a>
+  <use x='58' y='433' href='#nn'/><g><title>&#x1F50D;  Unq ukd9o5cs1ijbd13u7kpj57fic6v ( acc_number ) </title><use x='59' y='432' href='#unq'/></g><g><title>&#10697;  acc_number
+     * varchar(50)</title><text id='public&#46;accounts&#46;acc&#95;number' x='80' y='446'>acc&#95;number</text></g><text x='205' y='442' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  balance
+     decimal(19,4)</title><text id='public&#46;accounts&#46;balance' x='80' y='465'>balance</text></g><text x='205' y='461' text-anchor='end' class='colType'>&#35;</text>  <g><title>&#10697;  closed_at
+     timestamp(6)</title><text id='public&#46;accounts&#46;closed&#95;at' x='80' y='484'>closed&#95;at</text></g><text x='205' y='480' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  lien_amount
+     decimal(19,4)</title><text id='public&#46;accounts&#46;lien&#95;amount' x='80' y='503'>lien&#95;amount</text></g><text x='205' y='499' text-anchor='end' class='colType'>&#35;</text>  <g><title>&#10697;  opened_at
+     timestamp(6)</title><text id='public&#46;accounts&#46;opened&#95;at' x='80' y='522'>opened&#95;at</text></g><text x='205' y='518' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  ownership_type
+     varchar(255)</title><text id='public&#46;accounts&#46;ownership&#95;type' x='80' y='541'>ownership&#95;type</text></g><text x='205' y='537' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  status
+     varchar(255)</title><text id='public&#46;accounts&#46;status' x='80' y='560'>status</text></g><text x='205' y='556' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  updated_at
+     timestamp(6)</title><text id='public&#46;accounts&#46;updated&#95;at' x='80' y='579'>updated&#95;at</text></g><text x='205' y='575' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  account_type_id
+     bigint
+ &#8599; account_type( id )</title><text id='public&#46;accounts&#46;account&#95;type&#95;id' x='80' y='598' onmouseover="hghl(['accounts_fkh3ex9v0rl0i19dfnbr3lqfiqo','public.account_type.id'])" onmouseout="uhghl(['accounts_fkh3ex9v0rl0i19dfnbr3lqfiqo','public.account_type.id'])">account&#95;type&#95;id</text></g><a href='#public.accounts.account_type_id'><g><title>&#x1F517;  References account_type ( account_type_id -&gt; id ) </title><use x='195' y='584' href='#fk'/></g></a>
+  <g><title>&#10697;  currency_id
+     bigint
+ &#8599; currency( cur_id )</title><text id='public&#46;accounts&#46;currency&#95;id' x='80' y='617' onmouseover="hghl(['accounts_fkks5v3om3pymdtf0wuslv1exjb','public.currency.cur_id'])" onmouseout="uhghl(['accounts_fkks5v3om3pymdtf0wuslv1exjb','public.currency.cur_id'])">currency&#95;id</text></g><a href='#public.accounts.currency_id'><g><title>&#x1F517;  References currency ( currency_id -&gt; cur_id ) </title><use x='195' y='603' href='#fk'/></g></a>
+  <use x='58' y='623' href='#nn'/><g><title>&#10697;  cus_id
+     * bigint
+ &#8599; customers( id )</title><text id='public&#46;accounts&#46;cus&#95;id' x='80' y='636' onmouseover="hghl(['accounts_fkqhnlhf816k33cy670yig4m4ta','public.customers.id'])" onmouseout="uhghl(['accounts_fkqhnlhf816k33cy670yig4m4ta','public.customers.id'])">cus&#95;id</text></g><a href='#public.accounts.cus_id'><g><title>&#x1F517;  References customers ( cus_id -&gt; id ) </title><use x='195' y='622' href='#fk'/></g></a>
+
+<!-- == Table 'addresses' == -->
+<rect id='depict_public&#46;addresses' class='entity' style='stroke:#F9FAFC' x='304' y='48' width='133' height='190' rx='4' ry='4' />
+<rect x='304' y='48' width='133' height='8' rx='4' ry='4' style='stroke-width:0;fill:url(#ttl_3986C1);'/>
+<rect x='304' y='52' width='133' height='29' style='stroke-width:0;fill:url(#tbg_3986C1);'/>
+<g><title>Table public.addresses</title><text id='depict&#45;public&#46;addresses' x='336' y='70' class='tableHeader' style='fill:#414448;'>addresses</text></g>  <use x='305' y='91' href='#nn'/><g><title>&#x1F511;  Pk addresses_pkey ( address_id ) </title><use x='306' y='90' href='#pk'/></g><g><title>&#10697;  address_id
+     * bigint</title><text id='public&#46;addresses&#46;address&#95;id' x='327' y='104' class='colPk'>address&#95;id</text></g><text x='433' y='100' text-anchor='end' class='colType'>&#35;</text>  <g><title>&#10697;  city
+     varchar(255)</title><text id='public&#46;addresses&#46;city' x='327' y='123'>city</text></g><text x='433' y='119' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  country
+     varchar(255)</title><text id='public&#46;addresses&#46;country' x='327' y='142'>country</text></g><text x='433' y='138' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  line1
+     varchar(255)</title><text id='public&#46;addresses&#46;line1' x='327' y='161'>line1</text></g><text x='433' y='157' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  line2
+     varchar(255)</title><text id='public&#46;addresses&#46;line2' x='327' y='180'>line2</text></g><text x='433' y='176' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  state
+     varchar(255)</title><text id='public&#46;addresses&#46;state' x='327' y='199'>state</text></g><text x='433' y='195' text-anchor='end' class='colType'>t</text>  <use x='305' y='205' href='#nn'/><g><title>&#x1F50D;  Unq ukj9g1gwa3r8w97xent2b3qnced ( customer_id ) </title><use x='306' y='204' href='#unq'/></g><g><title>&#10697;  customer_id
+     * bigint
+ &#8599; customers( id )</title><text id='public&#46;addresses&#46;customer&#95;id' x='327' y='218' onmouseover="hghl(['addresses_fkhrpf5e8dwasvdc5cticysrt2k','public.customers.id'])" onmouseout="uhghl(['addresses_fkhrpf5e8dwasvdc5cticysrt2k','public.customers.id'])">customer&#95;id</text></g><a href='#public.addresses.customer_id'><g><title>&#x1F517;  References customers ( customer_id -&gt; id ) </title><use x='423' y='204' href='#fk'/></g></a>
+
+<!-- == Table 'branch' == -->
+<rect id='depict_public&#46;branch' class='entity' style='stroke:#F9FAFC' x='266' y='314' width='152' height='456' rx='4' ry='4' />
+<rect x='266' y='314' width='152' height='8' rx='4' ry='4' style='stroke-width:0;fill:url(#ttl_3986C1);'/>
+<rect x='266' y='318' width='152' height='29' style='stroke-width:0;fill:url(#tbg_3986C1);'/>
+<g><title>Table public.branch</title><text id='depict&#45;public&#46;branch' x='316' y='336' class='tableHeader' style='fill:#414448;'>branch</text></g>  <use x='267' y='357' href='#nn'/><g><title>&#x1F511;  Pk branch_pkey ( branch_id ) </title><use x='268' y='356' href='#pk'/></g><g><title>&#10697;  branch_id
+     * bigint</title><text id='public&#46;branch&#46;branch&#95;id' x='289' y='370' class='colPk'>branch&#95;id</text></g><text x='414' y='366' text-anchor='end' class='colType'>&#35;</text>  <use x='267' y='376' href='#nn'/><g><title>&#10697;  branch_code
+     * varchar(255)</title><text id='public&#46;branch&#46;branch&#95;code' x='289' y='389'>branch&#95;code</text></g><text x='414' y='385' text-anchor='end' class='colType'>t</text>  <use x='267' y='395' href='#nn'/><g><title>&#10697;  branch_name
+     * varchar(255)</title><text id='public&#46;branch&#46;branch&#95;name' x='289' y='408'>branch&#95;name</text></g><text x='414' y='404' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  branch_type
+     varchar(255)</title><text id='public&#46;branch&#46;branch&#95;type' x='289' y='427'>branch&#95;type</text></g><text x='414' y='423' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  city
+     varchar(255)</title><text id='public&#46;branch&#46;city' x='289' y='446'>city</text></g><text x='414' y='442' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  closed_date
+     date</title><text id='public&#46;branch&#46;closed&#95;date' x='289' y='465'>closed&#95;date</text></g><text x='414' y='461' text-anchor='end' class='colType'>d</text>  <g><title>&#10697;  country
+     varchar(255)</title><text id='public&#46;branch&#46;country' x='289' y='484'>country</text></g><text x='414' y='480' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  created_at
+     timestamp(6)</title><text id='public&#46;branch&#46;created&#95;at' x='289' y='503'>created&#95;at</text></g><text x='414' y='499' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  email
+     varchar(255)</title><text id='public&#46;branch&#46;email' x='289' y='522'>email</text></g><text x='414' y='518' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  ifsc_code
+     varchar(255)</title><text id='public&#46;branch&#46;ifsc&#95;code' x='289' y='541'>ifsc&#95;code</text></g><text x='414' y='537' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  latitude
+     decimal(38,2)</title><text id='public&#46;branch&#46;latitude' x='289' y='560'>latitude</text></g><text x='414' y='556' text-anchor='end' class='colType'>&#35;</text>  <g><title>&#10697;  line1
+     varchar(255)</title><text id='public&#46;branch&#46;line1' x='289' y='579'>line1</text></g><text x='414' y='575' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  line2
+     varchar(255)</title><text id='public&#46;branch&#46;line2' x='289' y='598'>line2</text></g><text x='414' y='594' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  longitude
+     decimal(38,2)</title><text id='public&#46;branch&#46;longitude' x='289' y='617'>longitude</text></g><text x='414' y='613' text-anchor='end' class='colType'>&#35;</text>  <g><title>&#10697;  opened_date
+     date</title><text id='public&#46;branch&#46;opened&#95;date' x='289' y='636'>opened&#95;date</text></g><text x='414' y='632' text-anchor='end' class='colType'>d</text>  <g><title>&#10697;  phone_number
+     varchar(255)</title><text id='public&#46;branch&#46;phone&#95;number' x='289' y='655'>phone&#95;number</text></g><text x='414' y='651' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  postal_code
+     varchar(255)</title><text id='public&#46;branch&#46;postal&#95;code' x='289' y='674'>postal&#95;code</text></g><text x='414' y='670' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  state
+     varchar(255)</title><text id='public&#46;branch&#46;state' x='289' y='693'>state</text></g><text x='414' y='689' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  status
+     varchar(255)</title><text id='public&#46;branch&#46;status' x='289' y='712'>status</text></g><text x='414' y='708' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  swift_code
+     varchar(255)</title><text id='public&#46;branch&#46;swift&#95;code' x='289' y='731'>swift&#95;code</text></g><text x='414' y='727' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  updated_at
+     timestamp(6)</title><text id='public&#46;branch&#46;updated&#95;at' x='289' y='750'>updated&#95;at</text></g><text x='414' y='746' text-anchor='end' class='colType'>t</text>
+<!-- == Table 'customers' == -->
+<rect id='depict_public&#46;customers' class='entity' style='stroke:#F9FAFC' x='513' y='352' width='152' height='285' rx='4' ry='4' />
+<rect x='513' y='352' width='152' height='8' rx='4' ry='4' style='stroke-width:0;fill:url(#ttl_3986C1);'/>
+<rect x='513' y='356' width='152' height='29' style='stroke-width:0;fill:url(#tbg_3986C1);'/>
+<g><title>Table public.customers</title><text id='depict&#45;public&#46;customers' x='553' y='374' class='tableHeader' style='fill:#414448;'>customers</text></g>  <use x='514' y='395' href='#nn'/><g><title>&#x1F511;  Pk customers_pkey ( id ) </title><use x='515' y='394' href='#pk'/></g><g><title>&#10697;  id
+     * bigint
+ &#8601; addresses( customer_id )
+ &#8601; identity_doc( cus_id )
+ &#8601; accounts( cus_id )</title><text id='public&#46;customers&#46;id' x='536' y='408' onmouseover="hghl(['addresses_fkhrpf5e8dwasvdc5cticysrt2k','public.addresses.customer_id','identity_doc_fk1h8ubcs574q7va685xusfh9lr','public.identity_doc.cus_id','accounts_fkqhnlhf816k33cy670yig4m4ta','public.accounts.cus_id'])" onmouseout="uhghl(['addresses_fkhrpf5e8dwasvdc5cticysrt2k','public.addresses.customer_id','identity_doc_fk1h8ubcs574q7va685xusfh9lr','public.identity_doc.cus_id','accounts_fkqhnlhf816k33cy670yig4m4ta','public.accounts.cus_id'])" class='colPk'>id</text></g><a href='#public.customers.id'><g><title>&#x1F517;  Referred by addresses ( customer_id -&gt; id ) 
+Referred by identity_doc ( cus_id -&gt; id ) 
+Referred by accounts ( cus_id -&gt; id ) </title><use x='651' y='394' href='#ref'/></g></a>
+  <g><title>&#10697;  created_at
+     timestamp(6)</title><text id='public&#46;customers&#46;created&#95;at' x='536' y='427'>created&#95;at</text></g><text x='661' y='423' text-anchor='end' class='colType'>t</text>  <use x='514' y='433' href='#nn'/><g><title>&#10697;  first_name
+     * varchar(255)</title><text id='public&#46;customers&#46;first&#95;name' x='536' y='446'>first&#95;name</text></g><text x='661' y='442' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  gender
+     varchar(255)</title><text id='public&#46;customers&#46;gender' x='536' y='465'>gender</text></g><text x='661' y='461' text-anchor='end' class='colType'>t</text>  <use x='514' y='471' href='#nn'/><g><title>&#10697;  last_name
+     * varchar(255)</title><text id='public&#46;customers&#46;last&#95;name' x='536' y='484'>last&#95;name</text></g><text x='661' y='480' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  marital_status
+     varchar(255)</title><text id='public&#46;customers&#46;marital&#95;status' x='536' y='503'>marital&#95;status</text></g><text x='661' y='499' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  nationality
+     varchar(255)</title><text id='public&#46;customers&#46;nationality' x='536' y='522'>nationality</text></g><text x='661' y='518' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  occupation
+     varchar(255)</title><text id='public&#46;customers&#46;occupation' x='536' y='541'>occupation</text></g><text x='661' y='537' text-anchor='end' class='colType'>t</text>  <use x='514' y='547' href='#nn'/><g><title>&#x1F50D;  Unq uk6v6x92wb400iwh6unf5rwiim4 ( phone_number ) </title><use x='515' y='546' href='#unq'/></g><g><title>&#10697;  phone_number
+     * varchar(255)</title><text id='public&#46;customers&#46;phone&#95;number' x='536' y='560'>phone&#95;number</text></g><text x='661' y='556' text-anchor='end' class='colType'>t</text>  <use x='514' y='566' href='#nn'/><g><title>&#10697;  status
+     * varchar(255)</title><text id='public&#46;customers&#46;status' x='536' y='579'>status</text></g><text x='661' y='575' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  updated_at
+     timestamp(6)</title><text id='public&#46;customers&#46;updated&#95;at' x='536' y='598'>updated&#95;at</text></g><text x='661' y='594' text-anchor='end' class='colType'>t</text>  <use x='514' y='604' href='#nn'/><g><title>&#x1F50D;  Unq ukeuat1oase6eqv195jvb71a93s ( user_id ) </title><use x='515' y='603' href='#unq'/></g><g><title>&#10697;  user_id
+     * bigint
+ &#8599; users( id )</title><text id='public&#46;customers&#46;user&#95;id' x='536' y='617' onmouseover="hghl(['customers_fkrh1g1a20omjmn6kurd35o3eit','public.users.id'])" onmouseout="uhghl(['customers_fkrh1g1a20omjmn6kurd35o3eit','public.users.id'])">user&#95;id</text></g><a href='#public.customers.user_id'><g><title>&#x1F517;  References users ( user_id -&gt; id ) </title><use x='651' y='603' href='#fk'/></g></a>
+
+<!-- == Table 'identity_doc' == -->
+<rect id='depict_public&#46;identity&#95;doc' class='entity' style='stroke:#F9FAFC' x='741' y='485' width='133' height='209' rx='4' ry='4' />
+<rect x='741' y='485' width='133' height='8' rx='4' ry='4' style='stroke-width:0;fill:url(#ttl_3986C1);'/>
+<rect x='741' y='489' width='133' height='29' style='stroke-width:0;fill:url(#tbg_3986C1);'/>
+<g><title>Table public.identity_doc</title><text id='depict&#45;public&#46;identity&#95;doc' x='765' y='507' class='tableHeader' style='fill:#414448;'>identity&#95;doc</text></g>  <use x='742' y='528' href='#nn'/><g><title>&#x1F511;  Pk identity_doc_pkey ( id ) </title><use x='743' y='527' href='#pk'/></g><g><title>&#10697;  id
+     * bigint</title><text id='public&#46;identity&#95;doc&#46;id' x='764' y='541' class='colPk'>id</text></g><text x='870' y='537' text-anchor='end' class='colType'>&#35;</text>  <g><title>&#10697;  doc_image
+     varchar(255)</title><text id='public&#46;identity&#95;doc&#46;doc&#95;image' x='764' y='560'>doc&#95;image</text></g><text x='870' y='556' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  doc_status
+     varchar(255)</title><text id='public&#46;identity&#95;doc&#46;doc&#95;status' x='764' y='579'>doc&#95;status</text></g><text x='870' y='575' text-anchor='end' class='colType'>t</text>  <use x='742' y='585' href='#nn'/><g><title>&#10697;  exp_date
+     * date</title><text id='public&#46;identity&#95;doc&#46;exp&#95;date' x='764' y='598'>exp&#95;date</text></g><text x='870' y='594' text-anchor='end' class='colType'>d</text>  <g><title>&#10697;  identity_type
+     varchar(255)</title><text id='public&#46;identity&#95;doc&#46;identity&#95;type' x='764' y='617'>identity&#95;type</text></g><text x='870' y='613' text-anchor='end' class='colType'>t</text>  <use x='742' y='623' href='#nn'/><g><title>&#x1F50D;  Unq uknu7cwwjvehwil3qdhm0tqnh43 ( number ) </title><use x='743' y='622' href='#unq'/></g><g><title>&#10697;  number
+     * varchar(255)</title><text id='public&#46;identity&#95;doc&#46;number' x='764' y='636'>number</text></g><text x='870' y='632' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  verified_date
+     timestamp(6)</title><text id='public&#46;identity&#95;doc&#46;verified&#95;date' x='764' y='655'>verified&#95;date</text></g><text x='870' y='651' text-anchor='end' class='colType'>t</text>  <g><title>&#x1F50D;  Unq ukis2e6tlswce6e3gf9nwq6qsg1 ( cus_id ) </title><use x='743' y='660' href='#unq'/></g><g><title>&#10697;  cus_id
+     bigint
+ &#8599; customers( id )</title><text id='public&#46;identity&#95;doc&#46;cus&#95;id' x='764' y='674' onmouseover="hghl(['identity_doc_fk1h8ubcs574q7va685xusfh9lr','public.customers.id'])" onmouseout="uhghl(['identity_doc_fk1h8ubcs574q7va685xusfh9lr','public.customers.id'])">cus&#95;id</text></g><a href='#public.identity_doc.cus_id'><g><title>&#x1F517;  References customers ( cus_id -&gt; id ) </title><use x='860' y='660' href='#fk'/></g></a>
+
+<!-- == Table 'security_audit_logs' == -->
+<rect id='depict_public&#46;security&#95;audit&#95;logs' class='entity' style='stroke:#F9FAFC' x='912' y='504' width='152' height='304' rx='4' ry='4' />
+<rect x='912' y='504' width='152' height='8' rx='4' ry='4' style='stroke-width:0;fill:url(#ttl_3986C1);'/>
+<rect x='912' y='508' width='152' height='29' style='stroke-width:0;fill:url(#tbg_3986C1);'/>
+<g><title>Table public.security_audit_logs</title><text id='depict&#45;public&#46;security&#95;audit&#95;logs' x='925' y='526' class='tableHeader' style='fill:#414448;'>security&#95;audit&#95;logs</text></g>  <use x='913' y='547' href='#nn'/><g><title>&#x1F511;  Pk security_audit_logs_pkey ( id ) </title><use x='914' y='546' href='#pk'/></g><g><title>&#10697;  id
+     * bigint</title><text id='public&#46;security&#95;audit&#95;logs&#46;id' x='935' y='560' class='colPk'>id</text></g><text x='1060' y='556' text-anchor='end' class='colType'>&#35;</text>  <g><title>&#10697;  action
+     varchar(255)</title><text id='public&#46;security&#95;audit&#95;logs&#46;action' x='935' y='579'>action</text></g><text x='1060' y='575' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  duration_ms
+     bigint</title><text id='public&#46;security&#95;audit&#95;logs&#46;duration&#95;ms' x='935' y='598'>duration&#95;ms</text></g><text x='1060' y='594' text-anchor='end' class='colType'>&#35;</text>  <g><title>&#10697;  error_message
+     text</title><text id='public&#46;security&#95;audit&#95;logs&#46;error&#95;message' x='935' y='617'>error&#95;message</text></g><text x='1060' y='613' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  ip_address
+     varchar(255)</title><text id='public&#46;security&#95;audit&#95;logs&#46;ip&#95;address' x='935' y='636'>ip&#95;address</text></g><text x='1060' y='632' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  method
+     varchar(255)</title><text id='public&#46;security&#95;audit&#95;logs&#46;method' x='935' y='655'>method</text></g><text x='1060' y='651' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  occurred_at
+     timestamp(6)</title><text id='public&#46;security&#95;audit&#95;logs&#46;occurred&#95;at' x='935' y='674'>occurred&#95;at</text></g><text x='1060' y='670' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  path
+     path</title><text id='public&#46;security&#95;audit&#95;logs&#46;path' x='935' y='693'>path</text></g>  <g><title>&#10697;  result
+     varchar(255)</title><text id='public&#46;security&#95;audit&#95;logs&#46;result' x='935' y='712'>result</text></g><text x='1060' y='708' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  status_code
+     integer</title><text id='public&#46;security&#95;audit&#95;logs&#46;status&#95;code' x='935' y='731'>status&#95;code</text></g><text x='1060' y='727' text-anchor='end' class='colType'>&#35;</text>  <g><title>&#10697;  user_agent
+     text</title><text id='public&#46;security&#95;audit&#95;logs&#46;user&#95;agent' x='935' y='750'>user&#95;agent</text></g><text x='1060' y='746' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  user_id
+     varchar(255)</title><text id='public&#46;security&#95;audit&#95;logs&#46;user&#95;id' x='935' y='769'>user&#95;id</text></g><text x='1060' y='765' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  username
+     varchar(255)</title><text id='public&#46;security&#95;audit&#95;logs&#46;username' x='935' y='788'>username</text></g><text x='1060' y='784' text-anchor='end' class='colType'>t</text>
+<!-- == Table 'currency' == -->
+<rect id='depict_public&#46;currency' class='entity' style='stroke:#F9FAFC' x='494' y='86' width='152' height='190' rx='4' ry='4' />
+<rect x='494' y='86' width='152' height='8' rx='4' ry='4' style='stroke-width:0;fill:url(#ttl_3986C1);'/>
+<rect x='494' y='90' width='152' height='29' style='stroke-width:0;fill:url(#tbg_3986C1);'/>
+<g><title>Table public.currency</title><text id='depict&#45;public&#46;currency' x='539' y='108' class='tableHeader' style='fill:#414448;'>currency</text></g>  <use x='495' y='129' href='#nn'/><g><title>&#x1F511;  Pk currency_pkey ( cur_id ) </title><use x='496' y='128' href='#pk'/></g><g><title>&#10697;  cur_id
+     * bigint
+ &#8601; fund_transfers( currency_id )
+ &#8601; accounts( currency_id )
+ &#8601; rate( to_currency )
+ &#8601; rate( from_currency )</title><text id='public&#46;currency&#46;cur&#95;id' x='517' y='142' onmouseover="hghl(['fund_transfers_fk62ogfh4cbxwsxyb27l764oyc','public.fund_transfers.currency_id','accounts_fkks5v3om3pymdtf0wuslv1exjb','public.accounts.currency_id','rate_fkih4mq6ehtxoqgx3tq348s8l46','public.rate.to_currency','rate_fkrr8gu1sie4ef49qkmv9o1buyb','public.rate.from_currency'])" onmouseout="uhghl(['fund_transfers_fk62ogfh4cbxwsxyb27l764oyc','public.fund_transfers.currency_id','accounts_fkks5v3om3pymdtf0wuslv1exjb','public.accounts.currency_id','rate_fkih4mq6ehtxoqgx3tq348s8l46','public.rate.to_currency','rate_fkrr8gu1sie4ef49qkmv9o1buyb','public.rate.from_currency'])" class='colPk'>cur&#95;id</text></g><a href='#public.currency.cur_id'><g><title>&#x1F517;  Referred by fund_transfers ( currency_id -&gt; cur_id ) 
+Referred by accounts ( currency_id -&gt; cur_id ) 
+Referred by rate ( to_currency -&gt; cur_id ) 
+Referred by rate ( from_currency -&gt; cur_id ) </title><use x='632' y='128' href='#ref'/></g></a>
+  <g><title>&#x1F50D;  Unq ukh84pd2rtr12isnifnj655rkra ( code ) </title><use x='496' y='147' href='#unq'/></g><g><title>&#10697;  code
+     varchar(255)</title><text id='public&#46;currency&#46;code' x='517' y='161'>code</text></g><text x='642' y='157' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  created_date
+     timestamp(6)</title><text id='public&#46;currency&#46;created&#95;date' x='517' y='180'>created&#95;date</text></g><text x='642' y='176' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  decimal_places
+     integer</title><text id='public&#46;currency&#46;decimal&#95;places' x='517' y='199'>decimal&#95;places</text></g><text x='642' y='195' text-anchor='end' class='colType'>&#35;</text>  <g><title>&#10697;  name
+     varchar(255)</title><text id='public&#46;currency&#46;name' x='517' y='218'>name</text></g><text x='642' y='214' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  symbol
+     varchar(255)</title><text id='public&#46;currency&#46;symbol' x='517' y='237'>symbol</text></g><text x='642' y='233' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  updated_date
+     timestamp(6)</title><text id='public&#46;currency&#46;updated&#95;date' x='517' y='256'>updated&#95;date</text></g><text x='642' y='252' text-anchor='end' class='colType'>t</text>
+<!-- == Table 'staffs' == -->
+<rect id='depict_public&#46;staffs' class='entity' style='stroke:#F9FAFC' x='1501' y='48' width='190' height='437' rx='4' ry='4' />
+<rect x='1501' y='48' width='190' height='8' rx='4' ry='4' style='stroke-width:0;fill:url(#ttl_3986C1);'/>
+<rect x='1501' y='52' width='190' height='29' style='stroke-width:0;fill:url(#tbg_3986C1);'/>
+<g><title>Table public.staffs</title><text id='depict&#45;public&#46;staffs' x='1574' y='70' class='tableHeader' style='fill:#414448;'>staffs</text></g>  <use x='1502' y='91' href='#nn'/><g><title>&#x1F511;  Pk staffs_pkey ( id ) </title><use x='1503' y='90' href='#pk'/></g><g><title>&#10697;  id
+     * bigint
+ &#8601; staff_addresses( staff_id )</title><text id='public&#46;staffs&#46;id' x='1524' y='104' onmouseover="hghl(['staff_addresses_fk4ispx9ypk6c5mxrs2c2uly4cg','public.staff_addresses.staff_id'])" onmouseout="uhghl(['staff_addresses_fk4ispx9ypk6c5mxrs2c2uly4cg','public.staff_addresses.staff_id'])" class='colPk'>id</text></g><a href='#public.staffs.id'><g><title>&#x1F517;  Referred by staff_addresses ( staff_id -&gt; id ) </title><use x='1677' y='90' href='#ref'/></g></a>
+  <use x='1502' y='110' href='#nn'/><g><title>&#10697;  created_at
+     * timestamp(6)</title><text id='public&#46;staffs&#46;created&#95;at' x='1524' y='123'>created&#95;at</text></g><text x='1687' y='119' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  date_of_birth
+     date</title><text id='public&#46;staffs&#46;date&#95;of&#95;birth' x='1524' y='142'>date&#95;of&#95;birth</text></g><text x='1687' y='138' text-anchor='end' class='colType'>d</text>  <g><title>&#10697;  department
+     varchar(100)</title><text id='public&#46;staffs&#46;department' x='1524' y='161'>department</text></g><text x='1687' y='157' text-anchor='end' class='colType'>t</text>  <use x='1502' y='167' href='#nn'/><g><title>&#x1F50D;  Unq uk_staff_email ( email ) </title><use x='1503' y='166' href='#unq'/></g><g><title>&#10697;  email
+     * varchar(150)</title><text id='public&#46;staffs&#46;email' x='1524' y='180'>email</text></g><text x='1687' y='176' text-anchor='end' class='colType'>t</text>  <use x='1502' y='186' href='#nn'/><g><title>&#10697;  employment_status
+     * varchar(30)</title><text id='public&#46;staffs&#46;employment&#95;status' x='1524' y='199'>employment&#95;status</text></g><text x='1687' y='195' text-anchor='end' class='colType'>t</text>  <use x='1502' y='205' href='#nn'/><g><title>&#10697;  first_name
+     * varchar(100)</title><text id='public&#46;staffs&#46;first&#95;name' x='1524' y='218'>first&#95;name</text></g><text x='1687' y='214' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  gender
+     varchar(20)</title><text id='public&#46;staffs&#46;gender' x='1524' y='237'>gender</text></g><text x='1687' y='233' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  hire_date
+     date</title><text id='public&#46;staffs&#46;hire&#95;date' x='1524' y='256'>hire&#95;date</text></g><text x='1687' y='252' text-anchor='end' class='colType'>d</text>  <g><title>&#10697;  job_title
+     varchar(100)</title><text id='public&#46;staffs&#46;job&#95;title' x='1524' y='275'>job&#95;title</text></g><text x='1687' y='271' text-anchor='end' class='colType'>t</text>  <use x='1502' y='281' href='#nn'/><g><title>&#10697;  last_name
+     * varchar(100)</title><text id='public&#46;staffs&#46;last&#95;name' x='1524' y='294'>last&#95;name</text></g><text x='1687' y='290' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  marital_status
+     varchar(50)</title><text id='public&#46;staffs&#46;marital&#95;status' x='1524' y='313'>marital&#95;status</text></g><text x='1687' y='309' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  nationality
+     varchar(100)</title><text id='public&#46;staffs&#46;nationality' x='1524' y='332'>nationality</text></g><text x='1687' y='328' text-anchor='end' class='colType'>t</text>  <use x='1502' y='338' href='#nn'/><g><title>&#x1F50D;  Unq uk_staff_phone ( phone_number ) </title><use x='1503' y='337' href='#unq'/></g><g><title>&#10697;  phone_number
+     * varchar(30)</title><text id='public&#46;staffs&#46;phone&#95;number' x='1524' y='351'>phone&#95;number</text></g><text x='1687' y='347' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  salary
+     decimal(19,4)</title><text id='public&#46;staffs&#46;salary' x='1524' y='370'>salary</text></g><text x='1687' y='366' text-anchor='end' class='colType'>&#35;</text>  <use x='1502' y='376' href='#nn'/><g><title>&#x1F50D;  Unq uk_staff_code ( staff_code ) </title><use x='1503' y='375' href='#unq'/></g><g><title>&#10697;  staff_code
+     * varchar(50)</title><text id='public&#46;staffs&#46;staff&#95;code' x='1524' y='389'>staff&#95;code</text></g><text x='1687' y='385' text-anchor='end' class='colType'>t</text>  <use x='1502' y='395' href='#nn'/><g><title>&#10697;  staff_role
+     * varchar(50)</title><text id='public&#46;staffs&#46;staff&#95;role' x='1524' y='408'>staff&#95;role</text></g><text x='1687' y='404' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  termination_date
+     date</title><text id='public&#46;staffs&#46;termination&#95;date' x='1524' y='427'>termination&#95;date</text></g><text x='1687' y='423' text-anchor='end' class='colType'>d</text>  <g><title>&#10697;  updated_at
+     timestamp(6)</title><text id='public&#46;staffs&#46;updated&#95;at' x='1524' y='446'>updated&#95;at</text></g><text x='1687' y='442' text-anchor='end' class='colType'>t</text>  <use x='1502' y='452' href='#nn'/><g><title>&#x1F50D;  Unq uk_staff_user_id ( user_id ) </title><use x='1503' y='451' href='#unq'/></g><g><title>&#10697;  user_id
+     * bigint
+ &#8599; users( id )</title><text id='public&#46;staffs&#46;user&#95;id' x='1524' y='465' onmouseover="hghl(['staffs_fkamgwfug55gkfkjidp88wyaj37','public.users.id'])" onmouseout="uhghl(['staffs_fkamgwfug55gkfkjidp88wyaj37','public.users.id'])">user&#95;id</text></g><a href='#public.staffs.user_id'><g><title>&#x1F517;  References users ( user_id -&gt; id ) </title><use x='1677' y='451' href='#fk'/></g></a>
+
+<!-- == Table 'ledger_entry' == -->
+<rect id='depict_public&#46;ledger&#95;entry' class='entity' style='stroke:#F9FAFC' x='1140' y='352' width='190' height='247' rx='4' ry='4' />
+<rect x='1140' y='352' width='190' height='8' rx='4' ry='4' style='stroke-width:0;fill:url(#ttl_3986C1);'/>
+<rect x='1140' y='356' width='190' height='29' style='stroke-width:0;fill:url(#tbg_3986C1);'/>
+<g><title>Table public.ledger_entry</title><text id='depict&#45;public&#46;ledger&#95;entry' x='1191' y='374' class='tableHeader' style='fill:#414448;'>ledger&#95;entry</text></g>  <use x='1141' y='395' href='#nn'/><g><title>&#x1F511;  Pk ledger_entry_pkey ( id ) </title><use x='1142' y='394' href='#pk'/></g><g><title>&#10697;  id
+     * bigint</title><text id='public&#46;ledger&#95;entry&#46;id' x='1163' y='408' class='colPk'>id</text></g><text x='1326' y='404' text-anchor='end' class='colType'>&#35;</text>  <g><title>&#10697;  credit_amount
+     decimal(19,4)</title><text id='public&#46;ledger&#95;entry&#46;credit&#95;amount' x='1163' y='427'>credit&#95;amount</text></g><text x='1326' y='423' text-anchor='end' class='colType'>&#35;</text>  <g><title>&#10697;  debit_amount
+     decimal(19,4)</title><text id='public&#46;ledger&#95;entry&#46;debit&#95;amount' x='1163' y='446'>debit&#95;amount</text></g><text x='1326' y='442' text-anchor='end' class='colType'>&#35;</text>  <g><title>&#10697;  description
+     varchar(255)</title><text id='public&#46;ledger&#95;entry&#46;description' x='1163' y='465'>description</text></g><text x='1326' y='461' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  gl_code
+     smallint</title><text id='public&#46;ledger&#95;entry&#46;gl&#95;code' x='1163' y='484'>gl&#95;code</text></g><text x='1326' y='480' text-anchor='end' class='colType'>&#35;</text>  <g><title>&#10697;  posted_at
+     timestamp(6)</title><text id='public&#46;ledger&#95;entry&#46;posted&#95;at' x='1163' y='503'>posted&#95;at</text></g><text x='1326' y='499' text-anchor='end' class='colType'>t</text>  <use x='1141' y='509' href='#nn'/><g><title>&#10697;  running_balance
+     * decimal(19,4)</title><text id='public&#46;ledger&#95;entry&#46;running&#95;balance' x='1163' y='522'>running&#95;balance</text></g><text x='1326' y='518' text-anchor='end' class='colType'>&#35;</text>  <use x='1141' y='528' href='#nn'/><g><title>&#10697;  transaction_reference
+     * varchar(255)</title><text id='public&#46;ledger&#95;entry&#46;transaction&#95;reference' x='1163' y='541'>transaction&#95;reference</text></g><text x='1326' y='537' text-anchor='end' class='colType'>t</text>  <use x='1141' y='547' href='#nn'/><g><title>&#10697;  type
+     * varchar(255)</title><text id='public&#46;ledger&#95;entry&#46;type' x='1163' y='560'>type</text></g><text x='1326' y='556' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  account_id
+     bigint
+ &#8599; accounts( acc_id )</title><text id='public&#46;ledger&#95;entry&#46;account&#95;id' x='1163' y='579' onmouseover="hghl(['ledger_entry_fk69hpn2k8m1osawn5vsu2i7hij','public.accounts.acc_id'])" onmouseout="uhghl(['ledger_entry_fk69hpn2k8m1osawn5vsu2i7hij','public.accounts.acc_id'])">account&#95;id</text></g><a href='#public.ledger_entry.account_id'><g><title>&#x1F517;  References accounts ( account_id -&gt; acc_id ) </title><use x='1316' y='565' href='#fk'/></g></a>
+
+<!-- == Table 'staff_addresses' == -->
+<rect id='depict_public&#46;staff&#95;addresses' class='entity' style='stroke:#F9FAFC' x='1216' y='656' width='133' height='228' rx='4' ry='4' />
+<rect x='1216' y='656' width='133' height='8' rx='4' ry='4' style='stroke-width:0;fill:url(#ttl_3986C1);'/>
+<rect x='1216' y='660' width='133' height='29' style='stroke-width:0;fill:url(#tbg_3986C1);'/>
+<g><title>Table public.staff_addresses</title><text id='depict&#45;public&#46;staff&#95;addresses' x='1230' y='678' class='tableHeader' style='fill:#414448;'>staff&#95;addresses</text></g>  <use x='1217' y='699' href='#nn'/><g><title>&#x1F511;  Pk staff_addresses_pkey ( id ) </title><use x='1218' y='698' href='#pk'/></g><g><title>&#10697;  id
+     * bigint</title><text id='public&#46;staff&#95;addresses&#46;id' x='1239' y='712' class='colPk'>id</text></g><text x='1345' y='708' text-anchor='end' class='colType'>&#35;</text>  <g><title>&#10697;  commune
+     varchar(100)</title><text id='public&#46;staff&#95;addresses&#46;commune' x='1239' y='731'>commune</text></g><text x='1345' y='727' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  country
+     varchar(100)</title><text id='public&#46;staff&#95;addresses&#46;country' x='1239' y='750'>country</text></g><text x='1345' y='746' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  district
+     varchar(100)</title><text id='public&#46;staff&#95;addresses&#46;district' x='1239' y='769'>district</text></g><text x='1345' y='765' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  house_no
+     varchar(50)</title><text id='public&#46;staff&#95;addresses&#46;house&#95;no' x='1239' y='788'>house&#95;no</text></g><text x='1345' y='784' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  postal_code
+     varchar(20)</title><text id='public&#46;staff&#95;addresses&#46;postal&#95;code' x='1239' y='807'>postal&#95;code</text></g><text x='1345' y='803' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  province
+     varchar(100)</title><text id='public&#46;staff&#95;addresses&#46;province' x='1239' y='826'>province</text></g><text x='1345' y='822' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  street
+     varchar(100)</title><text id='public&#46;staff&#95;addresses&#46;street' x='1239' y='845'>street</text></g><text x='1345' y='841' text-anchor='end' class='colType'>t</text>  <use x='1217' y='851' href='#nn'/><g><title>&#x1F50D;  Unq uk_staff_address_staff_id ( staff_id ) </title><use x='1218' y='850' href='#unq'/></g><g><title>&#10697;  staff_id
+     * bigint
+ &#8599; staffs( id )</title><text id='public&#46;staff&#95;addresses&#46;staff&#95;id' x='1239' y='864' onmouseover="hghl(['staff_addresses_fk4ispx9ypk6c5mxrs2c2uly4cg','public.staffs.id'])" onmouseout="uhghl(['staff_addresses_fk4ispx9ypk6c5mxrs2c2uly4cg','public.staffs.id'])">staff&#95;id</text></g><a href='#public.staff_addresses.staff_id'><g><title>&#x1F517;  References staffs ( staff_id -&gt; id ) </title><use x='1335' y='850' href='#fk'/></g></a>
+
+<!-- == Table 'users' == -->
+<rect id='depict_public&#46;users' class='entity' style='stroke:#F9FAFC' x='1539' y='637' width='190' height='190' rx='4' ry='4' />
+<rect x='1539' y='637' width='190' height='8' rx='4' ry='4' style='stroke-width:0;fill:url(#ttl_3986C1);'/>
+<rect x='1539' y='641' width='190' height='29' style='stroke-width:0;fill:url(#tbg_3986C1);'/>
+<g><title>Table public.users</title><text id='depict&#45;public&#46;users' x='1613' y='659' class='tableHeader' style='fill:#414448;'>users</text></g>  <use x='1540' y='680' href='#nn'/><g><title>&#x1F511;  Pk users_pkey ( id ) </title><use x='1541' y='679' href='#pk'/></g><g><title>&#10697;  id
+     * bigint
+ &#8601; customers( user_id )
+ &#8601; staffs( user_id )</title><text id='public&#46;users&#46;id' x='1562' y='693' onmouseover="hghl(['customers_fkrh1g1a20omjmn6kurd35o3eit','public.customers.user_id','staffs_fkamgwfug55gkfkjidp88wyaj37','public.staffs.user_id'])" onmouseout="uhghl(['customers_fkrh1g1a20omjmn6kurd35o3eit','public.customers.user_id','staffs_fkamgwfug55gkfkjidp88wyaj37','public.staffs.user_id'])" class='colPk'>id</text></g><a href='#public.users.id'><g><title>&#x1F517;  Referred by customers ( user_id -&gt; id ) 
+Referred by staffs ( user_id -&gt; id ) </title><use x='1715' y='679' href='#ref'/></g></a>
+  <use x='1540' y='699' href='#nn'/><g><title>&#10697;  auth_provider
+     * varchar(50)</title><text id='public&#46;users&#46;auth&#95;provider' x='1562' y='712'>auth&#95;provider</text></g><text x='1725' y='708' text-anchor='end' class='colType'>t</text>  <use x='1540' y='718' href='#nn'/><g><title>&#10697;  auth_provider_user_id
+     * varchar(150)</title><text id='public&#46;users&#46;auth&#95;provider&#95;user&#95;id' x='1562' y='731'>auth&#95;provider&#95;user&#95;id</text></g><text x='1725' y='727' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  created_at
+     timestamp(6)</title><text id='public&#46;users&#46;created&#95;at' x='1562' y='750'>created&#95;at</text></g><text x='1725' y='746' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  email
+     varchar(255)</title><text id='public&#46;users&#46;email' x='1562' y='769'>email</text></g><text x='1725' y='765' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  user_type
+     varchar(255)</title><text id='public&#46;users&#46;user&#95;type' x='1562' y='788'>user&#95;type</text></g><text x='1725' y='784' text-anchor='end' class='colType'>t</text>  <use x='1540' y='794' href='#nn'/><g><title>&#x1F50D;  Unq ukr43af9ap4edm43mmtq01oddj6 ( username ) </title><use x='1541' y='793' href='#unq'/></g><g><title>&#10697;  username
+     * varchar(255)</title><text id='public&#46;users&#46;username' x='1562' y='807'>username</text></g><text x='1725' y='803' text-anchor='end' class='colType'>t</text>
+<!-- == Table 'rate' == -->
+<rect id='depict_public&#46;rate' class='entity' style='stroke:#F9FAFC' x='1159' y='124' width='152' height='190' rx='4' ry='4' />
+<rect x='1159' y='124' width='152' height='8' rx='4' ry='4' style='stroke-width:0;fill:url(#ttl_3986C1);'/>
+<rect x='1159' y='128' width='152' height='29' style='stroke-width:0;fill:url(#tbg_3986C1);'/>
+<g><title>Table public.rate</title><text id='depict&#45;public&#46;rate' x='1218' y='146' class='tableHeader' style='fill:#414448;'>rate</text></g>  <use x='1160' y='167' href='#nn'/><g><title>&#x1F511;  Pk rate_pkey ( id ) </title><use x='1161' y='166' href='#pk'/></g><g><title>&#10697;  id
+     * bigint</title><text id='public&#46;rate&#46;id' x='1182' y='180' class='colPk'>id</text></g><text x='1307' y='176' text-anchor='end' class='colType'>&#35;</text>  <g><title>&#10697;  created_at
+     timestamp(6)</title><text id='public&#46;rate&#46;created&#95;at' x='1182' y='199'>created&#95;at</text></g><text x='1307' y='195' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  rate_type
+     varchar(255)</title><text id='public&#46;rate&#46;rate&#95;type' x='1182' y='218'>rate&#95;type</text></g><text x='1307' y='214' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  source
+     varchar(255)</title><text id='public&#46;rate&#46;source' x='1182' y='237'>source</text></g><text x='1307' y='233' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  value
+     decimal(38,2)</title><text id='public&#46;rate&#46;value' x='1182' y='256'>value</text></g><text x='1307' y='252' text-anchor='end' class='colType'>&#35;</text>  <use x='1160' y='262' href='#nn'/><g><title>&#10697;  from_currency
+     * bigint
+ &#8599; currency( cur_id )</title><text id='public&#46;rate&#46;from&#95;currency' x='1182' y='275' onmouseover="hghl(['rate_fkrr8gu1sie4ef49qkmv9o1buyb','public.currency.cur_id'])" onmouseout="uhghl(['rate_fkrr8gu1sie4ef49qkmv9o1buyb','public.currency.cur_id'])">from&#95;currency</text></g><a href='#public.rate.from_currency'><g><title>&#x1F517;  References currency ( from_currency -&gt; cur_id ) </title><use x='1297' y='261' href='#fk'/></g></a>
+  <use x='1160' y='281' href='#nn'/><g><title>&#10697;  to_currency
+     * bigint
+ &#8599; currency( cur_id )</title><text id='public&#46;rate&#46;to&#95;currency' x='1182' y='294' onmouseover="hghl(['rate_fkih4mq6ehtxoqgx3tq348s8l46','public.currency.cur_id'])" onmouseout="uhghl(['rate_fkih4mq6ehtxoqgx3tq348s8l46','public.currency.cur_id'])">to&#95;currency</text></g><a href='#public.rate.to_currency'><g><title>&#x1F517;  References currency ( to_currency -&gt; cur_id ) </title><use x='1297' y='280' href='#fk'/></g></a>
+
+<!-- == Table 'fund_transfers' == -->
+<rect id='depict_public&#46;fund&#95;transfers' class='entity' style='stroke:#F9FAFC' x='741' y='67' width='190' height='399' rx='4' ry='4' />
+<rect x='741' y='67' width='190' height='8' rx='4' ry='4' style='stroke-width:0;fill:url(#ttl_3986C1);'/>
+<rect x='741' y='71' width='190' height='29' style='stroke-width:0;fill:url(#tbg_3986C1);'/>
+<g><title>Table public.fund_transfers</title><text id='depict&#45;public&#46;fund&#95;transfers' x='786' y='89' class='tableHeader' style='fill:#414448;'>fund&#95;transfers</text></g>  <use x='742' y='110' href='#nn'/><g><title>&#x1F511;  Pk fund_transfers_pkey ( id ) </title><use x='743' y='109' href='#pk'/></g><g><title>&#10697;  id
+     * bigint</title><text id='public&#46;fund&#95;transfers&#46;id' x='764' y='123' class='colPk'>id</text></g><text x='927' y='119' text-anchor='end' class='colType'>&#35;</text>  <use x='742' y='129' href='#nn'/><g><title>&#10697;  amount
+     * decimal(19,4)</title><text id='public&#46;fund&#95;transfers&#46;amount' x='764' y='142'>amount</text></g><text x='927' y='138' text-anchor='end' class='colType'>&#35;</text>  <use x='742' y='148' href='#nn'/><g><title>&#10697;  channel
+     * varchar(20)</title><text id='public&#46;fund&#95;transfers&#46;channel' x='764' y='161'>channel</text></g><text x='927' y='157' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  completed_at
+     timestamp(6)</title><text id='public&#46;fund&#95;transfers&#46;completed&#95;at' x='764' y='180'>completed&#95;at</text></g><text x='927' y='176' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  external_reference
+     varchar(100)</title><text id='public&#46;fund&#95;transfers&#46;external&#95;reference' x='764' y='199'>external&#95;reference</text></g><text x='927' y='195' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  failed_reason
+     varchar(255)</title><text id='public&#46;fund&#95;transfers&#46;failed&#95;reason' x='764' y='218'>failed&#95;reason</text></g><text x='927' y='214' text-anchor='end' class='colType'>t</text>  <use x='742' y='224' href='#nn'/><g><title>&#10697;  from_account_id
+     * bigint</title><text id='public&#46;fund&#95;transfers&#46;from&#95;account&#95;id' x='764' y='237'>from&#95;account&#95;id</text></g><text x='927' y='233' text-anchor='end' class='colType'>&#35;</text>  <use x='742' y='243' href='#nn'/><g><title>&#x1F50D;  idx_transfer_initiated_at ( initiated_at ) </title><use x='743' y='242' href='#idx'/></g><g><title>&#10697;  initiated_at
+     * timestamp(6)</title><text id='public&#46;fund&#95;transfers&#46;initiated&#95;at' x='764' y='256'>initiated&#95;at</text></g><text x='927' y='252' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  processed_at
+     timestamp(6)</title><text id='public&#46;fund&#95;transfers&#46;processed&#95;at' x='764' y='275'>processed&#95;at</text></g><text x='927' y='271' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  purpose
+     varchar(150)</title><text id='public&#46;fund&#95;transfers&#46;purpose' x='764' y='294'>purpose</text></g><text x='927' y='290' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  revere_at
+     timestamp(6)</title><text id='public&#46;fund&#95;transfers&#46;revere&#95;at' x='764' y='313'>revere&#95;at</text></g><text x='927' y='309' text-anchor='end' class='colType'>t</text>  <g><title>&#10697;  reversal_reference
+     varchar(255)</title><text id='public&#46;fund&#95;transfers&#46;reversal&#95;reference' x='764' y='332'>reversal&#95;reference</text></g><text x='927' y='328' text-anchor='end' class='colType'>t</text>  <use x='742' y='338' href='#nn'/><g><title>&#10697;  reversed
+     * boolean</title><text id='public&#46;fund&#95;transfers&#46;reversed' x='764' y='351'>reversed</text></g><text x='927' y='347' text-anchor='end' class='colType'>b</text>  <use x='742' y='357' href='#nn'/><g><title>&#x1F50D;  idx_transfer_status ( status ) </title><use x='743' y='356' href='#idx'/></g><g><title>&#10697;  status
+     * varchar(20)</title><text id='public&#46;fund&#95;transfers&#46;status' x='764' y='370'>status</text></g><text x='927' y='366' text-anchor='end' class='colType'>t</text>  <use x='742' y='376' href='#nn'/><g><title>&#10697;  to_account_id
+     * bigint</title><text id='public&#46;fund&#95;transfers&#46;to&#95;account&#95;id' x='764' y='389'>to&#95;account&#95;id</text></g><text x='927' y='385' text-anchor='end' class='colType'>&#35;</text>  <use x='742' y='395' href='#nn'/><g><title>&#x1F50D;  idx_transfer_reference ( transaction_reference ) </title><use x='743' y='394' href='#idx'/></g><g><title>&#10697;  transaction_reference
+     * varchar(255)</title><text id='public&#46;fund&#95;transfers&#46;transaction&#95;reference' x='764' y='408'>transaction&#95;reference</text></g><text x='927' y='404' text-anchor='end' class='colType'>t</text>  <use x='742' y='414' href='#nn'/><g><title>&#10697;  transfer_type
+     * varchar(20)</title><text id='public&#46;fund&#95;transfers&#46;transfer&#95;type' x='764' y='427'>transfer&#95;type</text></g><text x='927' y='423' text-anchor='end' class='colType'>t</text>  <use x='742' y='433' href='#nn'/><g><title>&#10697;  currency_id
+     * bigint
+ &#8599; currency( cur_id )</title><text id='public&#46;fund&#95;transfers&#46;currency&#95;id' x='764' y='446' onmouseover="hghl(['fund_transfers_fk62ogfh4cbxwsxyb27l764oyc','public.currency.cur_id'])" onmouseout="uhghl(['fund_transfers_fk62ogfh4cbxwsxyb27l764oyc','public.currency.cur_id'])">currency&#95;id</text></g><a href='#public.fund_transfers.currency_id'><g><title>&#x1F517;  References currency ( currency_id -&gt; cur_id ) </title><use x='917' y='432' href='#fk'/></g></a>
+
+</g></svg>

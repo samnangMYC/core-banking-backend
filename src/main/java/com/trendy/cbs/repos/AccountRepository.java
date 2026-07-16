@@ -19,12 +19,13 @@ public interface AccountRepository extends JpaRepository<Account,Long> {
 
     Optional<Account> findByAccNumber(String accNumber);
 
-    boolean existsByAccNumber(String accountNumber);
-
+    Boolean existsByAccNumber(String accountNumber);
 
     Integer countByCustomerId(Long customerId);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select a from Account a where a.accId = :id")
     Optional<Account> findByIdForUpdate(@Param("id") Long id);
+
+    Optional<Account> findByCustomer_Id(Long id);
 }

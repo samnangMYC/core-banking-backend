@@ -1,4 +1,4 @@
-package com.trendy.cbs.controller;
+package com.trendy.cbs.controller.customer;
 
 import com.trendy.cbs.payload.dto.AddressDTO;
 import com.trendy.cbs.payload.request.AddressRequest;

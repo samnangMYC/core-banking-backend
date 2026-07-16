@@ -2,17 +2,18 @@ package com.trendy.cbs.service;
 
 import com.trendy.cbs.payload.dto.AccountDTO;
 import com.trendy.cbs.payload.dto.BalanceDTO;
-import com.trendy.cbs.payload.request.AccountRequest;
+import com.trendy.cbs.payload.request.CreateAccountReq;
+import com.trendy.cbs.payload.request.CreateSelfAccountReq;
 import com.trendy.cbs.payload.request.AccountStatusReq;
 import com.trendy.cbs.payload.request.DepositReq;
 import jakarta.validation.Valid;
+import org.springframework.security.oauth2.jwt.Jwt;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 public interface AccountService {
-    AccountDTO createNewAccount(Long customerId,AccountRequest request);
+
+    AccountDTO createSelfAccount(Jwt jwt, CreateSelfAccountReq request);
 
     List<AccountDTO> getAllAccounts();
 
@@ -29,4 +30,8 @@ public interface AccountService {
     String deleteAccountById(String id);
 
     AccountDTO withdraw(Long id, @Valid DepositReq req);
+
+    AccountDTO createAccountByStaff(@Valid CreateAccountReq req);
+
+    AccountDTO getSelfAccountByJwt(Jwt jwt);
 }

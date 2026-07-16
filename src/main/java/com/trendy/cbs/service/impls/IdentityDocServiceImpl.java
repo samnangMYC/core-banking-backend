@@ -1,6 +1,7 @@
 package com.trendy.cbs.service.impls;
 
 import com.trendy.cbs.entity.IdentityDoc;
+import com.trendy.cbs.entity.User;
 import com.trendy.cbs.enums.DocStatus;
 import com.trendy.cbs.exception.ResourceNotFoundException;
 import com.trendy.cbs.mapper.IdentityDocMapper;
@@ -10,7 +11,9 @@ import com.trendy.cbs.payload.request.IdentityDocStatusRequest;
 import com.trendy.cbs.repos.IdentityDocRepository;
 import com.trendy.cbs.repos.CustomerRepository;
 import com.trendy.cbs.service.IdentityDocService;
+import com.trendy.cbs.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,6 +26,7 @@ public class IdentityDocServiceImpl implements IdentityDocService {
     private final IdentityDocRepository identityDocRepository;
     private final CustomerRepository customerRepository;
     private final IdentityDocMapper identityDocMapper;
+    private final UserService userService;
 
 
     /**
@@ -36,10 +40,12 @@ public class IdentityDocServiceImpl implements IdentityDocService {
      * @throws ResourceNotFoundException() if the user with the specified ID is not found
      */
     @Override
-    public IdentityDocDTO createIdentityDoc(Long customerId,IdentityDocRequest request) {
+    public IdentityDocDTO createIdentityDoc(Jwt jwt, IdentityDocRequest request) {
 
-        customerRepository.findById(customerId)
-                .orElseThrow(() -> new ResourceNotFoundException("User",customerId));
+        User user = userService.loadUserByJwt(jwt);
+
+        customerRepository.findByUser_Id(user.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User",user.getId()));
 
 
         IdentityDoc identityDoc = identityDocMapper.toEntity(request);

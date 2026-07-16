@@ -17,4 +17,5 @@ public class AuthReq {
 
     @NotBlank
     private String password;
+
 }

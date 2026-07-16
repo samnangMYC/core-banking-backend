@@ -7,16 +7,20 @@ import com.trendy.cbs.exception.ResourceNotFoundException;
 import com.trendy.cbs.mapper.AccountMapper;
 import com.trendy.cbs.payload.dto.AccountDTO;
 import com.trendy.cbs.payload.dto.BalanceDTO;
-import com.trendy.cbs.payload.request.AccountRequest;
+import com.trendy.cbs.payload.request.CreateAccountReq;
+import com.trendy.cbs.payload.request.CreateSelfAccountReq;
 import com.trendy.cbs.payload.request.AccountStatusReq;
 import com.trendy.cbs.payload.request.DepositReq;
 import com.trendy.cbs.repos.*;
 import com.trendy.cbs.service.AccountService;
+import com.trendy.cbs.service.UserService;
 import com.trendy.cbs.service.factory.LedgerEntryFactory;
 import com.trendy.cbs.service.validation.AccountValidationService;
 import com.trendy.cbs.service.validation.CustomerValidationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,22 +39,28 @@ public class AccountServiceImpl implements AccountService {
     private final CustomerRepository customerRepository;
     private final AccountTypeRepository accountTypeRepository;
     private final CurrencyRepository currencyRepository;
-    private final BranchRepository branchRepository;
     private final CustomerValidationService customerValidationService;
     private final LedgerEntryRepository ledgerEntryRepository;
     private final AccountValidationService accountValidationService;
     private final LedgerEntryFactory ledgerEntryFactory;
     private static final int MAX_ACCOUNTS_PER_CUSTOMER = 15;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Override
-    public AccountDTO createNewAccount(Long customerId,AccountRequest request) {
+    public AccountDTO createSelfAccount(Jwt jwt, CreateSelfAccountReq request) {
+
+        User user = userService.loadUserByJwt(jwt);
 
         // Fetch customer
-        Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Customer", customerId));
+        Customer customer = customerRepository.findByUser_Id(user.getId())
+                .orElseThrow(() -> BusinessException.notFound(
+                        ErrorCode.CUSTOMER_NOT_FOUND,
+                        "Customer not found with id " + user.getId()
+                ));
 
         // Check account limits
-        Integer existAccounts = accountRepository.countByCustomerId(customerId);
+        Integer existAccounts = accountRepository.countByCustomerId(customer.getId());
         if (existAccounts >= MAX_ACCOUNTS_PER_CUSTOMER) {
             throw new BusinessException(
                     "Customer has reached maximum allowed accounts",
@@ -60,7 +70,6 @@ public class AccountServiceImpl implements AccountService {
         }
 
         // customer verification (purpose: make sure customer verify their kyc information and identity document)
-
         IdentityDoc identityDoc = customer.getIdentityDoc();
 
         customerValidationService.validateCustomer(customer, identityDoc);
@@ -91,7 +100,7 @@ public class AccountServiceImpl implements AccountService {
             accountRepository.save(account);
         } else {
             // ---------- Process 2: Manual account creation ----------
-            // Fetch requested account type, currency, and branch
+            // Fetch requested account type, currency
             AccountType requestedType = accountTypeRepository.findById(request.getAccountTypeId())
                     .orElseThrow(() -> new ResourceNotFoundException("AccountType", request.getAccountTypeId()));
 
@@ -102,9 +111,7 @@ public class AccountServiceImpl implements AccountService {
             account.setCustomer(customer);
             account.setAccountType(requestedType);
             account.setCurrency(requestedCurrency);
-            // When system are adding RBAC just accept admin, don't accept customer to create
-            // validateOwnershipPermission
-            account.setOwnershipType(request.getOwnershipType());
+            account.setOwnershipType(OwnershipType.PERSONAL);
             account.setStatus(AccountStatus.ACTIVE);
             account.setAccNumber(generateUniqueAccountNumber(accountRepository));
             account.setClosedAt(null);
@@ -147,6 +154,7 @@ public class AccountServiceImpl implements AccountService {
                 .orElseThrow(() -> new ResourceNotFoundException("Account",id));
     }
 
+    @Transactional
     @Override
     public AccountDTO deposit(Long id, DepositReq req) {
         Account account = accountRepository.findById(id)
@@ -161,8 +169,8 @@ public class AccountServiceImpl implements AccountService {
                 account,
                 req.getAmount(),
                 newBalance,
-                LedgerEntryType.DEBIT,
-                "Deposit",
+                LedgerEntryType.CREDIT,
+                "Cash Deposit",
                 Glcode.CASH
         );
         ledgerEntryRepository.save(ledgerEntry);
@@ -204,6 +212,23 @@ public class AccountServiceImpl implements AccountService {
         return accountMapper.toDTO(savedAccount);
     }
 
+    @Override
+    public AccountDTO createAccountByStaff(CreateAccountReq req) {
+        return null;
+    }
+
+    @Override
+    public AccountDTO getSelfAccountByJwt(Jwt jwt) {
+        User user = userService.loadUserByJwt(jwt);
+
+        Customer customer = user.getCustomer();
+
+        Account account =  accountRepository.findByCustomer_Id(customer.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Account",user.getId()));
+
+        return accountMapper.toDTO(account);
+    }
+
     private BigDecimal calculateWithdrawBalance(Account account, DepositReq req) {
         BigDecimal amount = req.getAmount();
         BigDecimal balance = account.getBalance();
@@ -219,7 +244,7 @@ public class AccountServiceImpl implements AccountService {
         if (balance.compareTo(amount) < 0) {
             throw new BusinessException(
                     "Insufficient balance",
-                    ErrorCode.INVALID_AMOUNT,
+                    ErrorCode.INSUFFICIENT_BALANCE,
                     HttpStatus.BAD_REQUEST.value()
             );
         }
@@ -232,7 +257,8 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new ResourceNotFoundException("Account",id));
 
-        accountRepository.delete(account);
+        account.setStatus(AccountStatus.DELETED);
+        accountRepository.save(account);
 
         return "Delete account by id " + id;
     }
@@ -249,6 +275,11 @@ public class AccountServiceImpl implements AccountService {
 
             case DORMANT:
                 account.setStatus(AccountStatus.DORMANT);
+                break;
+
+            case DELETED:
+                account.setStatus(AccountStatus.CLOSED);
+                account.setClosedAt(LocalDateTime.now());
                 break;
 
             case CLOSED:

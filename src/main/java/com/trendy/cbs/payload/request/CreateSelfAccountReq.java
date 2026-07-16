@@ -1,9 +1,6 @@
 package com.trendy.cbs.payload.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.trendy.cbs.entity.AccountType;
-import com.trendy.cbs.entity.Currency;
-import com.trendy.cbs.entity.Customer;
 import com.trendy.cbs.enums.OwnershipType;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -14,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AccountRequest {
+public class CreateSelfAccountReq {
 
     @NotNull(message = "Account type is required")
     private Long accountTypeId;
@@ -22,7 +19,5 @@ public class AccountRequest {
     @NotNull(message = "Currency is required")
     private Long currencyId;
 
-    @NotNull(message = "Ownership is required")
-    private OwnershipType ownershipType;
 
 }

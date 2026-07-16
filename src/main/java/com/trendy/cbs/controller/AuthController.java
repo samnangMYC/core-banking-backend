@@ -1,8 +1,6 @@
 package com.trendy.cbs.controller;
 
-import com.trendy.cbs.payload.dto.CustomerDTO;
 import com.trendy.cbs.payload.request.AuthReq;
-import com.trendy.cbs.payload.request.CustomerRegistrationRequest;
 import com.trendy.cbs.payload.request.CustomerSignInRequest;
 import com.trendy.cbs.payload.request.SignOutRequest;
 import com.trendy.cbs.payload.response.AuthResponse;
@@ -11,7 +9,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
@@ -33,8 +33,9 @@ public class AuthController {
         AuthResponse res = authService.signInAsStaff(req);
         log.info("Admin login success username={}", req.getUsername());
         return ResponseEntity.ok(res);
-    }
 
+
+    }
 
     /**
      * Sign out the currently authenticated user (Admin, Staff, or Customer).
@@ -68,7 +69,5 @@ public class AuthController {
 
         return ResponseEntity.ok(res);
     }
-
-
 
 }

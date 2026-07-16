@@ -9,7 +9,8 @@ import lombok.Data;
 @Data
 @Builder
 public class CustomerSummaryDTO {
-    private String fullName;
+    private String firstName;
+    private String lastName;
     private String phoneNumber;
     private CustomerStatus status;
     private CustomerVerification verification;

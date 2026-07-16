@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class CurrencyController {
      * @return a ResponseEntity containing the created CurrencyDTO with HTTP status OK
      */
     @PostMapping
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','OPERATIONS')")
     public ResponseEntity<CurrencyDTO> createCurrency(@Valid @RequestBody CurrencyRequest request){
         log.info("Received request to create a currency{}", request);
         return ResponseEntity.ok(currencyService.createCurrency(request));
@@ -39,6 +41,7 @@ public class CurrencyController {
      * @return a ResponseEntity containing a list of all CurrencyDTO with HTTP status OK
      */
     @GetMapping
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','OPERATIONS','MANAGER','BRANCH_MANAGER','ACCOUNTANT','AUDITOR','TELLER')")
     public ResponseEntity<List<CurrencyDTO>> getAllCurrency(){
         log.info("Received request to get all currencies");
         return ResponseEntity.ok(currencyService.getAllCurrency());
@@ -51,6 +54,7 @@ public class CurrencyController {
      * @return a ResponseEntity containing the CurrencyDTO for the specified ID with HTTP status OK
      */
     @GetMapping("{id}")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','OPERATIONS','MANAGER','BRANCH_MANAGER','ACCOUNTANT','AUDITOR','TELLER')")
     public ResponseEntity<CurrencyDTO> getCurrencyById(@PathVariable Long id){
         log.info("Received request to get currency by id: {}", id);
         return ResponseEntity.ok(currencyService.getCurrencyById(id));
@@ -64,6 +68,7 @@ public class CurrencyController {
      * @return a ResponseEntity containing the updated CurrencyDTO with HTTP status OK
      */
     @PutMapping("{id}")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','OPERATIONS')")
     public ResponseEntity<CurrencyDTO> updateCurrency(@PathVariable Long id, @Valid @RequestBody CurrencyRequest request){
         log.info("Received request to update a currency by id: {}", id);
         return ResponseEntity.ok(currencyService.updateCurrencyById(id,request));
@@ -76,6 +81,7 @@ public class CurrencyController {
      * @return a ResponseEntity containing a confirmation message with HTTP status OK
      */
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('SYSTEM_ADMIN')")
     public ResponseEntity<String> deleteCurrency(@PathVariable Long id){
         log.info("Received request to delete a currency by id: {}", id);
         return ResponseEntity.ok(currencyService.deleteCurrencyById(id));
