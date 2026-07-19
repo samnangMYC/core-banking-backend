@@ -1066,7 +1066,6 @@ The following features are planned to expand the system and improve its similari
 ### 👤 Customer & Identity Management
 - 🔄 Advanced KYC verification workflow
 - 📄 Document upload and verification management
-- 🏠 Multiple customer addresses management
 - 👥 Joint account support
 - 📱 Customer notification preferences
 
@@ -1088,8 +1087,6 @@ The following features are planned to expand the system and improve its similari
 
 ### 🔐 Security Enhancements
 - 🔑 Multi-factor authentication (MFA)
-- 🛡️ Advanced role-based access control (RBAC)
-- 📋 Audit logging system
 - 🚨 Fraud detection simulation
 - 🔒 Data encryption for sensitive information
 
