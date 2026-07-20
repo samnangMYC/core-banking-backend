@@ -1059,52 +1059,44 @@ alt="Core Banking System Class Diagram"
 width="100%"
 />
 
-## 🔮 Future Features & Roadmap
-
-The following features are planned to expand the system and improve its similarity to real-world banking platforms.
+## 🚀 Future Enhancements
 
 ### 👤 Customer & Identity Management
-- 🔄 Advanced KYC verification workflow
-- 📄 Document upload and verification management
-- 👥 Joint account support
-- 📱 Customer notification preferences
+- Advanced KYC verification workflow
+- Document upload and verification
+- Joint account support
+- Customer notification preferences
 
 ### 💳 Account & Banking Operations
-- 🏦 Multiple account ownership support
-- 💰 Interest calculation engine
-- 💱 Multi-currency account support
-- 🏧 ATM transaction simulation
-- 📊 Account statement generation
-- 🔒 Account freeze and security controls
+- Interest calculation engine
+- Multi-currency account support
+- Account statement generation
+- Account freeze and security controls
 
 ### 💸 Transaction & Payment Processing
-- 🔁 Scheduled transactions
-- 🌍 International fund transfer simulation
-- 💳 Payment gateway integration
-- 🧾 Transaction fee calculation
-- 🔍 Advanced transaction searching and filtering
-- 📈 Financial transaction analytics
+- Scheduled transactions
+- International fund transfers
+- Transaction fee calculation
+- Payment gateway integration
 
-### 🔐 Security Enhancements
-- 🔑 Multi-factor authentication (MFA)
-- 🚨 Fraud detection simulation
-- 🔒 Data encryption for sensitive information
+### 🔐 Security
+- Multi-factor Authentication (MFA)
+- Fraud detection
+- Data encryption
 
 ### 📊 Reporting & Administration
-- 📑 Financial reporting dashboard
-- 📈 Customer activity analytics
-- 🏢 Branch management system
-- 👨‍💼 Employee and staff management
-- 📊 System monitoring and health checks
+- Financial reporting dashboard
+- Customer activity analytics
+- Branch management
+- Employee & role management
 
-### ⚙️ Architecture Improvements
-- 🔄 Migration toward microservices architecture
-- 🚪 API Gateway implementation
-- 📨 Event-driven communication using Kafka/RabbitMQ
-- ⚡ Redis caching integration
-- 🧪 Advanced automated testing
-- ☁️ Cloud deployment support
-
+### ⚙️ Architecture & DevOps
+- Microservices architecture
+- API Gateway
+- Event-driven messaging (Kafka/RabbitMQ)
+- Redis caching
+- Automated testing
+- Cloud deployment
 
 ## 🚀 Deployment
 
